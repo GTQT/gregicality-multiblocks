@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 
+import gregtech.api.metatileentity.multiblock.AbilityInstances;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -48,7 +49,7 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
 
     public MetaTileEntityParallelHatch(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, tier);
-        this.maxParallel = (int) Math.pow(4, tier - GTValues.EV);
+        this.maxParallel = (int) Math.pow(2, tier+1);
         this.currentParallel = this.maxParallel;
     }
 
@@ -67,18 +68,17 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
     }
 
     @Override
-    protected ModularUI createUI(@NotNull EntityPlayer entityPlayer) {
+    protected ModularUI createUI( EntityPlayer entityPlayer) {
         ServerWidgetGroup parallelAmountGroup = new ServerWidgetGroup(() -> true);
         parallelAmountGroup.addWidget(new ImageWidget(62, 36, 53, 20, GuiTextures.DISPLAY)
                 .setTooltip("gcym.machine.parallel_hatch.display"));
 
-        parallelAmountGroup.addWidget(new IncrementButtonWidget(118, 36, 30, 20, 1, 4, 16, 64, this::setCurrentParallel)
+        parallelAmountGroup.addWidget(new IncrementButtonWidget(118, 36, 30, 20, maxParallel>64?maxParallel/64:1,  maxParallel>32?maxParallel/32:1, maxParallel>16?maxParallel/16:1, maxParallel/4, this::setCurrentParallel)
                 .setDefaultTooltip()
                 .setShouldClientCallback(false));
-        parallelAmountGroup
-                .addWidget(new IncrementButtonWidget(29, 36, 30, 20, -1, -4, -16, -64, this::setCurrentParallel)
-                        .setDefaultTooltip()
-                        .setShouldClientCallback(false));
+        parallelAmountGroup.addWidget(new IncrementButtonWidget(29, 36, 30, 20,  maxParallel>64?-maxParallel/64:-1, maxParallel>32?-maxParallel/32:-1,  maxParallel>16?-maxParallel/16:-1, -maxParallel/4, this::setCurrentParallel)
+                .setDefaultTooltip()
+                .setShouldClientCallback(false));
 
         parallelAmountGroup.addWidget(new TextFieldWidget2(63, 42, 51, 20, this::getParallelAmountToString, val -> {
             if (val != null && !val.isEmpty()) {
@@ -87,7 +87,7 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
         })
                 .setCentered(true)
                 .setNumbersOnly(1, this.maxParallel)
-                .setMaxLength(3)
+                .setMaxLength(6)
                 .setValidator(getTextFieldValidator(() -> this.maxParallel)));
 
         return ModularUI.defaultBuilder()
@@ -134,9 +134,10 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
     }
 
     @Override
-    public void registerAbilities(@NotNull List<IParallelHatch> list) {
-        list.add(this);
+    public void registerAbilities(@NotNull AbilityInstances abilityInstances) {
+        abilityInstances.add(this);
     }
+
 
     @Override
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {

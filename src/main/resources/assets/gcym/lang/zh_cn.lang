@@ -41,8 +41,6 @@ gcym.tooltip.parallel_enabled=可以通过§b并行控制仓§7并行处理。
 gcym.tooltip.tiered_hatch_enabled=需要§b控制单元§7以运行。
 gcym.multiblock.tiered_hatch.tooltip=最大电压: §a%s (%s§r)
 
-
-
 # multiblock descriptions
 gcym.multiblock.large_macerator.description=用于研磨的多方块研磨机
 gcym.multiblock.alloy_blast_smelter.description=用于大量制造合金的高炉
@@ -76,11 +74,21 @@ gcym.multiblock.large_circuit_assembler.description=用于制造电路的多方�
 
 
 # hatches
-
+gcym.machine.parallel_hatch.lv.name=并行控制仓(LV)
+gcym.machine.parallel_hatch.mv.name=并行控制仓(MV)
+gcym.machine.parallel_hatch.hv.name=并行控制仓(HV)
+gcym.machine.parallel_hatch.ev.name=并行控制仓(EV)
 gcym.machine.parallel_hatch.iv.name=并行控制仓(IV)
 gcym.machine.parallel_hatch.luv.name=并行控制仓(LuV)
 gcym.machine.parallel_hatch.zpm.name=并行控制仓(ZPM)
 gcym.machine.parallel_hatch.uv.name=并行控制仓(UV)
+gcym.machine.parallel_hatch.uhv.name=并行控制仓(UHV)
+gcym.machine.parallel_hatch.uev.name=并行控制仓(UEV)
+gcym.machine.parallel_hatch.uiv.name=并行控制仓(UIV)
+gcym.machine.parallel_hatch.uxv.name=并行控制仓(UXV)
+gcym.machine.parallel_hatch.opv.name=并行控制仓(OPV)
+gcym.machine.parallel_hatch.max.name=并行控制仓(Max)
+
 gcym.machine.parallel_hatch.tooltip=最多可同时处理§b%s§7个配方。
 gcym.machine.parallel_hatch.display=调整多方块的最多可同时处理数。
 
@@ -98,8 +106,8 @@ gcym.machine.tiered_hatch.uv.name=控制单元(UV)
 gcym.machine.tiered_hatch.uhv.name=控制单元(UHV)
 gcym.machine.tiered_hatch.uev.name=控制单元(UEV)
 gcym.machine.tiered_hatch.uiv.name=控制单元(UIV)
-gcym.machine.tiered_hatch.umv.name=控制单元(UMV)
 gcym.machine.tiered_hatch.uxv.name=控制单元(UXV)
+gcym.machine.tiered_hatch.opv.name=控制单元(OpV)
 gcym.machine.tiered_hatch.max.name=控制单元(MaX)
 
 
@@ -149,5 +157,15 @@ gcym.material.incoloy_ma_956=耐热铬铁合金-MA956
 # fluids
 gcym.fluid.molten=熔融%s
 
+#tooltips
+tile.gcym.tooltip.1=本设备基于具体的并行数量给予不同比例的耗时减免！
+tile.gcym.tooltip.2=算法如下，其中Progress表示原工作时长(配方耗时*并行数量)，Parallel表示当前并行数量。
+tile.gcym.tooltip.3=并行数量<16时：实际工作时长为Progress/Parallel;
+tile.gcym.tooltip.4=并行数量<64时：实际工作时长为Progress * 4/Parallel;
+tile.gcym.tooltip.5=并行数量<256时：实际工作时长为Progress * 64/Parallel;
+tile.gcym.tooltip.6=并行数量<1024时：实际工作时长为Progress * 512/Parallel;
+tile.gcym.tooltip.7=并行数量>1024时：实际工作时长为Progress;
+
+gregtech.machine.laser_hatch.tooltip=本设备支持使用激光靶仓代替能源仓
 # deprecation
 gcym.deprecation.tooltip=§c这台机器已被弃用！它将在下一次更新中被删除！破坏控制器以返还材料！

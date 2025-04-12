@@ -15,6 +15,6 @@ public class GCYMConfigHolder {
 
         @Config.Comment({ "Makes nearly every GCYM Multiblock require blocks which set their maximum voltages.",
                 "Default: false" })
-        public boolean enableTieredCasings = false;
+        public boolean enableTieredCasings = true;
     }
 }

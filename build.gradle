@@ -6,11 +6,12 @@
  * You can also run ./gradlew updateBuildScript to update your buildscript.
  */
 
+
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import com.gtnewhorizons.retrofuturagradle.MinecraftExtension
 import com.gtnewhorizons.retrofuturagradle.mcp.MCPTasks
-import com.gtnewhorizons.retrofuturagradle.minecraft.MinecraftTasks
 import com.gtnewhorizons.retrofuturagradle.mcp.ReobfuscatedJar
+import com.gtnewhorizons.retrofuturagradle.minecraft.MinecraftTasks
 import com.gtnewhorizons.retrofuturagradle.minecraft.RunMinecraftTask
 import com.gtnewhorizons.retrofuturagradle.util.Distribution
 import com.modrinth.minotaur.dependencies.ModDependency
@@ -37,7 +38,6 @@ plugins {
     id 'com.gtnewhorizons.retrofuturagradle' version '1.4.0'
     id 'net.darkhax.curseforgegradle' version '1.1.24' apply false
     id 'com.modrinth.minotaur' version '2.8.7' apply false
-    id 'com.diffplug.spotless' version '6.13.0' apply false
     id 'com.palantir.git-version' version '3.0.0' apply false
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id 'org.jetbrains.kotlin.jvm' version '1.8.0' apply false
@@ -98,7 +98,6 @@ propertyDefaultIfUnset("generateDefaultChangelog", false)
 propertyDefaultIfUnset("customMavenPublishUrl", "")
 propertyDefaultIfUnset("mavenArtifactGroup", getDefaultArtifactGroup())
 propertyDefaultIfUnset("enableModernJavaSyntax", false)
-propertyDefaultIfUnset("enableSpotless", false)
 propertyDefaultIfUnset("enableJUnit", false)
 propertyDefaultIfUnsetWithEnvVar("deploymentDebug", false, "DEPLOYMENT_DEBUG")
 
@@ -209,61 +208,6 @@ pluginManager.withPlugin('org.jetbrains.kotlin.jvm') {
     }
 }
 
-// Spotless
-//noinspection GroovyAssignabilityCheck
-project.extensions.add(com.diffplug.blowdryer.Blowdryer, 'Blowdryer', com.diffplug.blowdryer.Blowdryer) // make Blowdryer available in plugin application
-if (enableSpotless.toBoolean()) {
-    apply plugin: 'com.diffplug.spotless'
-
-    // Spotless auto-formatter
-    // See https://github.com/diffplug/spotless/tree/main/plugin-gradle
-    // Can be locally toggled via spotless:off/spotless:on comments
-    spotless {
-        encoding 'UTF-8'
-
-        format 'misc', {
-            target '.gitignore'
-
-            trimTrailingWhitespace()
-            indentWithSpaces(4)
-            endWithNewline()
-        }
-        java {
-            target 'src/main/java/**/*.java', 'src/test/java/**/*.java' // exclude api as they are not our files
-
-            def orderFile = project.file('spotless.importorder')
-            if (!orderFile.exists()) {
-                orderFile = Blowdryer.file('spotless.importorder')
-            }
-            def formatFile = project.file('spotless.eclipseformat.xml')
-            if (!formatFile.exists()) {
-                formatFile = Blowdryer.file('spotless.eclipseformat.xml')
-            }
-
-            toggleOffOn()
-            importOrderFile(orderFile)
-            removeUnusedImports()
-            endWithNewline()
-            //noinspection GroovyAssignabilityCheck
-            eclipse('4.19.0').configFile(formatFile)
-        }
-        kotlin {
-            target 'src/*/kotlin/**/*.kt'
-
-            toggleOffOn()
-            ktfmt('0.39')
-
-            trimTrailingWhitespace()
-            indentWithSpaces(4)
-            endWithNewline()
-        }
-        scala {
-            target 'src/*/scala/**/*.scala'
-            scalafmt('3.7.1')
-        }
-    }
-}
-
 // Git version checking, also checking for if this is a submodule
 if (project.file('.git/HEAD').isFile() || project.file('.git').isFile()) {
     apply plugin: 'com.palantir.git-version'
@@ -338,10 +282,9 @@ if (!modVersion) {
     }
 }
 
-if (includeMCVersionJar.toBoolean()){
+if (includeMCVersionJar.toBoolean()) {
     version = "${minecraftVersion}-${modVersion}"
-}
-else {
+} else {
     version = modVersion
 }
 
@@ -371,9 +314,9 @@ minecraft {
     extraRunJvmArguments.add("-ea:${modGroup}")
     if (usesMixins.toBoolean()) {
         extraRunJvmArguments.addAll([
-            '-Dmixin.hotSwap=true',
-            '-Dmixin.checks.interfaces=true',
-            '-Dmixin.debug.export=true'
+                '-Dmixin.hotSwap=true',
+                '-Dmixin.checks.interfaces=true',
+                '-Dmixin.debug.export=true'
         ])
     }
 
@@ -528,7 +471,7 @@ dependencies {
         annotationProcessor 'com.google.code.gson:gson:2.8.9'
 
         mixinProviderSpec = modUtils.enableMixins(mixinProviderSpec, mixinConfigRefmap)
-        api (mixinProviderSpec) {
+        api(mixinProviderSpec) {
             transitive = false
         }
 
@@ -644,10 +587,6 @@ processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property 'version', modVersion
     inputs.property 'mcversion', minecraftVersion
-    // Blowdryer puts these files into the resource directory, so
-    // exclude them from builds (doesn't hurt to exclude even if not present)
-    exclude('spotless.importorder')
-    exclude('spotless.eclipseformat.xml')
 
     // replace stuff in mcmod.info, nothing else
     filesMatching('mcmod.info') { fcd ->
@@ -814,7 +753,7 @@ if (usesShadowedDependencies.toBoolean()) {
         finalizedBy(tasks.shadowJar)
     }
     tasks.named('reobfJar', ReobfuscatedJar) {
-        inputJar.set(tasks.named('shadowJar', ShadowJar).flatMap({it.archiveFile}))
+        inputJar.set(tasks.named('shadowJar', ShadowJar).flatMap({ it.archiveFile }))
     }
     AdhocComponentWithVariants javaComponent = (AdhocComponentWithVariants) project.components.findByName('java')
     javaComponent.withVariantsFromConfiguration(configurations.shadowRuntimeElements) {
@@ -1107,17 +1046,8 @@ idea {
                 '5. Run Obfuscated Server'(Gradle) {
                     taskNames = ['runObfServer']
                 }
-                if (enableSpotless.toBoolean()) {
-                    '6. Apply Spotless'(Gradle) {
-                        taskNames = ["spotlessApply"]
-                    }
-                    '7. Build Jars'(Gradle) {
-                        taskNames = ['build']
-                    }
-                } else {
-                    '6. Build Jars'(Gradle) {
-                        taskNames = ['build']
-                    }
+                '6. Build Jars'(Gradle) {
+                    taskNames = ['build']
                 }
                 'Update Buildscript'(Gradle) {
                     taskNames = ['updateBuildScript']
@@ -1177,7 +1107,7 @@ tasks.register('generateChangelog') {
                 .collect { ['--', it] }).flatten())
 
         if (changelog) {
-            changelog = "Changes since ${lastTag}:\n${{("\n" + changelog).replaceAll("\n", "\n* ")}}"
+            changelog = "Changes since ${lastTag}:\n${{ ("\n" + changelog).replaceAll("\n", "\n* ") }}"
         }
         def f = getFile('build/changelog.md')
         changelog = changelog ?: 'There have been no changes.'
@@ -1222,8 +1152,8 @@ if (cfApiKey.isPresent() || deploymentDebug.toBoolean()) {
                     def types = [
                             'req'   : 'requiredDependency', 'required': 'requiredDependency',
                             'opt'   : 'optionalDependency', 'optional': 'optionalDependency',
-                            'embed' : 'embeddedLibrary',    'embedded': 'embeddedLibrary',
-                            'incomp': 'incompatible',       'fail'    : 'incompatible']
+                            'embed' : 'embeddedLibrary', 'embedded': 'embeddedLibrary',
+                            'incomp': 'incompatible', 'fail': 'incompatible']
                     if (types.containsKey(type)) type = types[type]
                     if (!(type in ['requiredDependency', 'embeddedLibrary', 'optionalDependency', 'tool', 'incompatible'])) {
                         throw new Exception('Invalid Curseforge dependency type: ' + type)
@@ -1377,6 +1307,7 @@ def getReleaseType() {
  * Next, if 'generateDefaultChangelog' option is enabled, use that.
  * Otherwise, try to use a CHANGELOG.md file at root directory.
  */
+
 def getChangelog() {
     def final changelogEnv = providers.environmentVariable('CHANGELOG_LOCATION')
     if (changelogEnv.isPresent()) {
@@ -1444,15 +1375,7 @@ boolean performBuildScriptUpdate() {
 }
 
 boolean isNewBuildScriptVersionAvailable() {
-    Map parameters = ["connectTimeout": 10000, "readTimeout": 10000]
-
-    String currentBuildScript = getFile("build.gradle").getText()
-    String currentBuildScriptHash = getVersionHash(currentBuildScript)
-    String availableBuildScript = availableBuildScriptUrl().newInputStream(parameters).getText()
-    String availableBuildScriptHash = getVersionHash(availableBuildScript)
-
-    boolean isUpToDate = currentBuildScriptHash.empty || availableBuildScriptHash.empty || currentBuildScriptHash == availableBuildScriptHash
-    return !isUpToDate
+    return false
 }
 
 static String getVersionHash(String buildScriptContent) {

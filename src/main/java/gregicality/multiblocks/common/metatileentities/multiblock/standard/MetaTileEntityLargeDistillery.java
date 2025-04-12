@@ -145,8 +145,7 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
                         .or(maintenancePredicate))
                 .where('X', casingPredicate
                         .or(abilities(MultiblockAbility.EXPORT_FLUIDS)
-                                .setMinLayerLimited(1) // TODO parallel logic doesn't support hatch omission without
-                                                       // global voiding enabled
+                                .setMinLayerLimited(1)
                                 .setMaxLayerLimited(1, 1)))
                 .where('Z', casingPredicate)
                 .where('P', states(getCasingState2()))
@@ -209,61 +208,24 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
 
         @Override
         protected void outputRecipeOutputs() {
-            if (usesAdvHatchLogic()) {
-                GTTransferUtils.addItemsToItemHandler(getOutputInventory(), false, itemOutputs);
-                handler.applyFluidToOutputs(fluidOutputs, true);
-            } else {
-                super.outputRecipeOutputs();
-            }
+            GTTransferUtils.addItemsToItemHandler(getOutputInventory(), false, itemOutputs);
+            handler.applyFluidToOutputs(fluidOutputs, true);
         }
 
         @Override
-        protected boolean setupAndConsumeRecipeInputs(@NotNull Recipe recipe,
-                                                      @NotNull IItemHandlerModifiable importInventory,
-                                                      @NotNull IMultipleTankHandler importFluids) {
-            if (!usesAdvHatchLogic()) {
-                return super.setupAndConsumeRecipeInputs(recipe, importInventory, importFluids);
-            }
-
-            this.overclockResults = calculateOverclock(recipe);
-
-            modifyOverclockPost(overclockResults, recipe.getRecipePropertyStorage());
-
-            if (!hasEnoughPower(overclockResults)) {
-                return false;
-            }
-
-            IItemHandlerModifiable exportInventory = getOutputInventory();
-
-            // We have already trimmed outputs and chanced outputs at this time
-            // Attempt to merge all outputs + chanced outputs into the output bus, to prevent voiding chanced outputs
-            if (!metaTileEntity.canVoidRecipeItemOutputs() &&
-                    !GTTransferUtils.addItemsToItemHandler(exportInventory, true, recipe.getAllItemOutputs())) {
-                this.isOutputsFull = true;
-                return false;
-            }
-
-            // Perform layerwise fluid checks
+        protected boolean checkOutputSpaceFluids(@NotNull Recipe recipe, @NotNull IMultipleTankHandler exportFluids) {
+            // We have already trimmed fluid outputs at this time
             if (!metaTileEntity.canVoidRecipeFluidOutputs() &&
                     !handler.applyFluidToOutputs(recipe.getAllFluidOutputs(), false)) {
                 this.isOutputsFull = true;
                 return false;
             }
-
-            this.isOutputsFull = false;
-            if (recipe.matches(true, importInventory, importFluids)) {
-                this.metaTileEntity.addNotifiedInput(importInventory);
-                return true;
-            }
-            return false;
+            return true;
         }
 
         @Override
         protected IMultipleTankHandler getOutputTank() {
-            if (usesAdvHatchLogic())
-                return handler.getFluidTanks();
-
-            return super.getOutputTank();
+            return handler.getFluidTanks();
         }
     }
 }

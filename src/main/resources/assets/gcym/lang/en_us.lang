@@ -74,10 +74,21 @@ gcym.multiblock.large_circuit_assembler.description=A multiblock Circuit Assembl
 
 # hatches
 
-gcym.machine.parallel_hatch.iv.name=Elite Parallel Control Hatch
-gcym.machine.parallel_hatch.luv.name=Master Parallel Control Hatch
-gcym.machine.parallel_hatch.zpm.name=Ultimate Parallel Control Hatch
-gcym.machine.parallel_hatch.uv.name=Super Parallel Control Hatch
+gcym.machine.parallel_hatch.lv.name=Parallel Hatch(LV)
+gcym.machine.parallel_hatch.mv.name=Parallel Hatch(MV)
+gcym.machine.parallel_hatch.hv.name=Parallel Hatch(HV)
+gcym.machine.parallel_hatch.ev.name=Parallel Hatch(EV)
+gcym.machine.parallel_hatch.iv.name=Parallel Hatch(IV)
+gcym.machine.parallel_hatch.luv.name=Parallel Hatch(LuV)
+gcym.machine.parallel_hatch.zpm.name=Parallel Hatch(ZPM)
+gcym.machine.parallel_hatch.uv.name=Parallel Hatch(UV)
+gcym.machine.parallel_hatch.uhv.name=Parallel Hatch(UHV)
+gcym.machine.parallel_hatch.uev.name=Parallel Hatch(UEV)
+gcym.machine.parallel_hatch.uiv.name=Parallel Hatch(UIV)
+gcym.machine.parallel_hatch.uxv.name=Parallel Hatch(UXV)
+gcym.machine.parallel_hatch.opv.name=Parallel Hatch(OPV)
+gcym.machine.parallel_hatch.max.name=Parallel Hatch(MAX)
+
 gcym.machine.parallel_hatch.tooltip=Allows up to §b%s§7 parallel recipes.
 gcym.machine.parallel_hatch.display=Adjust the maximum parallel of the multiblock
 
@@ -95,8 +106,8 @@ gcym.machine.tiered_hatch.uv.name=Super Voltage Control Unit
 gcym.machine.tiered_hatch.uhv.name=Infinite Voltage Control Unit
 gcym.machine.tiered_hatch.uev.name=Ultra Voltage Control Unit
 gcym.machine.tiered_hatch.uiv.name=Insane Voltage Control Unit
-gcym.machine.tiered_hatch.umv.name=Epic Voltage Control Unit
-gcym.machine.tiered_hatch.uxv.name=Legendary Voltage Control Unit
+gcym.machine.tiered_hatch.uxv.name=Epic Voltage Control Unit
+gcym.machine.tiered_hatch.opv.name=Legendary Voltage Control Unit
 gcym.machine.tiered_hatch.max.name=Maximum Voltage Control Unit
 
 gcym.tooltip.max_energy_hatches=Energy Hatch Limit: §c%d
@@ -147,6 +158,17 @@ gcym.material.incoloy_ma_956=Incoloy-MA956
 
 # fluids
 gcym.fluid.molten=Molten %s
+
+# tooltips
+tile.gcym.tooltip.1=This device provides different time reduction ratios based on the specific parallel count!
+tile.gcym.tooltip.2=Algorithm as follows, where Progress represents the original work time (recipe duration * parallel count), and Parallel represents the current parallel count.
+tile.gcym.tooltip.3=When Parallel < 16: Actual work time is Progress / Parallel;
+tile.gcym.tooltip.4=When Parallel < 64: Actual work time is Progress * 4 / Parallel;
+tile.gcym.tooltip.5=When Parallel < 256: Actual work time is Progress * 64 / Parallel;
+tile.gcym.tooltip.6=When Parallel < 1024: Actual work time is Progress * 512 / Parallel;
+tile.gcym.tooltip.7=When Parallel > 1024: Actual work time is Progress;
+
+gregtech.machine.laser_hatch.tooltip=This device supports using a Laser Target Hatch instead of an Energy Hatch.
 
 # deprecation
 gcym.deprecation.tooltip=§cThis Machine is DEPRECATED! It will be REMOVED in the next update! Break the controller block to recover crafting materials!

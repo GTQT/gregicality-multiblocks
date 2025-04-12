@@ -1,6 +1,7 @@
 package gregicality.multiblocks.api.unification;
 
 import gregtech.api.unification.material.Material;
+import gregtech.api.util.GTLog;
 
 public final class GCYMMaterials {
 
@@ -36,6 +37,7 @@ public final class GCYMMaterials {
      */
     public static void init() {
         // First Degree 3000-3019
+        GTLog.logger.info("GCYM: Registering First Degree Materials");
         GCYMFirstDegreeMaterials.init();
 
         // Second Degree 3020-3039
