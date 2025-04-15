@@ -13,7 +13,7 @@ import static gregtech.api.unification.material.info.MaterialFlags.*;
 
 public final class GCYMFirstDegreeMaterials {
 
-    static int startID = 3000;
+    static int startID = 0;
 
     private GCYMFirstDegreeMaterials() {
     }

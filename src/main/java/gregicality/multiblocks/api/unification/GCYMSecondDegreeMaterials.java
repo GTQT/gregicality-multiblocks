@@ -16,7 +16,7 @@ public final class GCYMSecondDegreeMaterials {
 
     private GCYMSecondDegreeMaterials() {}
 
-    static int startID=3020;
+    static int startID=20;
 
     public static int getStartID() {
         return startID++;
