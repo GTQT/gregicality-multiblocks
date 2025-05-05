@@ -137,11 +137,11 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
     public List<MultiblockShapeInfo> getMatchingShapes() {
         ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
         MultiblockShapeInfo.Builder builder = MultiblockShapeInfo.builder()
-                .aisle("#ISO#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
+                .aisle("#XEX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
                 .aisle("XXXXX", "C###C", "G###G", "C###C", "XXXXX")
                 .aisle("XXXXX", "C###C", "G###G", "C###C", "XXMXX")
                 .aisle("FXXXH", "C###C", "G###G", "C###C", "XXXXX")
-                .aisle("#XEX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
+                .aisle("#ISO#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
                 .where('S', GCYMMetaTileEntities.ALLOY_BLAST_SMELTER, EnumFacing.SOUTH)
                 .where('X', getCasingState())
                 .where('G', getCasingState2())
