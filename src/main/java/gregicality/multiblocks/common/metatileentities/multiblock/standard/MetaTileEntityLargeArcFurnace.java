@@ -1,5 +1,6 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,7 +22,7 @@ import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
 
-public class MetaTileEntityLargeArcFurnace extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeArcFurnace extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeArcFurnace(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.ARC_FURNACE_RECIPES);

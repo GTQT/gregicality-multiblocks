@@ -2,6 +2,7 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 import static gregtech.api.util.RelativeDirection.*;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,7 +25,7 @@ import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 
-public class MetaTileEntityLargeExtractor extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeExtractor extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeExtractor(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[] { RecipeMaps.EXTRACTOR_RECIPES, RecipeMaps.CANNER_RECIPES });

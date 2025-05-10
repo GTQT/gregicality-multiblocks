@@ -4,6 +4,7 @@ import static gregtech.api.util.RelativeDirection.*;
 
 import java.util.List;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 
-public class MetaTileEntityLargeCircuitAssembler extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeCircuitAssembler extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeCircuitAssembler(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.CIRCUIT_ASSEMBLER_RECIPES);

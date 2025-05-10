@@ -1,5 +1,6 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -20,7 +21,7 @@ import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
 
-public class MetaTileEntityLargeElectrolyzer extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeElectrolyzer extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeElectrolyzer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.ELECTROLYZER_RECIPES);

@@ -1,5 +1,6 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,7 +25,7 @@ import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
 
-public class MetaTileEntityLargeBrewery extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeBrewery extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeBrewery(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[] { RecipeMaps.BREWING_RECIPES, RecipeMaps.FERMENTING_RECIPES,

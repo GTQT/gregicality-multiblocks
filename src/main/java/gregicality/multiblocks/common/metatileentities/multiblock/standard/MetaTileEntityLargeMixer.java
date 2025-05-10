@@ -1,5 +1,6 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,7 +25,7 @@ import gregicality.multiblocks.api.unification.GCYMMaterials;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 
-public class MetaTileEntityLargeMixer extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeMixer extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeMixer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.MIXER_RECIPES);

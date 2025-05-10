@@ -1,5 +1,6 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -23,7 +24,7 @@ import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 
-public class MetaTileEntityLargeEngraver extends GCYMRecipeMapMultiblockController {
+public class MetaTileEntityLargeEngraver extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeEngraver(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.LASER_ENGRAVER_RECIPES);
