@@ -1,6 +1,7 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
+import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
 import gregtech.api.metatileentity.multiblock.AdvanceMultiMapMultiblockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +30,7 @@ import gregicality.multiblocks.api.render.GCYMTextures;
 public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityElectricImplosionCompressor(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, RecipeMaps.IMPLOSION_RECIPES);
+        super(metaTileEntityId, GCYMRecipeMaps.ELECTRIC_IMPLOSION_RECIPES);
     }
 
     @Override

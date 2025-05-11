@@ -3,6 +3,7 @@ package gregicality.multiblocks.common;
 import java.util.Objects;
 import java.util.function.Function;
 
+import gregicality.multiblocks.loaders.recipe.GCYMCopyRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -12,6 +13,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -58,7 +60,7 @@ public class CommonProxy {
         return itemBlock;
     }
 
-    @SubscribeEvent()
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         GCYMLog.logger.info("Registering recipes...");
 

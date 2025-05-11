@@ -13,5 +13,6 @@ public final class GCYMRecipeLoader {
         GCYMMiscRecipes.init();
         GCYMMaterialRecipeHandler.register();
         ManualABSRecipes.register();
+        GCYMCopyRecipes.init();
     }
 }

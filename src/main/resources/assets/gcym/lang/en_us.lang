@@ -139,7 +139,7 @@ tile.large_multiblock_casing.steam_casing.name=Industrial Steam Casing
 
 # RecipeMaps
 recipemap.alloy_blast_smelter.name=Alloy Blast Smelting
-
+recipemap.electric_implosion_recipes.name=Electric Implosion
 # Materials
 gcym.material.stellite_100=Stellite-100
 gcym.material.watertight_steel=Watertight Steel

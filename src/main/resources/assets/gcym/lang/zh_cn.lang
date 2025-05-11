@@ -137,7 +137,7 @@ tile.large_multiblock_casing.steam_casing.name=工业蒸汽机械方块
 
 # RecipeMaps
 recipemap.alloy_blast_smelter.name=合金高炉冶炼
-
+recipemap.electric_implosion_recipes.name=电力聚爆压缩
 # Materials
 gcym.material.stellite_100=司太立100合金
 gcym.material.watertight_steel=防水钢
