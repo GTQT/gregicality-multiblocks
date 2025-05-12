@@ -163,8 +163,7 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
     }
 
     private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
-                .getState(BlockLargeMultiblockCasing.CasingType.HIGH_TEMPERATURE_CASING);
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.HIGH_TEMPERATURE_CASING);
     }
 
     private static IBlockState getCasingState2() {
