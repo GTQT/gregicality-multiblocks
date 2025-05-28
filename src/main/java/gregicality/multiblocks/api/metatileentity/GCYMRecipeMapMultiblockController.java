@@ -2,6 +2,7 @@ package gregicality.multiblocks.api.metatileentity;
 
 import java.util.List;
 
+import gregtech.client.utils.TooltipHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -41,12 +42,16 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
         super.addInformation(stack, player, tooltip, advanced);
         if (isParallel()) {
             tooltip.add(I18n.format("gcym.tooltip.parallel_enabled"));
-            tooltip.add(I18n.format("tile.gcym.tooltip.1"));
-            tooltip.add(I18n.format("tile.gcym.tooltip.2"));
-            tooltip.add(I18n.format("tile.gcym.tooltip.3"));
-            tooltip.add(I18n.format("tile.gcym.tooltip.4"));
-            tooltip.add(I18n.format("tile.gcym.tooltip.5"));
-            tooltip.add(I18n.format("tile.gcym.tooltip.6"));
+            if (TooltipHelper.isCtrlDown()) {
+                tooltip.add(I18n.format("tile.gcym.tooltip.1"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.2"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.3"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.4"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.5"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.6"));
+            } else {
+                tooltip.add(I18n.format("gcym.tooltip.ctrl"));
+            }
         }
         if (GCYMConfigHolder.globalMultiblocks.enableTieredCasings && isTiered())
             tooltip.add(I18n.format("gcym.tooltip.tiered_hatch_enabled"));
@@ -108,4 +113,5 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
                 .setMinGlobalLimited(GCYMConfigHolder.globalMultiblocks.enableTieredCasings ? 1 : 0)
                 .setMaxGlobalLimited(1));
     }
+
 }

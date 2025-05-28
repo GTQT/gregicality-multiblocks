@@ -32,10 +32,12 @@ gcym.machine.large_mass_fabricator.name=大型物质生成机
 gcym.machine.large_replicator.name=大型复制机
 gcym.machine.mega_blast_furnace.name=转底炉
 gcym.machine.mega_vacuum_freezer.name=批量真空冷冻机
+gcym.machine.mega_alloy_blast_smelter.name=大型合金冶炼炉
 gcym.machine.steam_engine.name=工业蒸汽轮机
 gcym.machine.steam_engine.tooltip.1=最高产生%s§7级的能量。
 gcym.machine.large_circuit_assembler.name=大型电路组装机
 
+gcym.tooltip.ctrl=按住CTRL以显示详细配方工作逻辑
 
 gcym.tooltip.parallel_enabled=可以通过§b并行控制仓§7并行处理。
 gcym.tooltip.tiered_hatch_enabled=需要§b控制单元§7以运行。
@@ -158,13 +160,13 @@ gcym.material.incoloy_ma_956=耐热铬铁合金-MA956
 gcym.fluid.molten=熔融%s
 
 #tooltips
-tile.gcym.tooltip.1=本设备基于具体的并行数量给予不同比例的耗时减免！
-tile.gcym.tooltip.2=算法如下，其中Progress表示原工作时长(配方耗时*并行数量)，Parallel表示当前并行数量。
-tile.gcym.tooltip.3=并行数量<16时：实际工作时长为Progress/Parallel;
-tile.gcym.tooltip.4=并行数量<64时：实际工作时长为Progress * 4/Parallel;
-tile.gcym.tooltip.5=并行数量<256时：实际工作时长为Progress * 64/Parallel;
-tile.gcym.tooltip.6=并行数量<1024时：实际工作时长为Progress * 512/Parallel;
-tile.gcym.tooltip.7=并行数量>1024时：实际工作时长为Progress;
+tile.gcym.tooltip.1=§8本设备基于具体的并行数量给予不同比例的耗时减免！
+tile.gcym.tooltip.2=§8算法如下，其中Progress表示原工作时长(配方耗时*并行数量)，Parallel表示当前并行数量。
+tile.gcym.tooltip.3=§8并行数量<16时：实际工作时长为Progress/Parallel;
+tile.gcym.tooltip.4=§8并行数量<64时：实际工作时长为Progress * 4/Parallel;
+tile.gcym.tooltip.5=§8并行数量<256时：实际工作时长为Progress * 64/Parallel;
+tile.gcym.tooltip.6=§8并行数量<1024时：实际工作时长为Progress * 512/Parallel;
+tile.gcym.tooltip.7=§8并行数量>1024时：实际工作时长为Progress;
 
 gregtech.machine.laser_hatch.tooltip=本设备支持使用激光靶仓代替能源仓
 # deprecation

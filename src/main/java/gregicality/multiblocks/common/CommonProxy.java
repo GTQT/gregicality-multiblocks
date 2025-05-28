@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import gregicality.multiblocks.loaders.recipe.GCYMCopyRecipes;
+import gregicality.multiblocks.loaders.recipe.handlers.GCYMMaterialRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -68,5 +69,8 @@ public class CommonProxy {
         // This is called AFTER GregTech registers recipes, so
         // anything here is safe to call removals in
         GCYMRecipeLoader.init();
+    }
+    public void preInit() {
+        GCYMMaterialRecipeHandler.register();
     }
 }

@@ -15,8 +15,7 @@ public final class GCYMMaterialRecipeHandler {
     private GCYMMaterialRecipeHandler() {}
 
     public static void register() {
-        OrePrefix.ingot.addProcessingHandler(GCYMPropertyKey.ALLOY_BLAST,
-                GCYMMaterialRecipeHandler::generateAlloyBlastRecipes);
+        OrePrefix.ingot.addProcessingHandler(GCYMPropertyKey.ALLOY_BLAST, GCYMMaterialRecipeHandler::generateAlloyBlastRecipes);
     }
 
     /**

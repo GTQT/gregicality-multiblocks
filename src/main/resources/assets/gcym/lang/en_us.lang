@@ -29,10 +29,12 @@ gcym.machine.large_mass_fabricator.name=Large Mass Fabrication Chamber
 gcym.machine.large_replicator.name=Large Replication Chamber
 gcym.machine.mega_blast_furnace.name=Rotary Hearth Furnace
 gcym.machine.mega_vacuum_freezer.name=Bulk Blast Chiller
+gcym.machine.mega_alloy_blast_smelter.name=Alloy Blast Smelter
 gcym.machine.steam_engine.name=Industrial Steam Engine
 gcym.machine.steam_engine.tooltip.1=Produces up to %s§7 power.
 gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
 
+gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
 
 gcym.tooltip.parallel_enabled=Can parallelize with §bParallel Control Hatches
 gcym.tooltip.tiered_hatch_enabled=Requires §bVoltage Control Units§7 to run.
@@ -160,13 +162,13 @@ gcym.material.incoloy_ma_956=Incoloy-MA956
 gcym.fluid.molten=Molten %s
 
 # tooltips
-tile.gcym.tooltip.1=This device provides different time reduction ratios based on the specific parallel count!
-tile.gcym.tooltip.2=Algorithm as follows, where Progress represents the original work time (recipe duration * parallel count), and Parallel represents the current parallel count.
-tile.gcym.tooltip.3=When Parallel < 16: Actual work time is Progress / Parallel;
-tile.gcym.tooltip.4=When Parallel < 64: Actual work time is Progress * 4 / Parallel;
-tile.gcym.tooltip.5=When Parallel < 256: Actual work time is Progress * 64 / Parallel;
-tile.gcym.tooltip.6=When Parallel < 1024: Actual work time is Progress * 512 / Parallel;
-tile.gcym.tooltip.7=When Parallel > 1024: Actual work time is Progress;
+tile.gcym.tooltip.1=§8This device provides different time reduction ratios based on the specific parallel count!
+tile.gcym.tooltip.2=§8Algorithm as follows, where Progress represents the original work time (recipe duration * parallel count), and Parallel represents the current parallel count.
+tile.gcym.tooltip.3=§8When Parallel < 16: Actual work time is Progress / Parallel;
+tile.gcym.tooltip.4=§8When Parallel < 64: Actual work time is Progress * 4 / Parallel;
+tile.gcym.tooltip.5=§8When Parallel < 256: Actual work time is Progress * 64 / Parallel;
+tile.gcym.tooltip.6=§8When Parallel < 1024: Actual work time is Progress * 512 / Parallel;
+tile.gcym.tooltip.7=§8When Parallel > 1024: Actual work time is Progress;
 
 gregtech.machine.laser_hatch.tooltip=This device supports using a Laser Target Hatch instead of an Energy Hatch.
 

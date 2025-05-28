@@ -38,4 +38,9 @@ public class GregicalityMultiblocks {
 
         proxy.preLoad();
     }
+
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        proxy.preInit();
+    }
 }

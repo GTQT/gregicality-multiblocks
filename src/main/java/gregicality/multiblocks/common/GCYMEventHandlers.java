@@ -37,7 +37,7 @@ public final class GCYMEventHandlers {
         GCYMMaterials.init();
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerMaterialsPost(PostMaterialEvent event) {
         AlloyBlastPropertyAddition.init();
         GCYMMaterialFlagAddition.initLate();

@@ -1,6 +1,5 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
-import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
@@ -33,8 +32,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class MetaTileEntityMegaVacuumFreezer extends GCYMAdvanceRecipeMapMultiblockController {
+//这是与GCYM的转底炉 巨冰箱同一系列的设备
+//此系列设备不给多线程
+public class MetaTileEntityMegaVacuumFreezer extends GCYMRecipeMapMultiblockController {
 
     public MetaTileEntityMegaVacuumFreezer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.VACUUM_RECIPES);

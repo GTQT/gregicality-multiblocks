@@ -1,8 +1,9 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
-import gregicality.multiblocks.api.capability.impl.GCYMHeatCoilRecipeLogic;
-import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
+
+import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
 import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
+import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.GCYMConfigHolder;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
@@ -22,12 +23,17 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
+import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.logic.OCResult;
+import gregtech.api.recipes.logic.OverclockingLogic;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
 import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.util.GTUtility;
@@ -36,7 +42,6 @@ import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
-import gregtech.client.utils.TooltipHelper;
 import gregtech.common.blocks.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -49,25 +54,24 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 import static gregtech.api.recipes.logic.OverclockingLogic.heatingCoilOC;
-
-public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblockController implements IHeatingCoil {
+//这是与GCYM的转底炉 巨冰箱同一系列的设备
+//此系列设备不给多线程
+public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockController implements IHeatingCoil {
 
     private int blastFurnaceTemperature;
 
     public MetaTileEntityMegaBlastFurnace(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.BLAST_RECIPES);
-        recipeMapWorkable = new ArrayList<>();
-        this.recipeMapWorkable.add(new GCYMHeatCoilRecipeLogic(this));
-
+        this.recipeMapWorkable = new MegaBlastFurnaceRecipeLogic(this);
     }
 
     private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.HIGH_TEMPERATURE_CASING);
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                .getState(BlockLargeMultiblockCasing.CasingType.HIGH_TEMPERATURE_CASING);
     }
 
     private static IBlockState getCasingState2() {
@@ -92,17 +96,6 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblo
     }
 
     @Override
-    public void refreshThread(int thread) {
-        if (!this.checkWorkingEnable()) {
-            this.recipeMapWorkable = new ArrayList<>();
-
-            for (int i = 0; i < thread; ++i) {
-                this.recipeMapWorkable.add(new GCYMHeatCoilRecipeLogic(this));
-            }
-        }
-    }
-
-    @Override
     protected void initializeAbilities() {
         this.inputInventory = new ItemHandlerList(this.getAbilities(MultiblockAbility.IMPORT_ITEMS));
         this.inputFluidInventory = new FluidTankList(this.allowSameFluidFillForOutputs(), this.getAbilities(MultiblockAbility.IMPORT_FLUIDS));
@@ -121,9 +114,9 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblo
     @Override
     protected void addDisplayText(List<ITextComponent> textList) {
         MultiblockDisplayText.builder(textList, isStructureFormed())
-                .setWorkingStatus(checkWorkingEnable(), checkActive())
+                .setWorkingStatus(recipeMapWorkable.isWorkingEnabled(), recipeMapWorkable.isActive())
                 .addEnergyUsageLine(getEnergyContainer())
-                .addEnergyTierLine(GTUtility.getTierByVoltage(recipeMapWorkable.get(0).getMaxVoltage()))
+                .addEnergyTierLine(GTUtility.getTierByVoltage(recipeMapWorkable.getMaxVoltage()))
                 .addCustom(tl -> {
                     // Tiered Hatch Line
                     if (isStructureFormed()) {
@@ -150,7 +143,9 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblo
                                 heatString));
                     }
                 })
-                .addWorkingStatusLine();
+                .addParallelsLine(recipeMapWorkable.getParallelLimit())
+                .addWorkingStatusLine()
+                .addProgressLine(recipeMapWorkable.getProgressPercent());
     }
 
     @Override
@@ -165,13 +160,6 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblo
 
         this.blastFurnaceTemperature += 100 *
                 Math.max(0, GTUtility.getTierByVoltage(getEnergyContainer().getInputVoltage()) - GTValues.MV);
-
-        this.thread = this.getAbilities(MultiblockAbility.THREAD_HATCH).isEmpty() ? 1 : this.getAbilities(MultiblockAbility.THREAD_HATCH).get(0).getCurrentThread();
-        this.recipeMapWorkable = new ArrayList<>();
-
-        for (int i = 0; i < this.thread; ++i) {
-            this.recipeMapWorkable.add(new GCYMHeatCoilRecipeLogic(this));
-        }
     }
 
     @Override
@@ -263,14 +251,14 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblo
     }
 
     @Override
-    public void addInformation(ItemStack stack, @javax.annotation.Nullable World player, @Nonnull List<String> tooltip, boolean advanced) {
-        tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("谁家超级高炉", new Object[0]));
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);
         tooltip.add(I18n.format("gregtech.machine.electric_blast_furnace.tooltip.1"));
         tooltip.add(I18n.format("gregtech.machine.electric_blast_furnace.tooltip.2"));
         tooltip.add(I18n.format("gregtech.machine.electric_blast_furnace.tooltip.3"));
         tooltip.add(I18n.format("gregtech.machine.laser_hatch.tooltip"));
     }
+
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {
         return iMultiblockPart instanceof IMufflerHatch ? Textures.ROBUST_TUNGSTENSTEEL_CASING :
@@ -295,5 +283,29 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMAdvanceRecipeMapMultiblo
     @Override
     public int getCurrentTemperature() {
         return this.blastFurnaceTemperature;
+    }
+
+    @SuppressWarnings("InnerClassMayBeStatic")
+    private class MegaBlastFurnaceRecipeLogic extends GCYMMultiblockRecipeLogic {
+
+        public MegaBlastFurnaceRecipeLogic(RecipeMapMultiblockController metaTileEntity) {
+            super(metaTileEntity);
+        }
+
+        @Override
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            super.modifyOverclockPre(ocParams, storage);
+            // coil EU/t discount
+            ocParams.setEut(OverclockingLogic.applyCoilEUtDiscount(ocParams.eut(),
+                    ((IHeatingCoil) metaTileEntity).getCurrentTemperature(),
+                    storage.get(TemperatureProperty.getInstance(), 0)));
+        }
+
+        @Override
+        protected void runOverclockingLogic(@NotNull OCParams ocParams, @NotNull OCResult ocResult,
+                                            @NotNull RecipePropertyStorage propertyStorage, long maxVoltage) {
+            heatingCoilOC(ocParams, ocResult, maxVoltage, ((IHeatingCoil) metaTileEntity).getCurrentTemperature(),
+                    propertyStorage.get(TemperatureProperty.getInstance(), 0));
+        }
     }
 }

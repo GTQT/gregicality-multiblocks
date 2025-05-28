@@ -263,6 +263,16 @@ public final class GCYMMetaTileEntityLoader {
                     'P', new UnificationEntry(pipeNormalFluid, Neutronium),
                     'D', new UnificationEntry(plateDense, Neutronium),
                     'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
+
+            ModHandler.addShapedRecipe(true, "mega_alloy_blast_smelter",
+                    GCYMMetaTileEntities.MEGA_ALLOY_BLAST_SMELTER.getStackForm(),
+                    "PCP", "FSF", "DWD",
+                    'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                    'S', GCYMMetaTileEntities.ALLOY_BLAST_SMELTER.getStackForm(),
+                    'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                    'P', new UnificationEntry(pipeNormalFluid, Neutronium),
+                    'D', new UnificationEntry(plateDense, Neutronium),
+                    'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
         }
 
         ModHandler.addShapedRecipe(true, "steam_engine", GCYMMetaTileEntities.STEAM_ENGINE.getStackForm(),
