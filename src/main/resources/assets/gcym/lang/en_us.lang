@@ -30,6 +30,7 @@ gcym.machine.large_replicator.name=Large Replication Chamber
 gcym.machine.mega_blast_furnace.name=Rotary Hearth Furnace
 gcym.machine.mega_vacuum_freezer.name=Bulk Blast Chiller
 gcym.machine.mega_alloy_blast_smelter.name=Alloy Blast Smelter
+gcym.machine.mega_chemical_reactor.name=Mega Chemical Reactor
 gcym.machine.steam_engine.name=Industrial Steam Engine
 gcym.machine.steam_engine.tooltip.1=Produces up to %s§7 power.
 gcym.machine.large_circuit_assembler.name=Large Circuit Assembler

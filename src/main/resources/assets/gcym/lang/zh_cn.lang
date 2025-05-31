@@ -33,6 +33,7 @@ gcym.machine.large_replicator.name=大型复制机
 gcym.machine.mega_blast_furnace.name=转底炉
 gcym.machine.mega_vacuum_freezer.name=批量真空冷冻机
 gcym.machine.mega_alloy_blast_smelter.name=大型合金冶炼炉
+gcym.machine.mega_chemical_reactor.name=批量化学反应釜
 gcym.machine.steam_engine.name=工业蒸汽轮机
 gcym.machine.steam_engine.tooltip.1=最高产生%s§7级的能量。
 gcym.machine.large_circuit_assembler.name=大型电路组装机

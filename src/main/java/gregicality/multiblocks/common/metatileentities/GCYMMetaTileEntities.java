@@ -39,6 +39,7 @@ public final class GCYMMetaTileEntities {
     public static MetaTileEntityMegaBlastFurnace MEGA_BLAST_FURNACE;
     public static MetaTileEntityMegaVacuumFreezer MEGA_VACUUM_FREEZER;
     public static MetaTileEntityMegaAlloyBlastSmelter MEGA_ALLOY_BLAST_SMELTER;
+    public static MetaTileEntityMegaChemicalReactor  MEGA_CHEMICAL_REACTOR;
     public static MetaTileEntitySteamEngine STEAM_ENGINE;
     public static MetaTileEntityLargeCircuitAssembler LARGE_CIRCUIT_ASSEMBLER;
 
@@ -80,6 +81,7 @@ public final class GCYMMetaTileEntities {
         MEGA_BLAST_FURNACE = registerMetaTileEntity(30, new MetaTileEntityMegaBlastFurnace(gcymId("mega_blast_furnace")));
         MEGA_VACUUM_FREEZER = registerMetaTileEntity(31, new MetaTileEntityMegaVacuumFreezer(gcymId("mega_vacuum_freezer")));
         MEGA_ALLOY_BLAST_SMELTER=  registerMetaTileEntity(32, new MetaTileEntityMegaAlloyBlastSmelter(gcymId("mega_alloy_blast_smelter")));
+        MEGA_CHEMICAL_REACTOR= registerMetaTileEntity(33, new MetaTileEntityMegaChemicalReactor(gcymId("mega_chemical_reactor")));
         //发电机
         STEAM_ENGINE = registerMetaTileEntity(40, new MetaTileEntitySteamEngine(gcymId("steam_engine")));
 
