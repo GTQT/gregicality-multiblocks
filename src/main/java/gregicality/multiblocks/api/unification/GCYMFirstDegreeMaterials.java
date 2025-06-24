@@ -25,7 +25,7 @@ public final class GCYMFirstDegreeMaterials {
     public static void init() {
         Stellite100 = new Material.Builder(getStartID(), gcymId("stellite_100"))
                 .ingot().fluid()
-                .color(0xDEDEFF).iconSet(MaterialIconSet.BRIGHT)
+                .color(0xDEDEFF).iconSet(MaterialIconSet.METALLIC)
                 .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
                 .components(Iron, 4, Chrome, 3, Tungsten, 2, Molybdenum, 1)
                 .toolStats(MaterialToolProperty.Builder.of(10.0F, 7.0F, 2048, 4)
