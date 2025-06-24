@@ -6,7 +6,6 @@ import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.chance.output.ChancedOutputList;
 import gregtech.api.recipes.chance.output.impl.ChancedItemOutput;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
-import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import static gregicality.multiblocks.api.recipes.GCYMRecipeMaps.ELECTRIC_IMPLOS
 
 public class GCYMCopyRecipes {
     public static void init() {
-        List<GTRecipeInput> LastItemInputs=null;
+        List<GTRecipeInput> LastItemInputs = null;
 
         Collection<Recipe> implosionRecipesRecipeList = RecipeMaps.IMPLOSION_RECIPES.getRecipeList();
         for (Recipe recipe : implosionRecipesRecipeList) {
@@ -29,8 +28,8 @@ public class GCYMCopyRecipes {
             if (!itemInputs.isEmpty()) {
                 itemInputs.remove(itemInputs.size() - 1);
 
-                if(itemInputs==LastItemInputs)continue;
-                LastItemInputs=itemInputs;
+                if (itemInputs == LastItemInputs) continue;
+                LastItemInputs = itemInputs;
             }
 
             RecipeBuilder<?> builder;
@@ -40,11 +39,13 @@ public class GCYMCopyRecipes {
                     .outputs(itemOutputs);
 
             ChancedOutputList<ItemStack, ChancedItemOutput> chancedOutputs = recipe.getChancedOutputs();
-            chancedOutputs.getChancedEntries().forEach(chancedItemOutput -> {
-                if (chancedItemOutput.getChance() > 0) {
-                    builder.chancedOutput(chancedItemOutput.getIngredient(), chancedItemOutput.getChance(), chancedItemOutput.getChanceBoost());
-                }
-            });
+            if (recipe.getChancedOutputs() != null) {
+                chancedOutputs.getChancedEntries().forEach(chancedItemOutput -> {
+                    if (chancedItemOutput.getChance() > 0) {
+                        builder.chancedOutput(chancedItemOutput.getIngredient(), chancedItemOutput.getChance(), chancedItemOutput.getChanceBoost());
+                    }
+                });
+            }
 
             builder.duration(baseDuration)
                     .EUt(EUt)
