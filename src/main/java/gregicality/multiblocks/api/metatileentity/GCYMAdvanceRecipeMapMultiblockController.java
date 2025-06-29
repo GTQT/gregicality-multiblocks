@@ -84,29 +84,6 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
             tooltip.add(I18n.format("gcym.tooltip.tiered_hatch_enabled"));
     }
 
-
-    @Override
-    protected void addDisplayText(List<ITextComponent> textList) {
-        MultiblockDisplayText.builder(textList, isStructureFormed())
-                .setWorkingStatus(checkWorkingEnable(), checkActive())
-                .addEnergyUsageLine(getEnergyContainer())
-                .addEnergyTierLine(GTUtility.getTierByVoltage(recipeMapWorkable.get(0).getMaxVoltage()))
-                .addCustom(tl -> {
-                    // Tiered Hatch Line
-                    if (isStructureFormed()) {
-                        List<ITieredMetaTileEntity> list = getAbilities(GCYMMultiblockAbility.TIERED_HATCH);
-                        if (GCYMConfigHolder.globalMultiblocks.enableTieredCasings && !list.isEmpty()) {
-                            long maxVoltage = Math.min(GTValues.V[list.get(0).getTier()],
-                                    Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage()));
-                            String voltageName = GTValues.VNF[list.get(0).getTier()];
-                            tl.add(new TextComponentTranslation("gcym.multiblock.tiered_hatch.tooltip", maxVoltage,
-                                    voltageName));
-                        }
-                    }
-                })
-                .addWorkingStatusLine();
-    }
-
     @Override
     public boolean isParallel() {
         return true;
