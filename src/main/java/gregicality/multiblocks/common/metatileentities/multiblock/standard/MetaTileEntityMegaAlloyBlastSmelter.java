@@ -30,6 +30,7 @@ import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.util.GTUtility;
 import gregtech.api.util.KeyUtil;
@@ -65,7 +66,8 @@ public class MetaTileEntityMegaAlloyBlastSmelter extends GCYMRecipeMapMultiblock
 
     public MetaTileEntityMegaAlloyBlastSmelter(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
-                GCYMRecipeMaps.ALLOY_BLAST_RECIPES
+                GCYMRecipeMaps.ALLOY_BLAST_RECIPES,
+                RecipeMaps.ALLOY_SMELTER_RECIPES
         });
         this.recipeMapWorkable = new GCYMHeatCoilRecipeLogic(this);
     }

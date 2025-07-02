@@ -4,6 +4,7 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
 import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
+import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.GCYMConfigHolder;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
@@ -32,6 +33,7 @@ import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.logic.OCParams;
 import gregtech.api.recipes.logic.OCResult;
@@ -69,7 +71,11 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
     private int blastFurnaceTemperature;
 
     public MetaTileEntityMegaBlastFurnace(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, RecipeMaps.BLAST_RECIPES);
+        super(metaTileEntityId, new RecipeMap[]{
+                RecipeMaps.FURNACE_RECIPES,
+                RecipeMaps.ARC_FURNACE_RECIPES,
+                RecipeMaps.BLAST_RECIPES
+        });
         this.recipeMapWorkable = new MegaBlastFurnaceRecipeLogic(this);
     }
 
