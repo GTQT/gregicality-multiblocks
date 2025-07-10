@@ -1,13 +1,8 @@
 package gregicality.multiblocks.api.recipes.alloyblast;
 
-import static gregtech.api.GTValues.MV;
-import static gregtech.api.GTValues.VA;
-
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
+import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
+import gregicality.multiblocks.api.unification.GCYMMaterialFlags;
 import gregtech.api.GTValues;
 import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.recipes.RecipeBuilder;
@@ -22,14 +17,29 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.common.items.MetaItems;
 import gregtech.loaders.recipe.CraftingComponent;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
-import gregicality.multiblocks.api.fluids.GCYMFluidStorageKeys;
-import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
-import gregicality.multiblocks.api.unification.GCYMMaterialFlags;
+import static gregtech.api.GTValues.MV;
+import static gregtech.api.GTValues.VA;
 
 public class AlloyBlastRecipeProducer {
 
     public static final AlloyBlastRecipeProducer DEFAULT_PRODUCER = new AlloyBlastRecipeProducer();
+    /**
+     * Add the freezer recipes for the material
+     *
+     * @param material the material to generate for
+     * @param molten   the molten fluid
+     * @param property the blast property of the material
+     */
+    @SuppressWarnings("MethodMayBeStatic")
+    private static final int FLUID_AMOUNT_MOLTEN = GTValues.L;
+    private static final int HELIUM_INPUT = 500;
+    private static final int HELIUM_OUTPUT = 250;
+    private static final int NITROGEN_INPUT = 1000;
+    private static final int NITROGEN_OUTPUT = 500;
 
     /**
      * Generates alloy blast recipes for a material
@@ -168,33 +178,63 @@ public class AlloyBlastRecipeProducer {
         return componentAmount + 10;
     }
 
-    /**
-     * Add the freezer recipes for the material
-     *
-     * @param material the material to generate for
-     * @param molten   the molten fluid
-     * @param property the blast property of the material
-     */
-    @SuppressWarnings("MethodMayBeStatic")
     protected void addFreezerRecipes(@NotNull Material material, @NotNull Fluid molten,
                                      @NotNull BlastProperty property) {
-        int vacuumDuration = property.getVacuumDurationOverride() == -1 ? (int) material.getMass() * 3 :
-                property.getVacuumDurationOverride();
-        int vacuumEUt = property.getVacuumEUtOverride() == -1 ? VA[MV] : property.getVacuumEUtOverride();
+        // 参数合法性校验
+        if (material.getMass() <= 0) {
+            throw new IllegalArgumentException("Material mass must be positive");
+        }
 
-        // build the freezer recipe
-        RecipeBuilder<?> freezerBuilder = RecipeMaps.VACUUM_RECIPES.recipeBuilder()
-                .fluidInputs(new FluidStack(molten, GTValues.L))
+        final int vacuumDuration = property.getVacuumDurationOverride() == -1 ?
+                (int) material.getMass() * 3 : property.getVacuumDurationOverride();
+        final int vacuumEUt = property.getVacuumEUtOverride() == -1 ?
+                VA[MV] : property.getVacuumEUtOverride();
+
+        // 构建基础冷冻配方
+        RecipeBuilder<?> freezerBuilder = createBaseRecipeBuilder(molten, material, vacuumDuration, vacuumEUt)
                 .notConsumable(MetaItems.SHAPE_MOLD_INGOT.getStackForm())
-                .output(OrePrefix.ingot, material)
-                .duration(vacuumDuration)
-                .EUt(vacuumEUt);
+                .output(OrePrefix.ingot, material);
 
-        // helium for when >= 5000K temperature
-        if (property.getBlastTemperature() >= 5000) {
-            freezerBuilder.fluidInputs(Materials.Helium.getFluid(FluidStorageKeys.LIQUID, 500))
-                    .fluidOutputs(Materials.Helium.getFluid(250));
+        if (property.getBlastTemperature() >= 2000) {
+            addNitrogenToRecipe(freezerBuilder);
+        } else if (property.getBlastTemperature() >= 5000) {
+            addHeliumToRecipe(freezerBuilder);
         }
         freezerBuilder.buildAndRegister();
+
+        // 构建流体输出版本配方
+        if (material.hasFluid()) {
+            RecipeBuilder<?> freezerFluidBuilder = createBaseRecipeBuilder(molten, material,
+                    vacuumDuration * 4 / 5, vacuumEUt)
+                    .fluidOutputs(material.getFluid(GTValues.L))
+                    .circuitMeta(1);
+
+            if (property.getBlastTemperature() >= 2000) {
+                addNitrogenToRecipe(freezerFluidBuilder);
+            } else if (property.getBlastTemperature() >= 5000) {
+                addHeliumToRecipe(freezerFluidBuilder);
+            }
+            freezerFluidBuilder.buildAndRegister();
+        }
+    }
+
+    // 公共配方构建逻辑
+    private RecipeBuilder<?> createBaseRecipeBuilder(Fluid molten, Material material,
+                                                     int duration, int EUt) {
+        return RecipeMaps.VACUUM_RECIPES.recipeBuilder()
+                .fluidInputs(new FluidStack(molten, FLUID_AMOUNT_MOLTEN))
+                .duration(duration)
+                .EUt(EUt);
+    }
+
+    // 添加氦气输入输出
+    private void addHeliumToRecipe(RecipeBuilder<?> builder) {
+        builder.fluidInputs(Materials.Helium.getFluid(FluidStorageKeys.LIQUID, HELIUM_INPUT))
+                .fluidOutputs(Materials.Helium.getFluid(HELIUM_OUTPUT));
+    }
+
+    private void addNitrogenToRecipe(RecipeBuilder<?> builder) {
+        builder.fluidInputs(Materials.Nitrogen.getFluid(FluidStorageKeys.LIQUID, NITROGEN_INPUT))
+                .fluidOutputs(Materials.Nitrogen.getFluid(NITROGEN_OUTPUT));
     }
 }
