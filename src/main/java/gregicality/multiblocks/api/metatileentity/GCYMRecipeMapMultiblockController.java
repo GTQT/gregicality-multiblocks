@@ -49,6 +49,7 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
                 tooltip.add(I18n.format("tile.gcym.tooltip.4"));
                 tooltip.add(I18n.format("tile.gcym.tooltip.5"));
                 tooltip.add(I18n.format("tile.gcym.tooltip.6"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.7"));
             } else {
                 tooltip.add(I18n.format("gcym.tooltip.ctrl"));
             }

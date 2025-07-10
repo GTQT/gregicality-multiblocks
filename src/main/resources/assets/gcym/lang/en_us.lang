@@ -36,6 +36,7 @@ gcym.machine.steam_engine.tooltip.1=Produces up to %s§7 power.
 gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
 
 gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
+gcym.tooltip.shift=Press and hold SHIFT to display the detailed threading logic
 
 gcym.tooltip.parallel_enabled=Can parallelize with §bParallel Control Hatches
 gcym.tooltip.tiered_hatch_enabled=Requires §bVoltage Control Units§7 to run.
@@ -170,6 +171,10 @@ tile.gcym.tooltip.4=§8When Parallel < 64: Actual work time is Progress * 4 / Pa
 tile.gcym.tooltip.5=§8When Parallel < 256: Actual work time is Progress * 64 / Parallel;
 tile.gcym.tooltip.6=§8When Parallel < 1024: Actual work time is Progress * 512 / Parallel;
 tile.gcym.tooltip.7=§8When Parallel > 1024: Actual work time is Progress;
+
+tile.gcym.tooltip.8=§8This device differentiates the corresponding number of cores based on the number of threads in the thread warehouse
+tile.gcym.tooltip.9=§8Each thread bin has its own working logic, and the recipe retrieval, recipe content, time consumption, and power consumption are all independent of each other
+tile.gcym.tooltip.10=§8In the case of parallel repositories, each thread repository has the same amount of parallelism and enjoys a reduction in time consumption
 
 gregtech.machine.laser_hatch.tooltip=This device supports using a Laser Target Hatch instead of an Energy Hatch.
 

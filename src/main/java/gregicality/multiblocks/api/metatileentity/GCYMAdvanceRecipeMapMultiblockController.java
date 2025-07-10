@@ -76,8 +76,16 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
                 tooltip.add(I18n.format("tile.gcym.tooltip.4"));
                 tooltip.add(I18n.format("tile.gcym.tooltip.5"));
                 tooltip.add(I18n.format("tile.gcym.tooltip.6"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.7"));
             } else {
                 tooltip.add(I18n.format("gcym.tooltip.ctrl"));
+            }
+            if (TooltipHelper.isShiftDown()) {
+                tooltip.add(I18n.format("tile.gcym.tooltip.8"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.9"));
+                tooltip.add(I18n.format("tile.gcym.tooltip.10"));
+            } else {
+                tooltip.add(I18n.format("gcym.tooltip.shift"));
             }
         }
         if (GCYMConfigHolder.globalMultiblocks.enableTieredCasings && isTiered())
