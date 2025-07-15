@@ -37,8 +37,10 @@ gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
 
 gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
 gcym.tooltip.shift=Press and hold SHIFT to display the detailed threading logic
-
-gcym.tooltip.parallel_enabled=Can parallelize with §bParallel Control Hatches
+gcym.tooltip.parallel_avaliable=-Parallel Support:
+gcym.tooltip.thread_avaliable=-Thread support:
+gcym.tooltip.parallel_enabled=It can be processed in parallel via § b Parallel Control Warehouse § 7.
+gcym.tooltip.thread_enabled=Multithreading can be done via § b thread control bin § 7.
 gcym.tooltip.tiered_hatch_enabled=Requires §bVoltage Control Units§7 to run.
 gcym.multiblock.tiered_hatch.tooltip=Max Tiered EU/t: §a%s (%s§r)
 
@@ -164,17 +166,17 @@ gcym.material.incoloy_ma_956=Incoloy-MA956
 gcym.fluid.molten=Molten %s
 
 # tooltips
-tile.gcym.tooltip.1=§8This device provides different time reduction ratios based on the specific parallel count!
-tile.gcym.tooltip.2=§8Algorithm as follows, where Progress represents the original work time (recipe duration * parallel count), and Parallel represents the current parallel count.
-tile.gcym.tooltip.3=§8When Parallel < 16: Actual work time is Progress / Parallel;
-tile.gcym.tooltip.4=§8When Parallel < 64: Actual work time is Progress * 4 / Parallel;
-tile.gcym.tooltip.5=§8When Parallel < 256: Actual work time is Progress * 64 / Parallel;
-tile.gcym.tooltip.6=§8When Parallel < 1024: Actual work time is Progress * 512 / Parallel;
-tile.gcym.tooltip.7=§8When Parallel > 1024: Actual work time is Progress;
+tile.gcym.tooltip.1=This device provides different time reduction ratios based on the specific parallel count!
+tile.gcym.tooltip.2=Algorithm as follows, where Progress represents the original work time (recipe duration * parallel count), and Parallel represents the current parallel count.
+tile.gcym.tooltip.3=When Parallel < 16: Actual work time is Progress / Parallel;
+tile.gcym.tooltip.4=When Parallel < 64: Actual work time is Progress * 4 / Parallel;
+tile.gcym.tooltip.5=When Parallel < 256: Actual work time is Progress * 64 / Parallel;
+tile.gcym.tooltip.6=When Parallel < 1024: Actual work time is Progress * 512 / Parallel;
+tile.gcym.tooltip.7=When Parallel > 1024: Actual work time is Progress;
 
-tile.gcym.tooltip.8=§8This device differentiates the corresponding number of cores based on the number of threads in the thread warehouse
-tile.gcym.tooltip.9=§8Each thread bin has its own working logic, and the recipe retrieval, recipe content, time consumption, and power consumption are all independent of each other
-tile.gcym.tooltip.10=§8In the case of parallel repositories, each thread repository has the same amount of parallelism and enjoys a reduction in time consumption
+tile.gcym.tooltip.8=This device differentiates the corresponding number of cores based on the number of threads in the thread warehouse
+tile.gcym.tooltip.9=Each thread bin has its own working logic, and the recipe retrieval, recipe content, time consumption, and power consumption are all independent of each other
+tile.gcym.tooltip.10=In the case of parallel repositories, each thread repository has the same amount of parallelism and enjoys a reduction in time consumption
 
 gregtech.machine.laser_hatch.tooltip=This device supports using a Laser Target Hatch instead of an Energy Hatch.
 

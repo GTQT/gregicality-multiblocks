@@ -40,7 +40,10 @@ gcym.machine.large_circuit_assembler.name=大型电路组装机
 
 gcym.tooltip.ctrl=按住CTRL以显示详细配方工作逻辑
 gcym.tooltip.shift=按住SHIFT以显示详细线程工作逻辑
+gcym.tooltip.parallel_avaliable=-并行支持：
+gcym.tooltip.thread_avaliable=-多线程支持：
 gcym.tooltip.parallel_enabled=可以通过§b并行控制仓§7并行处理。
+gcym.tooltip.thread_enabled=可以通过§b线程控制仓§7多线程处理。
 gcym.tooltip.tiered_hatch_enabled=需要§b控制单元§7以运行。
 gcym.multiblock.tiered_hatch.tooltip=最大电压: §a%s (%s§r)
 
@@ -161,17 +164,17 @@ gcym.material.incoloy_ma_956=耐热铬铁合金-MA956
 gcym.fluid.molten=熔融%s
 
 #tooltips
-tile.gcym.tooltip.1=§8本设备基于具体的并行数量给予不同比例的耗时减免！
-tile.gcym.tooltip.2=§8算法如下，其中Progress表示原工作时长(配方耗时*并行数量)，Parallel表示当前并行数量。
-tile.gcym.tooltip.3=§8并行数量<16时：实际工作时长为Progress/Parallel;
-tile.gcym.tooltip.4=§8并行数量<64时：实际工作时长为Progress * 4/Parallel;
-tile.gcym.tooltip.5=§8并行数量<256时：实际工作时长为Progress * 64/Parallel;
-tile.gcym.tooltip.6=§8并行数量<1024时：实际工作时长为Progress * 512/Parallel;
-tile.gcym.tooltip.7=§8并行数量>1024时：实际工作时长为Progress;
+tile.gcym.tooltip.1=本设备基于具体的并行数量给予不同比例的耗时减免！
+tile.gcym.tooltip.2=算法如下，其中Progress表示原工作时长(配方耗时*并行数量)，Parallel表示当前并行数量。
+tile.gcym.tooltip.3=并行数量<16时：实际工作时长为Progress/Parallel;
+tile.gcym.tooltip.4=并行数量<64时：实际工作时长为Progress * 4/Parallel;
+tile.gcym.tooltip.5=并行数量<256时：实际工作时长为Progress * 64/Parallel;
+tile.gcym.tooltip.6=并行数量<1024时：实际工作时长为Progress * 512/Parallel;
+tile.gcym.tooltip.7=并行数量>1024时：实际工作时长为Progress;
 
-tile.gcym.tooltip.8=§8本设备基于线程仓内线程数量分化出对应数量的核心
-tile.gcym.tooltip.9=§8每个线程仓拥有独立的工作逻辑，配方检索，配方内容，耗时，耗电均相互独立
-tile.gcym.tooltip.10=§8在拥有并行仓的情况下，每个线程仓都拥有同等数量的并行，且享受耗时减免
+tile.gcym.tooltip.8=本设备基于线程仓内线程数量分化出对应数量的核心
+tile.gcym.tooltip.9=每个线程仓拥有独立的工作逻辑，配方检索，配方内容，耗时，耗电均相互独立
+tile.gcym.tooltip.10=在拥有并行仓的情况下，每个线程仓都拥有同等数量的并行，且享受耗时减免
 
 gregtech.machine.laser_hatch.tooltip=本设备支持使用激光靶仓代替能源仓
 # deprecation

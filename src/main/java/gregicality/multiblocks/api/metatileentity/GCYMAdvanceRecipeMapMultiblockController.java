@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +69,8 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);
         if (isParallel()) {
-            tooltip.add(I18n.format("gcym.tooltip.parallel_enabled"));
+            tooltip.add(TextFormatting.GREEN + I18n.format("gcym.tooltip.parallel_avaliable"));
+            tooltip.add(TextFormatting.GRAY + I18n.format("gcym.tooltip.parallel_enabled"));
             if (TooltipHelper.isCtrlDown()) {
                 tooltip.add(I18n.format("tile.gcym.tooltip.1"));
                 tooltip.add(I18n.format("tile.gcym.tooltip.2"));
@@ -80,6 +82,8 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
             } else {
                 tooltip.add(I18n.format("gcym.tooltip.ctrl"));
             }
+            tooltip.add(TextFormatting.GREEN + I18n.format("gcym.tooltip.thread_avaliable"));
+            tooltip.add(TextFormatting.GRAY + I18n.format("gcym.tooltip.thread_enabled"));
             if (TooltipHelper.isShiftDown()) {
                 tooltip.add(I18n.format("tile.gcym.tooltip.8"));
                 tooltip.add(I18n.format("tile.gcym.tooltip.9"));
