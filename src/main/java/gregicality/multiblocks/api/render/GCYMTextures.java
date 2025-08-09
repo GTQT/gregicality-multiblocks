@@ -78,7 +78,7 @@ public final class GCYMTextures {
         LARGE_BREWERY_OVERLAY = new OrientedOverlayRenderer("multiblock/large_brewery");
         LARGE_CENTRIFUGE_OVERLAY = new OrientedOverlayRenderer("multiblock/large_centrifuge");
         LARGE_CHEMICAL_BATH_OVERLAY = new OrientedOverlayRenderer("multiblock/large_chemical_bath");
-        CHEMICAL_PLANT_OVERLAY = new OrientedOverlayRenderer("multiblock/chemical_plant");
+        CHEMICAL_PLANT_OVERLAY = new OrientedOverlayRenderer("multiblock/mega_chemical_reactor");
         LARGE_EXTRACTOR_OVERLAY = new OrientedOverlayRenderer("multiblock/large_extractor");
         LARGE_CUTTER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_cutter");
         LARGE_DISTILLERY_OVERLAY = new OrientedOverlayRenderer("multiblock/large_distillery");
