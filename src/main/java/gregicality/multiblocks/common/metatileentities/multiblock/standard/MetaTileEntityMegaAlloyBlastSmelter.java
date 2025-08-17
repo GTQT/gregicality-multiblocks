@@ -88,17 +88,6 @@ public class MetaTileEntityMegaAlloyBlastSmelter extends GCYMRecipeMapMultiblock
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
     }
 
-    @Override
-    protected void initializeAbilities() {
-        this.inputInventory = new ItemHandlerList(this.getAbilities(MultiblockAbility.IMPORT_ITEMS));
-        this.inputFluidInventory = new FluidTankList(this.allowSameFluidFillForOutputs(), this.getAbilities(MultiblockAbility.IMPORT_FLUIDS));
-        this.outputInventory = new ItemHandlerList(this.getAbilities(MultiblockAbility.EXPORT_ITEMS));
-        this.outputFluidInventory = new FluidTankList(this.allowSameFluidFillForOutputs(), this.getAbilities(MultiblockAbility.EXPORT_FLUIDS));
-        List<IEnergyContainer> energyContainer = new ArrayList<>(this.getAbilities(MultiblockAbility.INPUT_ENERGY));
-        energyContainer.addAll(this.getAbilities(MultiblockAbility.INPUT_LASER));
-        this.energyContainer = new EnergyContainerList(energyContainer);
-    }
-
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity metaTileEntityHolder) {
         return new MetaTileEntityMegaAlloyBlastSmelter(this.metaTileEntityId);
     }
