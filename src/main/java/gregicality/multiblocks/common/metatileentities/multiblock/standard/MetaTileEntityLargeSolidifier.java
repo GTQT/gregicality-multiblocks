@@ -3,6 +3,7 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 import static gregtech.api.util.RelativeDirection.*;
 
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
+import gregtech.api.recipes.RecipeMap;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 
@@ -27,7 +28,7 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 public class MetaTileEntityLargeSolidifier extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeSolidifier(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, RecipeMaps.FLUID_SOLIDFICATION_RECIPES);
+        super(metaTileEntityId, new RecipeMap[] { RecipeMaps.FLUID_SOLIDFICATION_RECIPES, RecipeMaps.TOOL_CASTER_RECIPES });
     }
 
     @Override
