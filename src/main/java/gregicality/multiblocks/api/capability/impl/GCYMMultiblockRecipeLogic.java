@@ -71,22 +71,4 @@ public class GCYMMultiblockRecipeLogic extends MultiblockRecipeLogic {
 
         return Math.min(GTValues.V[list.get(0).getTier()], super.getMaxVoltage());
     }
-
-    @Override
-    public void updateRecipeProgress() {
-        if (this.canRecipeProgress) {
-            if (this.progressTime < this.maxProgressTime && this.drawEnergy(this.recipeEUt, true)) {
-                this.drawEnergy(this.recipeEUt, false);
-                ++this.progressTime;
-                if (this.hasNotEnoughEnergy && this.getEnergyInputPerSecond() > 19L * this.recipeEUt) {
-                    this.hasNotEnoughEnergy = false;
-                }
-            } else if (this.checkOutputSpaceItems(previousRecipe, this.getOutputInventory()) && this.checkOutputSpaceFluids(previousRecipe, this.getOutputTank())) {
-                this.completeRecipe();
-            }
-        } else if (this.recipeEUt > 0L) {
-            this.hasNotEnoughEnergy = true;
-            this.decreaseProgress();
-        }
-    }
 }
