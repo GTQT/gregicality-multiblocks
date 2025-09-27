@@ -48,6 +48,7 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
     protected void formStructure(PatternMatchContext context) {
         super.formStructure(context);
         this.initializeAbilities();
+        if(this.thread != 0) return;// 修复读档后配方丢失的Bug
         this.thread = this.getAbilities(MultiblockAbility.THREAD_HATCH).isEmpty() ? 1 : ((IThreadHatch)this.getAbilities(MultiblockAbility.THREAD_HATCH).get(0)).getCurrentThread();
         this.recipeMapWorkable = new ArrayList<>();
 
