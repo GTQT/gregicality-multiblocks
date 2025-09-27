@@ -42,9 +42,11 @@ dependencies {
     api("com.cleanroommc:modularui:2.5.0-rc4") { transitive = false }
 
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
+
+    implementation rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // AE2FC 2.6.6
+    implementation rfg.deobf("curse.maven:ae2-extended-life-570458:6302098") // AE2FC 2.6.6
+
     implementation rfg.deobf(files("libs/!mixinbooter-8.9.jar"))
-    implementation rfg.deobf(files("libs/gregtech-MeowmelMuku-1.12.2-2.9.0-184.jar"))
-    implementation rfg.deobf(files("libs/ae2-uel-v0.56.6.jar"))
-    implementation rfg.deobf(files("libs/CTM-MC1.12.2-1.0.2.31.jar"))
-    implementation rfg.deobf(files("libs/OpenComputers-MC1.12.2-1.8.6+cd8851e.jar"))
+    implementation rfg.deobf(files("libs/gregtech-MeowmelMuku-1.12.2-2.9.0-188.jar"))
+    api rfg.deobf("curse.maven:ctm-267602:2915363") // CTM 1.0.2.31
 }
