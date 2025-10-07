@@ -82,8 +82,8 @@ public class MetaTileEntityLargeCutter extends GCYMAdvanceRecipeMapMultiblockCon
     private static @NotNull RecipeMap<?> @NotNull [] determineRecipeMaps() {
         RecipeMap<?> slicerMap = RecipeMap.getByName("slicer");
         if (Loader.isModLoaded(GCYMValues.GTFO_MODID) && slicerMap != null) {
-            return new RecipeMap<?>[] { RecipeMaps.CUTTER_RECIPES, RecipeMaps.LATHE_RECIPES, slicerMap };
+            return new RecipeMap<?>[] { RecipeMaps.CUTTER_RECIPES, RecipeMaps.LATHE_RECIPES, RecipeMaps.POLISHER_RECIPES, slicerMap };
         }
-        return new RecipeMap<?>[] { RecipeMaps.CUTTER_RECIPES, RecipeMaps.LATHE_RECIPES };
+        return new RecipeMap<?>[] { RecipeMaps.CUTTER_RECIPES, RecipeMaps.LATHE_RECIPES, RecipeMaps.POLISHER_RECIPES };
     }
 }

@@ -37,6 +37,7 @@ gcym.machine.mega_chemical_reactor.name=批量化学反应釜
 gcym.machine.steam_engine.name=工业蒸汽轮机
 gcym.machine.steam_engine.tooltip.1=最高产生%s§7级的能量。
 gcym.machine.large_circuit_assembler.name=大型电路组装机
+gcym.machine.large_chemical_complex.name=大型化工复合体
 
 gcym.tooltip.ctrl=按住CTRL以显示详细配方工作逻辑
 gcym.tooltip.shift=按住SHIFT以显示详细线程工作逻辑
@@ -77,7 +78,7 @@ gcym.multiblock.mega_blast_furnace.description=用于大量冶炼的大型电力
 gcym.multiblock.mega_vacuum_freezer.description=用于大量冷却的大型真空冷冻机
 gcym.multiblock.steam_engine.description=用于高效发电的大型蒸汽涡轮
 gcym.multiblock.large_circuit_assembler.description=用于制造电路的多方块电路组装机
-
+gcym.multiblock.large_chemical_complex.description=用于进行多种化学反应的多方块化学反应釜
 
 # hatches
 gcym.machine.parallel_hatch.lv.name=并行控制仓(LV)
@@ -143,7 +144,7 @@ tile.large_multiblock_casing.steam_casing.name=工业蒸汽机械方块
 
 # RecipeMaps
 recipemap.alloy_blast_smelter.name=合金高炉冶炼
-recipemap.electric_implosion_recipes.name=电力聚爆压缩
+
 # Materials
 gcym.material.stellite_100=司太立100合金
 gcym.material.watertight_steel=防水钢

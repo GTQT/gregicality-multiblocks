@@ -165,6 +165,15 @@ public final class GCYMMetaTileEntityLoader {
                 'O', new UnificationEntry(spring, MolybdenumDisilicide),
                 'W', new UnificationEntry(cableGtSingle, Platinum));
 
+        ModHandler.addShapedRecipe(true, "large_chemical_complex", GCYMMetaTileEntities.LARGE_CHEMICAL_COMPLEX.getStackForm(),
+                "LCL", "PSP", "OWO",
+                'L', new UnificationEntry(pipeLargeItem, Ultimet),
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.IV),
+                'S', MetaTileEntities.CHEMICAL_REACTOR[IV].getStackForm(),
+                'P', MetaItems.ELECTRIC_PUMP_IV.getStackForm(),
+                'O', new UnificationEntry(spring, MolybdenumDisilicide),
+                'W', new UnificationEntry(cableGtSingle, Platinum));
+
         ModHandler.addShapedRecipe(true, "large_solidifier", GCYMMetaTileEntities.LARGE_SOLIDIFIER.getStackForm(),
                 "LCL", "PSP", "LWL",
                 'L', new UnificationEntry(pipeNormalFluid, Polyethylene),
@@ -304,7 +313,6 @@ public final class GCYMMetaTileEntityLoader {
                 'P', MetaItems.CONVEYOR_MODULE_LuV.getStackForm(),
                 'S', MetaTileEntities.CIRCUIT_ASSEMBLER[LuV].getStackForm(),
                 'W', new UnificationEntry(cableGtSingle, NiobiumTitanium));
-
         // Parallel Hatches
         registerMachineRecipe(GCYMMetaTileEntities.PARALLEL_HATCH,
                 "SCE", "CHC", "WCW",

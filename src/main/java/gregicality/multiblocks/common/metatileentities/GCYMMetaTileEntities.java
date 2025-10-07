@@ -36,12 +36,14 @@ public final class GCYMMetaTileEntities {
     public static MetaTileEntityElectricImplosionCompressor ELECTRIC_IMPLOSION_COMPRESSOR;
     public static MetaTileEntityLargeMassFabricator LARGE_MASS_FABRICATOR;
     public static MetaTileEntityLargeReplicator LARGE_REPLICATOR;
+    public static MetaTileEntityLargeCircuitAssembler LARGE_CIRCUIT_ASSEMBLER;
+    public static MetaTileEntityLargeChemicalComplex LARGE_CHEMICAL_COMPLEX;
     public static MetaTileEntityMegaBlastFurnace MEGA_BLAST_FURNACE;
     public static MetaTileEntityMegaVacuumFreezer MEGA_VACUUM_FREEZER;
     public static MetaTileEntityMegaAlloyBlastSmelter MEGA_ALLOY_BLAST_SMELTER;
     public static MetaTileEntityMegaChemicalReactor  MEGA_CHEMICAL_REACTOR;
     public static MetaTileEntitySteamEngine STEAM_ENGINE;
-    public static MetaTileEntityLargeCircuitAssembler LARGE_CIRCUIT_ASSEMBLER;
+
 
     public static MetaTileEntityParallelHatch[] PARALLEL_HATCH = new MetaTileEntityParallelHatch[GTValues.V.length-1];
     public static MetaTileEntityTieredHatch[] TIERED_HATCH = new MetaTileEntityTieredHatch[GTValues.V.length];
@@ -76,6 +78,7 @@ public final class GCYMMetaTileEntities {
         LARGE_MASS_FABRICATOR = registerMetaTileEntity(23, new MetaTileEntityLargeMassFabricator(gcymId("large_mass_fabricator")));
         LARGE_REPLICATOR = registerMetaTileEntity(24, new MetaTileEntityLargeReplicator(gcymId("large_replicator")));
         LARGE_CIRCUIT_ASSEMBLER = registerMetaTileEntity(25, new MetaTileEntityLargeCircuitAssembler(gcymId("large_circuit_assembler")));
+        LARGE_CHEMICAL_COMPLEX = registerMetaTileEntity(26, new MetaTileEntityLargeChemicalComplex(gcymId("large_chemical_complex")));
 
         //巨型设备
         MEGA_BLAST_FURNACE = registerMetaTileEntity(30, new MetaTileEntityMegaBlastFurnace(gcymId("mega_blast_furnace")));

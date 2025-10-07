@@ -3,7 +3,6 @@ package gregicality.multiblocks.common;
 import java.util.Objects;
 import java.util.function.Function;
 
-import gregicality.multiblocks.loaders.recipe.GCYMCopyRecipes;
 import gregicality.multiblocks.loaders.recipe.handlers.GCYMMaterialRecipeHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

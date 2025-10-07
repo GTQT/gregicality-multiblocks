@@ -47,6 +47,6 @@ dependencies {
     implementation rfg.deobf("curse.maven:ae2-extended-life-570458:6302098") // AE2FC 2.6.6
 
     implementation rfg.deobf(files("libs/!mixinbooter-8.9.jar"))
-    implementation rfg.deobf(files("libs/gregtech-MeowmelMuku-1.12.2-2.9.0-188.jar"))
+    implementation rfg.deobf(files("libs/gregtech-MeowmelMuku-1.12.2-2.9.0-190.jar"))
     api rfg.deobf("curse.maven:ctm-267602:2915363") // CTM 1.0.2.31
 }

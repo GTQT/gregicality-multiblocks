@@ -98,8 +98,8 @@ public class MetaTileEntityLargeAssembler extends GCYMAdvanceRecipeMapMultiblock
     private static @NotNull RecipeMap<?> @NotNull [] determineRecipeMaps() {
         RecipeMap<?> cuisineAssemblerMap = RecipeMap.getByName("cuisine_assembler");
         if (Loader.isModLoaded(GCYMValues.GTFO_MODID) && cuisineAssemblerMap != null) {
-            return new RecipeMap<?>[] { RecipeMaps.ASSEMBLER_RECIPES, cuisineAssemblerMap };
+            return new RecipeMap<?>[] { RecipeMaps.ASSEMBLER_RECIPES,RecipeMaps.LAMINATOR_RECIPES, cuisineAssemblerMap };
         }
-        return new RecipeMap<?>[] { RecipeMaps.ASSEMBLER_RECIPES };
+        return new RecipeMap<?>[] { RecipeMaps.ASSEMBLER_RECIPES,RecipeMaps.LAMINATOR_RECIPES };
     }
 }

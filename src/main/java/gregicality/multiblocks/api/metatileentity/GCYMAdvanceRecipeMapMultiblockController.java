@@ -1,8 +1,10 @@
 package gregicality.multiblocks.api.metatileentity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gregtech.api.capability.GregtechDataCodes;
 import gregtech.api.capability.IThreadHatch;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.multiblock.AdvanceMultiMapMultiblockController;
@@ -11,6 +13,8 @@ import gregtech.api.pattern.PatternMatchContext;
 import gregtech.client.utils.TooltipHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -44,28 +48,17 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
         recipeMapWorkable = new ArrayList<>();
         this.recipeMapWorkable.add(new GCYMMultiblockRecipeLogic(this));
     }
-    @Override
-    protected void formStructure(PatternMatchContext context) {
-        super.formStructure(context);
-        this.initializeAbilities();
-        if(this.thread != 0) return;// 修复读档后配方丢失的Bug
-        this.thread = this.getAbilities(MultiblockAbility.THREAD_HATCH).isEmpty() ? 1 : this.getAbilities(MultiblockAbility.THREAD_HATCH).get(0).getCurrentThread();
-        this.recipeMapWorkable = new ArrayList<>();
 
-        for(int i = 0; i < this.thread; ++i) {
-            this.recipeMapWorkable.add(new GCYMMultiblockRecipeLogic(this));
-        }
-    }
-    @Override
-    public void refreshThread(int thread) {
-        if (!this.checkWorkingEnable()) {
-            this.recipeMapWorkable = new ArrayList<>();
-
-            for(int i = 0; i < thread; ++i) {
-                this.recipeMapWorkable.add(new GCYMMultiblockRecipeLogic(this));
+    public void refreshThread(int currentThread) {
+        if (currentThread == 0) return;
+        if (!isActive()) {
+            recipeMapWorkable = new ArrayList<>();
+            for (int i = 0; i < currentThread; i++) {
+                recipeMapWorkable.add(new GCYMMultiblockRecipeLogic(this));
             }
         }
     }
+
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);

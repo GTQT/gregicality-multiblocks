@@ -3,10 +3,6 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
-import gregtech.api.capability.IEnergyContainer;
-import gregtech.api.capability.impl.EnergyContainerList;
-import gregtech.api.capability.impl.FluidTankList;
-import gregtech.api.capability.impl.ItemHandlerList;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -30,7 +26,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //这是与GCYM的转底炉 巨冰箱同一系列的设备
@@ -38,7 +33,7 @@ import java.util.List;
 public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockController {
 
     public MetaTileEntityMegaChemicalReactor(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.CHEMICAL_RECIPES, RecipeMaps.LARGE_CHEMICAL_RECIPES});
+        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.CHEMICAL_RECIPES,RecipeMaps.POLYMERIZATION_RECIPES, RecipeMaps.LARGE_CHEMICAL_RECIPES});
         this.recipeMapWorkable = new GCYMMultiblockRecipeLogic(this, true);
     }
 
@@ -110,6 +105,6 @@ public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockCo
 
     @Override
     protected @NotNull OrientedOverlayRenderer getFrontOverlay() {
-        return GCYMTextures.CHEMICAL_PLANT_OVERLAY;
+        return GCYMTextures.MEGA_CHEMICAL_REACTOR;
     }
 }

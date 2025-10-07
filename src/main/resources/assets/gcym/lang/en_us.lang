@@ -34,6 +34,7 @@ gcym.machine.mega_chemical_reactor.name=Mega Chemical Reactor
 gcym.machine.steam_engine.name=Industrial Steam Engine
 gcym.machine.steam_engine.tooltip.1=Produces up to %s§7 power.
 gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
+gcym.machine.large_chemical_complex.name=Large Chemical Complex
 
 gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
 gcym.tooltip.shift=Press and hold SHIFT to display the detailed threading logic
@@ -76,7 +77,7 @@ gcym.multiblock.mega_blast_furnace.description=A massive Electric Blast Furnace 
 gcym.multiblock.mega_vacuum_freezer.description=A massive Vacuum Freezer for extreme volume cooling.
 gcym.multiblock.steam_engine.description=A large Steam Engine for effective power production.
 gcym.multiblock.large_circuit_assembler.description=A multiblock Circuit Assembler for fabricating circuits.
-
+gcym.multiblock.large_chemical_complex.description=A multiblock chemical reactors for a variety of chemical reactions
 
 # hatches
 
@@ -145,7 +146,7 @@ tile.large_multiblock_casing.steam_casing.name=Industrial Steam Casing
 
 # RecipeMaps
 recipemap.alloy_blast_smelter.name=Alloy Blast Smelting
-recipemap.electric_implosion_recipes.name=Electric Implosion
+
 # Materials
 gcym.material.stellite_100=Stellite-100
 gcym.material.watertight_steel=Watertight Steel

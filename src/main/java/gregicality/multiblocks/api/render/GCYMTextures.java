@@ -22,7 +22,6 @@ public final class GCYMTextures {
     public static OrientedOverlayRenderer LARGE_BREWERY_OVERLAY;
     public static OrientedOverlayRenderer LARGE_CENTRIFUGE_OVERLAY;
     public static OrientedOverlayRenderer LARGE_CHEMICAL_BATH_OVERLAY;
-    public static OrientedOverlayRenderer CHEMICAL_PLANT_OVERLAY;
     public static OrientedOverlayRenderer LARGE_EXTRACTOR_OVERLAY;
     public static OrientedOverlayRenderer LARGE_CUTTER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_DISTILLERY_OVERLAY;
@@ -38,6 +37,7 @@ public final class GCYMTextures {
     public static OrientedOverlayRenderer ELECTRIC_IMPLOSION_OVERLAY;
     public static OrientedOverlayRenderer LARGE_MASS_FABRICATOR_OVERLAY;
     public static OrientedOverlayRenderer LARGE_REPLICATOR_OVERLAY;
+    public static OrientedOverlayRenderer MEGA_CHEMICAL_REACTOR;
     public static OrientedOverlayRenderer MEGA_BLAST_FURNACE_OVERLAY;
     public static OrientedOverlayRenderer MEGA_VACUUM_FREEZER_OVERLAY;
     public static OrientedOverlayRenderer STEAM_ENGINE_OVERLAY;
@@ -78,7 +78,7 @@ public final class GCYMTextures {
         LARGE_BREWERY_OVERLAY = new OrientedOverlayRenderer("multiblock/large_brewery");
         LARGE_CENTRIFUGE_OVERLAY = new OrientedOverlayRenderer("multiblock/large_centrifuge");
         LARGE_CHEMICAL_BATH_OVERLAY = new OrientedOverlayRenderer("multiblock/large_chemical_bath");
-        CHEMICAL_PLANT_OVERLAY = new OrientedOverlayRenderer("multiblock/mega_chemical_reactor");
+        MEGA_CHEMICAL_REACTOR = new OrientedOverlayRenderer("multiblock/mega_chemical_reactor");
         LARGE_EXTRACTOR_OVERLAY = new OrientedOverlayRenderer("multiblock/large_extractor");
         LARGE_CUTTER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_cutter");
         LARGE_DISTILLERY_OVERLAY = new OrientedOverlayRenderer("multiblock/large_distillery");

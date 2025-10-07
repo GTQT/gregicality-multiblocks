@@ -30,7 +30,7 @@ import gregicality.multiblocks.api.render.GCYMTextures;
 public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityElectricImplosionCompressor(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, GCYMRecipeMaps.ELECTRIC_IMPLOSION_RECIPES);
+        super(metaTileEntityId, RecipeMaps.ELECTRIC_IMPLOSION_RECIPES);
     }
 
     @Override
