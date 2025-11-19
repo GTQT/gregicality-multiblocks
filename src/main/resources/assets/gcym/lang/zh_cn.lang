@@ -34,15 +34,18 @@ gcym.machine.mega_blast_furnace.name=转底炉
 gcym.machine.mega_vacuum_freezer.name=批量真空冷冻机
 gcym.machine.mega_alloy_blast_smelter.name=大型合金冶炼炉
 gcym.machine.mega_chemical_reactor.name=批量化学反应釜
+gcym.machine.mega_cracking_unit.name=大型石油裂化机
 gcym.machine.steam_engine.name=工业蒸汽轮机
 gcym.machine.steam_engine.tooltip.1=最高产生%s§7级的能量。
 gcym.machine.large_circuit_assembler.name=大型电路组装机
 gcym.machine.large_chemical_complex.name=大型化工复合体
+gcym.machine.large_pyrolyser.name=大型热解炉
 
 gcym.tooltip.ctrl=按住CTRL以显示详细配方工作逻辑
 gcym.tooltip.shift=按住SHIFT以显示详细线程工作逻辑
 gcym.tooltip.parallel_avaliable=-并行支持：
 gcym.tooltip.thread_avaliable=-多线程支持：
+gcym.tooltip.tiered_avaliable=-控制单元系统：
 gcym.tooltip.parallel_enabled=可以通过§b并行控制仓§7并行处理。
 gcym.tooltip.thread_enabled=可以通过§b线程控制仓§7多线程处理。
 gcym.tooltip.tiered_hatch_enabled=需要§b控制单元§7以运行。
@@ -79,6 +82,7 @@ gcym.multiblock.mega_vacuum_freezer.description=用于大量冷却的大型真�
 gcym.multiblock.steam_engine.description=用于高效发电的大型蒸汽涡轮
 gcym.multiblock.large_circuit_assembler.description=用于制造电路的多方块电路组装机
 gcym.multiblock.large_chemical_complex.description=用于进行多种化学反应的多方块化学反应釜
+gcym.multiblock.large_pyrolyser.description=用于批量热解木料的多方块热解炉
 
 # hatches
 gcym.machine.parallel_hatch.lv.name=并行控制仓(LV)

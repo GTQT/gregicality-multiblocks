@@ -39,7 +39,7 @@
  */
 dependencies {
     api("com.cleanroommc:groovyscript:1.2.0-hotfix1") { transitive = false }
-    api("com.cleanroommc:modularui:2.5.0-rc4") { transitive = false }
+    api("com.cleanroommc:modularui:3.0.4") { transitive = false }
 
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
 

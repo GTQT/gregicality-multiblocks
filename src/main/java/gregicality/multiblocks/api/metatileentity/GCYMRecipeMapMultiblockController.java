@@ -1,36 +1,27 @@
 package gregicality.multiblocks.api.metatileentity;
 
-import java.util.List;
-
-import gregtech.client.utils.TooltipHelper;
-import net.minecraft.client.resources.I18n;
+import gregicality.multiblocks.api.capability.IParallelMultiblock;
+import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
+import gregicality.multiblocks.api.tooltips.GGCYMMMultiblockInformation;
+import gregicality.multiblocks.api.tooltips.TiredMultiblockInformation;
+import gregicality.multiblocks.common.GCYMConfigHolder;
+import gregtech.api.metatileentity.multiblock.MultiMapMultiblockController;
+import gregtech.api.pattern.TraceabilityPredicate;
+import gregtech.api.recipes.RecipeMap;
+import gregtech.api.util.tooltips.TooltipBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import gregtech.api.GTValues;
-import gregtech.api.metatileentity.ITieredMetaTileEntity;
-import gregtech.api.metatileentity.multiblock.MultiMapMultiblockController;
-import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
-import gregtech.api.pattern.TraceabilityPredicate;
-import gregtech.api.recipes.RecipeMap;
-import gregtech.api.util.GTUtility;
-
-import gregicality.multiblocks.api.capability.IParallelMultiblock;
-import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
-import gregicality.multiblocks.common.GCYMConfigHolder;
+import java.util.List;
 
 public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblockController
-                                                        implements IParallelMultiblock {
+        implements IParallelMultiblock {
 
     public GCYMRecipeMapMultiblockController(ResourceLocation metaTileEntityId, RecipeMap<?> recipeMap) {
-        this(metaTileEntityId, new RecipeMap<?>[] { recipeMap });
+        this(metaTileEntityId, new RecipeMap<?>[]{recipeMap});
     }
 
     public GCYMRecipeMapMultiblockController(ResourceLocation metaTileEntityId, RecipeMap<?>[] recipeMaps) {
@@ -38,26 +29,19 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
         this.recipeMapWorkable = new GCYMMultiblockRecipeLogic(this);
     }
 
+    public static @NotNull TraceabilityPredicate tieredCasing() {
+        return new TraceabilityPredicate(abilities(GCYMMultiblockAbility.TIERED_HATCH)
+                .setMinGlobalLimited(GCYMConfigHolder.globalMultiblocks.enableTieredCasings ? 1 : 0)
+                .setMaxGlobalLimited(1));
+    }
+
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);
-        if (isParallel()) {
-            tooltip.add(TextFormatting.GREEN + I18n.format("gcym.tooltip.parallel_avaliable"));
-            tooltip.add(TextFormatting.GRAY + I18n.format("gcym.tooltip.parallel_enabled"));
-            if (TooltipHelper.isCtrlDown()) {
-                tooltip.add(I18n.format("tile.gcym.tooltip.1"));
-                tooltip.add(I18n.format("tile.gcym.tooltip.2"));
-                tooltip.add(I18n.format("tile.gcym.tooltip.3"));
-                tooltip.add(I18n.format("tile.gcym.tooltip.4"));
-                tooltip.add(I18n.format("tile.gcym.tooltip.5"));
-                tooltip.add(I18n.format("tile.gcym.tooltip.6"));
-                tooltip.add(I18n.format("tile.gcym.tooltip.7"));
-            } else {
-                tooltip.add(I18n.format("gcym.tooltip.ctrl"));
-            }
-        }
-        if (GCYMConfigHolder.globalMultiblocks.enableTieredCasings && isTiered())
-            tooltip.add(I18n.format("gcym.tooltip.tiered_hatch_enabled"));
+        TooltipBuilder.create()
+                .addIf(isParallel(), new GGCYMMMultiblockInformation())
+                .addIf(GCYMConfigHolder.globalMultiblocks.enableTieredCasings && isTiered(), new TiredMultiblockInformation())
+                .build(this, tooltip);
     }
 
     @Override
@@ -87,10 +71,5 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
         return predicate;
     }
 
-    public static @NotNull TraceabilityPredicate tieredCasing() {
-        return new TraceabilityPredicate(abilities(GCYMMultiblockAbility.TIERED_HATCH)
-                .setMinGlobalLimited(GCYMConfigHolder.globalMultiblocks.enableTieredCasings ? 1 : 0)
-                .setMaxGlobalLimited(1));
-    }
 
 }

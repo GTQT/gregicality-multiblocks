@@ -38,10 +38,12 @@ public final class GCYMMetaTileEntities {
     public static MetaTileEntityLargeReplicator LARGE_REPLICATOR;
     public static MetaTileEntityLargeCircuitAssembler LARGE_CIRCUIT_ASSEMBLER;
     public static MetaTileEntityLargeChemicalComplex LARGE_CHEMICAL_COMPLEX;
+    public static MetaTileEntityLargePyrolyser LARGE_PYROLYSER;
     public static MetaTileEntityMegaBlastFurnace MEGA_BLAST_FURNACE;
     public static MetaTileEntityMegaVacuumFreezer MEGA_VACUUM_FREEZER;
     public static MetaTileEntityMegaAlloyBlastSmelter MEGA_ALLOY_BLAST_SMELTER;
     public static MetaTileEntityMegaChemicalReactor  MEGA_CHEMICAL_REACTOR;
+    public static MetaTileEntityMegaCrackingUnit MEGA_CRACKING_UNIT;
     public static MetaTileEntitySteamEngine STEAM_ENGINE;
 
 
@@ -79,12 +81,14 @@ public final class GCYMMetaTileEntities {
         LARGE_REPLICATOR = registerMetaTileEntity(24, new MetaTileEntityLargeReplicator(gcymId("large_replicator")));
         LARGE_CIRCUIT_ASSEMBLER = registerMetaTileEntity(25, new MetaTileEntityLargeCircuitAssembler(gcymId("large_circuit_assembler")));
         LARGE_CHEMICAL_COMPLEX = registerMetaTileEntity(26, new MetaTileEntityLargeChemicalComplex(gcymId("large_chemical_complex")));
+        LARGE_PYROLYSER = registerMetaTileEntity(27, new MetaTileEntityLargePyrolyser(gcymId("large_pyrolyser")));
 
         //巨型设备
         MEGA_BLAST_FURNACE = registerMetaTileEntity(30, new MetaTileEntityMegaBlastFurnace(gcymId("mega_blast_furnace")));
         MEGA_VACUUM_FREEZER = registerMetaTileEntity(31, new MetaTileEntityMegaVacuumFreezer(gcymId("mega_vacuum_freezer")));
         MEGA_ALLOY_BLAST_SMELTER=  registerMetaTileEntity(32, new MetaTileEntityMegaAlloyBlastSmelter(gcymId("mega_alloy_blast_smelter")));
         MEGA_CHEMICAL_REACTOR= registerMetaTileEntity(33, new MetaTileEntityMegaChemicalReactor(gcymId("mega_chemical_reactor")));
+        MEGA_CRACKING_UNIT = registerMetaTileEntity(34, new MetaTileEntityMegaCrackingUnit(gcymId("mega_cracking_unit")));
         //发电机
         STEAM_ENGINE = registerMetaTileEntity(40, new MetaTileEntitySteamEngine(gcymId("steam_engine")));
 

@@ -1,21 +1,11 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
-import static gregtech.api.util.RelativeDirection.*;
-
-import java.util.List;
-import java.util.function.Function;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
+import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
+import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.capability.IDistillationTower;
 import gregtech.api.capability.IMultipleTankHandler;
 import gregtech.api.capability.impl.DistillationTowerLogicHandler;
@@ -31,20 +21,29 @@ import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.util.*;
+import gregtech.api.util.GTTransferUtils;
+import gregtech.api.util.GTUtility;
+import gregtech.api.util.RelativeDirection;
+import gregtech.api.util.TextComponentUtil;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.ConfigHolder;
 import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
-import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
-import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
-import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import java.util.List;
+import java.util.function.Function;
+
+import static gregtech.api.util.RelativeDirection.*;
 
 /**
  * Requires an unfortunate amount of copy-pasted logic from
@@ -55,9 +54,17 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
     protected final DistillationTowerLogicHandler handler;
 
     public MetaTileEntityLargeDistillery(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, new RecipeMap[] { RecipeMaps.DISTILLATION_RECIPES, RecipeMaps.DISTILLERY_RECIPES });
+        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.DISTILLATION_RECIPES, RecipeMaps.DISTILLERY_RECIPES});
         this.recipeMapWorkable = new LargeDistilleryRecipeLogic(this);
         this.handler = new DistillationTowerLogicHandler(this);
+    }
+
+    private static IBlockState getCasingState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.WATERTIGHT_CASING);
+    }
+
+    private static IBlockState getCasingState2() {
+        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.STEEL_PIPE);
     }
 
     @Override
@@ -129,8 +136,8 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
         TraceabilityPredicate casingPredicate = states(getCasingState()).setMinGlobalLimited(40);
         TraceabilityPredicate maintenancePredicate = this.hasMaintenanceMechanics() &&
                 ConfigHolder.machines.enableMaintenance ?
-                        abilities(MultiblockAbility.MAINTENANCE_HATCH).setMinGlobalLimited(1).setMaxGlobalLimited(1) :
-                        casingPredicate;
+                abilities(MultiblockAbility.MAINTENANCE_HATCH).setMinGlobalLimited(1).setMaxGlobalLimited(1) :
+                casingPredicate;
         return FactoryBlockPattern.start(RIGHT, FRONT, DOWN)
                 .aisle("#####", "#ZZZ#", "#ZCZ#", "#ZZZ#", "#####")
                 .aisle("##X##", "#XAX#", "XAPAX", "#XAX#", "##X##").setRepeatable(1, 12)
@@ -159,14 +166,6 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
     @Override
     public boolean allowSameFluidFillForOutputs() {
         return !usesAdvHatchLogic();
-    }
-
-    private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.WATERTIGHT_CASING);
-    }
-
-    private static IBlockState getCasingState2() {
-        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.STEEL_PIPE);
     }
 
     @Override

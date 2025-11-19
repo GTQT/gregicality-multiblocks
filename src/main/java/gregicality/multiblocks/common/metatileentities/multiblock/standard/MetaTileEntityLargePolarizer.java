@@ -1,11 +1,10 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -15,18 +14,24 @@ import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
-
-import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
-import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargePolarizer extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargePolarizer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId,
-                new RecipeMap[] { RecipeMaps.POLARIZER_RECIPES, RecipeMaps.ELECTROMAGNETIC_SEPARATOR_RECIPES });
+                new RecipeMap[]{RecipeMaps.POLARIZER_RECIPES, RecipeMaps.ELECTROMAGNETIC_SEPARATOR_RECIPES});
+    }
+
+    private static IBlockState getCasingState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                .getState(BlockLargeMultiblockCasing.CasingType.NONCONDUCTING_CASING);
+    }
+
+    private static IBlockState getCasingState2() {
+        return GCYMMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.MOLYBDENUM_DISILICIDE_COIL);
     }
 
     @Override
@@ -47,15 +52,6 @@ public class MetaTileEntityLargePolarizer extends GCYMAdvanceRecipeMapMultiblock
                 .where('T', tieredCasing().or(air()))
                 .where('A', air())
                 .build();
-    }
-
-    private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
-                .getState(BlockLargeMultiblockCasing.CasingType.NONCONDUCTING_CASING);
-    }
-
-    private static IBlockState getCasingState2() {
-        return GCYMMetaBlocks.UNIQUE_CASING.getState(BlockUniqueCasing.UniqueCasingType.MOLYBDENUM_DISILICIDE_COIL);
     }
 
     @Override

@@ -1,13 +1,9 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
-import static gregtech.api.util.RelativeDirection.*;
-
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -19,19 +15,27 @@ import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.MetaBlocks;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeChemicalBath extends GCYMAdvanceRecipeMapMultiblockController { // todo render liquid in the
-                                                                                         // structure that looks the
-                                                                                         // same as what is in the fluid
-                                                                                         // hatches
+    // structure that looks the
+    // same as what is in the fluid
+    // hatches
 
     public MetaTileEntityLargeChemicalBath(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, new RecipeMap[] { RecipeMaps.CHEMICAL_BATH_RECIPES, RecipeMaps.ORE_WASHER_RECIPES });
+        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.CHEMICAL_BATH_RECIPES, RecipeMaps.ORE_WASHER_RECIPES});
+    }
+
+    private static IBlockState getCasingState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.WATERTIGHT_CASING);
+    }
+
+    private static IBlockState getCasingState2() {
+        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.TITANIUM_PIPE);
     }
 
     @Override
@@ -52,14 +56,6 @@ public class MetaTileEntityLargeChemicalBath extends GCYMAdvanceRecipeMapMultibl
                 .where('A', air())
                 .where('#', any())
                 .build();
-    }
-
-    private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.WATERTIGHT_CASING);
-    }
-
-    private static IBlockState getCasingState2() {
-        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.TITANIUM_PIPE);
     }
 
     @Override

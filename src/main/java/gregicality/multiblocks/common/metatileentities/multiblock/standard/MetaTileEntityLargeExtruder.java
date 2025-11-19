@@ -1,11 +1,9 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -17,16 +15,27 @@ import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.BlockGlassCasing;
 import gregtech.common.blocks.MetaBlocks;
-
-import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeExtruder extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeExtruder(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.EXTRUDER_RECIPES);
+    }
+
+    private static IBlockState getCasingState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                .getState(BlockLargeMultiblockCasing.CasingType.STRESS_PROOF_CASING);
+    }
+
+    private static IBlockState getCasingState2() {
+        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.TITANIUM_PIPE);
+    }
+
+    private static IBlockState getCasingState3() {
+        return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
     }
 
     @Override
@@ -49,19 +58,6 @@ public class MetaTileEntityLargeExtruder extends GCYMAdvanceRecipeMapMultiblockC
                 .where('T', tieredCasing().or(air()))
                 .where('#', any())
                 .build();
-    }
-
-    private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
-                .getState(BlockLargeMultiblockCasing.CasingType.STRESS_PROOF_CASING);
-    }
-
-    private static IBlockState getCasingState2() {
-        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.TITANIUM_PIPE);
-    }
-
-    private static IBlockState getCasingState3() {
-        return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
     }
 
     @Override

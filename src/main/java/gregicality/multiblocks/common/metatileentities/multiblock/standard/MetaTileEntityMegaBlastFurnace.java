@@ -2,11 +2,8 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 
 import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
-import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.recipes.GCYMRecipeMaps;
 import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.GCYMConfigHolder;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
 import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
@@ -18,12 +15,10 @@ import gregtech.api.capability.IMufflerHatch;
 import gregtech.api.capability.impl.EnergyContainerList;
 import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.capability.impl.ItemHandlerList;
-import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.metatileentity.multiblock.ui.KeyManager;
 import gregtech.api.metatileentity.multiblock.ui.MultiblockUIBuilder;
@@ -43,18 +38,15 @@ import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.util.GTUtility;
 import gregtech.api.util.KeyUtil;
-import gregtech.api.util.TextComponentUtil;
-import gregtech.api.util.TextFormattingUtil;
+import gregtech.api.util.tooltips.InformationHandler;
+import gregtech.api.util.tooltips.TooltipBuilder;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.blocks.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -64,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static gregtech.api.recipes.logic.OverclockingLogic.heatingCoilOC;
+
 //这是与GCYM的转底炉 巨冰箱同一系列的设备
 //此系列设备不给多线程
 public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockController implements IHeatingCoil {
@@ -74,7 +67,9 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
         super(metaTileEntityId, new RecipeMap[]{
                 RecipeMaps.FURNACE_RECIPES,
                 RecipeMaps.ARC_FURNACE_RECIPES,
-                RecipeMaps.BLAST_RECIPES
+                RecipeMaps.BLAST_RECIPES,
+                RecipeMaps.BURNER_REACTOR_RECIPES,
+                RecipeMaps.ROASTER_RECIPES,
         });
         this.recipeMapWorkable = new MegaBlastFurnaceRecipeLogic(this);
     }
@@ -208,11 +203,9 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
+        InformationHandler.topTooltips("最强熔炉王", tooltip);
         super.addInformation(stack, player, tooltip, advanced);
-        tooltip.add(I18n.format("gregtech.machine.electric_blast_furnace.tooltip.1"));
-        tooltip.add(I18n.format("gregtech.machine.electric_blast_furnace.tooltip.2"));
-        tooltip.add(I18n.format("gregtech.machine.electric_blast_furnace.tooltip.3"));
-        tooltip.add(I18n.format("gregtech.machine.laser_hatch.tooltip"));
+        TooltipBuilder.create().addBlast().addLaser().build(this, tooltip);
     }
 
     @Override
@@ -240,6 +233,7 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
     public int getCurrentTemperature() {
         return this.blastFurnaceTemperature;
     }
+
 
     @SuppressWarnings("InnerClassMayBeStatic")
     private class MegaBlastFurnaceRecipeLogic extends GCYMMultiblockRecipeLogic {

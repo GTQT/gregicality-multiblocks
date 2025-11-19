@@ -31,15 +31,17 @@ gcym.machine.mega_blast_furnace.name=Rotary Hearth Furnace
 gcym.machine.mega_vacuum_freezer.name=Bulk Blast Chiller
 gcym.machine.mega_alloy_blast_smelter.name=Alloy Blast Smelter
 gcym.machine.mega_chemical_reactor.name=Mega Chemical Reactor
+gcym.machine.mega_cracking_unit.name=Mega Cracking Unit
 gcym.machine.steam_engine.name=Industrial Steam Engine
 gcym.machine.steam_engine.tooltip.1=Produces up to %s§7 power.
 gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
 gcym.machine.large_chemical_complex.name=Large Chemical Complex
-
+gcym.machine.large_pyrolyser.name=Large Pyrolyser
 gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
 gcym.tooltip.shift=Press and hold SHIFT to display the detailed threading logic
 gcym.tooltip.parallel_avaliable=-Parallel Support:
 gcym.tooltip.thread_avaliable=-Thread support:
+gcym.tooltip.tiered_avaliable=-Voltage Control:
 gcym.tooltip.parallel_enabled=It can be processed in parallel via § b Parallel Control Warehouse § 7.
 gcym.tooltip.thread_enabled=Multithreading can be done via § b thread control bin § 7.
 gcym.tooltip.tiered_hatch_enabled=Requires §bVoltage Control Units§7 to run.
@@ -78,6 +80,7 @@ gcym.multiblock.mega_vacuum_freezer.description=A massive Vacuum Freezer for ext
 gcym.multiblock.steam_engine.description=A large Steam Engine for effective power production.
 gcym.multiblock.large_circuit_assembler.description=A multiblock Circuit Assembler for fabricating circuits.
 gcym.multiblock.large_chemical_complex.description=A multiblock chemical reactors for a variety of chemical reactions
+gcym.multiblock.large_pyrolyser.description=A multiblock pyrolyser for batch pyrolysis wood
 
 # hatches
 

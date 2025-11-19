@@ -27,6 +27,7 @@ public final class GCYMTextures {
     public static OrientedOverlayRenderer LARGE_DISTILLERY_OVERLAY;
     public static OrientedOverlayRenderer LARGE_ELECTROLYZER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_POLARIZER_OVERLAY;
+    public static OrientedOverlayRenderer LARGE_PYROLYSER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_EXTRUDER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_SOLIDIFIER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_MIXER_OVERLAY;
@@ -84,6 +85,7 @@ public final class GCYMTextures {
         LARGE_DISTILLERY_OVERLAY = new OrientedOverlayRenderer("multiblock/large_distillery");
         LARGE_ELECTROLYZER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_electrolyzer");
         LARGE_POLARIZER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_polarizer");
+        LARGE_PYROLYSER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_pyrolyser");
         LARGE_EXTRUDER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_extruder");
         LARGE_SOLIDIFIER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_solidifier");
         LARGE_MIXER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_mixer");

@@ -1,5 +1,21 @@
 package gregicality.multiblocks.loaders.recipe;
 
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import gregicality.multiblocks.common.metatileentities.GCYMMetaTileEntities;
+import gregtech.api.GregTechAPI;
+import gregtech.api.recipes.ModHandler;
+import gregtech.api.unification.material.MarkerMaterials;
+import gregtech.api.unification.stack.UnificationEntry;
+import gregtech.common.blocks.BlockFusionCasing;
+import gregtech.common.blocks.BlockGlassCasing;
+import gregtech.common.blocks.MetaBlocks;
+import gregtech.common.items.MetaItems;
+import gregtech.common.metatileentities.MetaTileEntities;
+import gregtech.loaders.recipe.CraftingComponent;
+import gregtech.loaders.recipe.MetaTileEntityLoader;
+import org.apache.commons.lang3.ArrayUtils;
+
 import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
@@ -7,29 +23,10 @@ import static gregtech.api.unification.ore.OrePrefix.*;
 import static gregtech.loaders.recipe.CraftingComponent.*;
 import static gregtech.loaders.recipe.MetaTileEntityLoader.registerMachineRecipe;
 
-import net.minecraftforge.fml.common.Loader;
-
-import org.apache.commons.lang3.ArrayUtils;
-
-import gregtech.api.GregTechAPI;
-import gregtech.api.recipes.ModHandler;
-import gregtech.api.unification.material.MarkerMaterials;
-import gregtech.api.unification.stack.UnificationEntry;
-import gregtech.common.blocks.BlockGlassCasing;
-import gregtech.common.blocks.MetaBlocks;
-import gregtech.common.items.MetaItems;
-import gregtech.common.metatileentities.MetaTileEntities;
-import gregtech.loaders.recipe.CraftingComponent;
-import gregtech.loaders.recipe.MetaTileEntityLoader;
-
-import gregicality.multiblocks.api.GCYMValues;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
-import gregicality.multiblocks.common.metatileentities.GCYMMetaTileEntities;
-
 public final class GCYMMetaTileEntityLoader {
 
-    private GCYMMetaTileEntityLoader() {}
+    private GCYMMetaTileEntityLoader() {
+    }
 
     public static void init() {
         ModHandler.addShapedRecipe(true, "large_macerator", GCYMMetaTileEntities.LARGE_MACERATOR.getStackForm(),
@@ -174,6 +171,15 @@ public final class GCYMMetaTileEntityLoader {
                 'O', new UnificationEntry(spring, MolybdenumDisilicide),
                 'W', new UnificationEntry(cableGtSingle, Platinum));
 
+        ModHandler.addShapedRecipe(true, "large_pyrolyser", GCYMMetaTileEntities.LARGE_PYROLYSER.getStackForm(),
+                "LCL", "PSP", "OWO",
+                'L', new UnificationEntry(pipeNormalFluid, Polyethylene),
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.EV),
+                'S', MetaTileEntities.PYROLYSE_OVEN.getStackForm(),
+                'P', MetaItems.ELECTRIC_PUMP_EV.getStackForm(),
+                'O', new UnificationEntry(spring, MolybdenumDisilicide),
+                'W', new UnificationEntry(cableGtSingle, Gold));
+
         ModHandler.addShapedRecipe(true, "large_solidifier", GCYMMetaTileEntities.LARGE_SOLIDIFIER.getStackForm(),
                 "LCL", "PSP", "LWL",
                 'L', new UnificationEntry(pipeNormalFluid, Polyethylene),
@@ -233,66 +239,74 @@ public final class GCYMMetaTileEntityLoader {
                 'P', MetaItems.ELECTRIC_PISTON_IV.getStackForm(),
                 'F', MetaItems.FIELD_GENERATOR_IV.getStackForm());
 
-        // todo replication
-        // ModHandler.addShapedRecipe(true, "large_mass_fabricator",
-        // GCYMMetaTileEntities.LARGE_MASS_FABRICATOR.getStackForm(),
-        // "FCF", "ESE", "FWF",
-        // 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
-        // 'S', MetaTileEntities.MASS_FABRICATOR[ZPM].getStackForm(), //todo mid tier configs
-        // 'F', MetaItems.FIELD_GENERATOR_ZPM.getStackForm(),
-        // 'E', MetaItems.EMITTER_ZPM.getStackForm(),
-        // 'W', new UnificationEntry(cableGtDouble, VanadiumGallium));
+        ModHandler.addShapedRecipe(true, "large_mass_fabricator",
+                GCYMMetaTileEntities.LARGE_MASS_FABRICATOR.getStackForm(),
+                "FCF", "ESE", "FWF",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', MetaTileEntities.MASS_FABRICATOR[ZPM].getStackForm(), //todo mid tier configs
+                'F', MetaItems.FIELD_GENERATOR_ZPM.getStackForm(),
+                'E', MetaItems.EMITTER_ZPM.getStackForm(),
+                'W', new UnificationEntry(cableGtDouble, VanadiumGallium));
 
-        // todo replication
-        // ModHandler.addShapedRecipe(true, "large_replicator", GCYMMetaTileEntities.LARGE_REPLICATOR.getStackForm(),
-        // "FCF", "ESE", "FWF",
-        // 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
-        // 'S', MetaTileEntities.REPLICATOR[ZPM].getStackForm(), //todo mid tier configs
-        // 'F', MetaItems.FIELD_GENERATOR_ZPM.getStackForm(),
-        // 'E', MetaBlocks.FUSION_CASING.getItemVariant(BlockFusionCasing.CasingType.FUSION_COIL),
-        // 'W', new UnificationEntry(cableGtDouble, VanadiumGallium));
 
-        if (!Loader.isModLoaded(GCYMValues.GCYS_MODID)) {
-            ModHandler.addShapedRecipe(true, "mega_blast_furnace",
-                    GCYMMetaTileEntities.MEGA_BLAST_FURNACE.getStackForm(),
-                    "PCP", "FSF", "DWD",
-                    'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
-                    'S', MetaTileEntities.ELECTRIC_BLAST_FURNACE.getStackForm(),
-                    'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
-                    'P', new UnificationEntry(spring, Neutronium),
-                    'D', new UnificationEntry(plateDense, Neutronium),
-                    'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
+        ModHandler.addShapedRecipe(true, "large_replicator", GCYMMetaTileEntities.LARGE_REPLICATOR.getStackForm(),
+                "FCF", "ESE", "FWF",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', MetaTileEntities.REPLICATOR[ZPM].getStackForm(), //todo mid tier configs
+                'F', MetaItems.FIELD_GENERATOR_ZPM.getStackForm(),
+                'E', MetaBlocks.FUSION_CASING.getItemVariant(BlockFusionCasing.CasingType.FUSION_COIL),
+                'W', new UnificationEntry(cableGtDouble, VanadiumGallium));
 
-            ModHandler.addShapedRecipe(true, "mega_vacuum_freezer",
-                    GCYMMetaTileEntities.MEGA_VACUUM_FREEZER.getStackForm(),
-                    "PCP", "FSF", "DWD",
-                    'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
-                    'S', MetaTileEntities.VACUUM_FREEZER.getStackForm(),
-                    'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
-                    'P', new UnificationEntry(pipeNormalFluid, Neutronium),
-                    'D', new UnificationEntry(plateDense, Neutronium),
-                    'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
 
-            ModHandler.addShapedRecipe(true, "mega_alloy_blast_smelter",
-                    GCYMMetaTileEntities.MEGA_ALLOY_BLAST_SMELTER.getStackForm(),
-                    "PCP", "FSF", "DWD",
-                    'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
-                    'S', GCYMMetaTileEntities.ALLOY_BLAST_SMELTER.getStackForm(),
-                    'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
-                    'P', new UnificationEntry(pipeNormalFluid, Neutronium),
-                    'D', new UnificationEntry(plateDense, Neutronium),
-                    'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
+        ModHandler.addShapedRecipe(true, "mega_blast_furnace",
+                GCYMMetaTileEntities.MEGA_BLAST_FURNACE.getStackForm(),
+                "PCP", "FSF", "DWD",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', MetaTileEntities.ELECTRIC_BLAST_FURNACE.getStackForm(),
+                'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                'P', new UnificationEntry(spring, Neutronium),
+                'D', new UnificationEntry(plateDense, Neutronium),
+                'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
 
-            ModHandler.addShapedRecipe(true, "mega_chemical_reactor",
-                    GCYMMetaTileEntities.MEGA_CHEMICAL_REACTOR.getStackForm(),
-                    "PCP", "FSF", "DWD",
-                    'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
-                    'S', MetaTileEntities.LARGE_CHEMICAL_REACTOR.getStackForm(),
-                    'F', MetaItems.ELECTRIC_PUMP_UV.getStackForm(),
-                    'P', new UnificationEntry(pipeNormalFluid, Neutronium),
-                    'D', new UnificationEntry(plateDense, Neutronium),
-                    'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
-        }
+        ModHandler.addShapedRecipe(true, "mega_vacuum_freezer",
+                GCYMMetaTileEntities.MEGA_VACUUM_FREEZER.getStackForm(),
+                "PCP", "FSF", "DWD",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', MetaTileEntities.VACUUM_FREEZER.getStackForm(),
+                'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                'P', new UnificationEntry(pipeNormalFluid, Neutronium),
+                'D', new UnificationEntry(plateDense, Neutronium),
+                'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
+
+        ModHandler.addShapedRecipe(true, "mega_alloy_blast_smelter",
+                GCYMMetaTileEntities.MEGA_ALLOY_BLAST_SMELTER.getStackForm(),
+                "PCP", "FSF", "DWD",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', GCYMMetaTileEntities.ALLOY_BLAST_SMELTER.getStackForm(),
+                'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                'P', new UnificationEntry(pipeNormalFluid, Neutronium),
+                'D', new UnificationEntry(plateDense, Neutronium),
+                'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
+
+        ModHandler.addShapedRecipe(true, "mega_chemical_reactor",
+                GCYMMetaTileEntities.MEGA_CHEMICAL_REACTOR.getStackForm(),
+                "PCP", "FSF", "DWD",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', MetaTileEntities.LARGE_CHEMICAL_REACTOR.getStackForm(),
+                'F', MetaItems.ELECTRIC_PUMP_UV.getStackForm(),
+                'P', new UnificationEntry(pipeNormalFluid, Neutronium),
+                'D', new UnificationEntry(plateDense, Neutronium),
+                'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
+
+        ModHandler.addShapedRecipe(true, "mega_cracking_unit",
+                GCYMMetaTileEntities.MEGA_CRACKING_UNIT.getStackForm(),
+                "PCP", "FSF", "DWD",
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
+                'S', MetaTileEntities.CRACKER.getStackForm(),
+                'F', MetaItems.ELECTRIC_PUMP_UV.getStackForm(),
+                'P', new UnificationEntry(pipeNormalFluid, Neutronium),
+                'D', new UnificationEntry(plateDense, Neutronium),
+                'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
 
         ModHandler.addShapedRecipe(true, "steam_engine", GCYMMetaTileEntities.STEAM_ENGINE.getStackForm(),
                 "FPF", "PCP", "SGS",

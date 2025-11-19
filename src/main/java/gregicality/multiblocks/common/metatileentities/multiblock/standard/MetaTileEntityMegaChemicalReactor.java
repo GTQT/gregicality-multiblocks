@@ -11,13 +11,13 @@ import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.util.tooltips.InformationHandler;
+import gregtech.api.util.tooltips.TooltipBuilder;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
-import gregtech.client.utils.TooltipHelper;
 import gregtech.common.blocks.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -33,7 +33,16 @@ import java.util.List;
 public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockController {
 
     public MetaTileEntityMegaChemicalReactor(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.CHEMICAL_RECIPES,RecipeMaps.POLYMERIZATION_RECIPES, RecipeMaps.LARGE_CHEMICAL_RECIPES});
+        super(metaTileEntityId, new RecipeMap[]{
+                RecipeMaps.CHEMICAL_RECIPES,
+                RecipeMaps.LARGE_CHEMICAL_RECIPES,
+                RecipeMaps.POLYMERIZATION_RECIPES,
+                RecipeMaps.DESULFURIZATION_RECIPES,
+                RecipeMaps.CHEMICAL_DEHYDRATOR_RECIPES,
+                RecipeMaps.CRYOGENIC_REACTOR_RECIPES,
+                RecipeMaps.SONICATION_RECIPES,
+                RecipeMaps.LIGHTNING_PROCESSOR_RECIPES
+        });
         this.recipeMapWorkable = new GCYMMultiblockRecipeLogic(this, true);
     }
 
@@ -88,9 +97,9 @@ public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockCo
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
+        InformationHandler.topTooltips("最强反应釜", tooltip);
         super.addInformation(stack, player, tooltip, advanced);
-        tooltip.add(TooltipHelper.RAINBOW_SLOW + I18n.format("gregtech.machine.perfect_oc"));
-        tooltip.add(I18n.format("gregtech.machine.laser_hatch.tooltip"));
+        TooltipBuilder.create().addPerfectOC().addLaser().build(this, tooltip);
     }
 
     @Override

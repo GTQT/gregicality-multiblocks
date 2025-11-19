@@ -1,33 +1,43 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
-import static gregtech.api.util.RelativeDirection.*;
-
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.ResourceLocation;
-
-import org.jetbrains.annotations.NotNull;
-
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.blocks.BlockTurbineCasing;
 import gregtech.common.blocks.MetaBlocks;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
-import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeWiremill extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeWiremill(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, RecipeMaps.WIREMILL_RECIPES);
+        super(metaTileEntityId, new RecipeMap[]{
+                RecipeMaps.WIREMILL_RECIPES,
+                RecipeMaps.LOOM_RECIPES
+
+        });
+    }
+
+    private static IBlockState getCasingState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                .getState(BlockLargeMultiblockCasing.CasingType.STRESS_PROOF_CASING);
+    }
+
+    private static IBlockState getCasingState2() {
+        return MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.TITANIUM_GEARBOX);
     }
 
     @Override
@@ -49,15 +59,6 @@ public class MetaTileEntityLargeWiremill extends GCYMAdvanceRecipeMapMultiblockC
                 .where('T', tieredCasing().or(air()))
                 .where('#', any())
                 .build();
-    }
-
-    private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
-                .getState(BlockLargeMultiblockCasing.CasingType.STRESS_PROOF_CASING);
-    }
-
-    private static IBlockState getCasingState2() {
-        return MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.TITANIUM_GEARBOX);
     }
 
     @Override
