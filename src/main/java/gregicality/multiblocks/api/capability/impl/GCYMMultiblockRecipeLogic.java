@@ -8,6 +8,8 @@ import gregtech.api.GTValues;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
+import gregtech.api.recipes.logic.OCResult;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -24,32 +26,38 @@ public class GCYMMultiblockRecipeLogic extends MultiblockRecipeLogic {
 
     @Override
     public int getParallelLimit() {
-        if (metaTileEntity instanceof IParallelMultiblock && ((IParallelMultiblock) metaTileEntity).isParallel()) {
-            return ((IParallelMultiblock) metaTileEntity).getMaxParallel();
+        if (metaTileEntity instanceof IParallelMultiblock iParallelMultiblock && iParallelMultiblock.isParallel()) {
+            return iParallelMultiblock.getParallel();
+        }
+        return 1;
+    }
+    /*
+    @Override
+    protected void modifyOverclockPost(@NotNull OCResult ocResult, @NotNull RecipePropertyStorage storage) {
+        super.modifyOverclockPost(ocResult, storage);
+        ocResult.setDuration(ocResult.duration() / getDurationMultiplier());
+    }
+
+    private int getDurationMultiplier() {
+        if (metaTileEntity instanceof IParallelMultiblock parallelMultiblock && parallelMultiblock.isParallel()) {
+            int maxParallel = parallelMultiblock.getParallel();
+            if (maxParallel <= 16) {
+                return maxParallel;
+            }
+            if (maxParallel <= 64) {
+                return maxParallel / 4;
+            }
+            if (maxParallel <= 256) {
+                return maxParallel / 64;
+            }
+            if (maxParallel <= 1024) {
+                return maxParallel / 512;
+            }
         }
         return 1;
     }
 
-    @Override
-    public void setMaxProgress(int maxProgress) {
-        if (metaTileEntity instanceof IParallelMultiblock parallelMultiblock) {
-            int maxParallel = parallelMultiblock.getMaxParallel();
-            if (maxParallel <= 16) {
-                this.maxProgressTime = maxProgress / maxParallel;
-            } else if (maxParallel <= 64) {
-                this.maxProgressTime = (int) (maxProgress * 4.0 / maxParallel);
-            } else if (maxParallel <= 256) {
-                this.maxProgressTime = (int) (maxProgress * 64.0 / maxParallel);
-            } else if (maxParallel <= 1024) {
-                this.maxProgressTime = (int) (maxProgress * 512.0 / maxParallel);
-            } else {
-                this.maxProgressTime = maxProgress;
-            }
-        } else {
-            this.maxProgressTime = maxProgress;
-        }
-    }
-
+     */
 
     @Override
     public @NotNull RecipeMapMultiblockController getMetaTileEntity() {

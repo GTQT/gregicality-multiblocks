@@ -1,47 +1,49 @@
 package gregicality.multiblocks.common.metatileentities.multiblockpart;
 
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.IntSupplier;
-
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.render.pipeline.IVertexOperation;
+import codechicken.lib.vec.Matrix4;
+import com.cleanroommc.modularui.api.drawable.IKey;
+import com.cleanroommc.modularui.factory.PosGuiData;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.utils.MouseData;
+import com.cleanroommc.modularui.value.sync.IntSyncValue;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
+import com.cleanroommc.modularui.value.sync.StringSyncValue;
+import com.cleanroommc.modularui.widgets.ButtonWidget;
+import com.cleanroommc.modularui.widgets.layout.Flow;
+import com.cleanroommc.modularui.widgets.textfield.TextFieldWidget;
+import gregicality.multiblocks.api.capability.IParallelHatch;
+import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregtech.api.GTValues;
+import gregtech.api.capability.GregtechTileCapabilities;
+import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.AbilityInstances;
+import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
+import gregtech.api.metatileentity.multiblock.MultiblockAbility;
+import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
+import gregtech.api.mui.GTGuiTextures;
+import gregtech.api.mui.GTGuis;
+import gregtech.api.util.GTUtility;
+import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
+import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import gregtech.api.GTValues;
-import gregtech.api.capability.GregtechTileCapabilities;
-import gregtech.api.gui.GuiTextures;
-import gregtech.api.gui.ModularUI;
-import gregtech.api.gui.widgets.*;
-import gregtech.api.metatileentity.MetaTileEntity;
-import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
-import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
-import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
-import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
-import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
-
-import gregicality.multiblocks.api.capability.IParallelHatch;
-import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
-import gregicality.multiblocks.api.render.GCYMTextures;
-
-import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.pipeline.IVertexOperation;
-import codechicken.lib.vec.Matrix4;
+import java.util.List;
 
 public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
-                                         implements IMultiblockAbilityPart<IParallelHatch>, IParallelHatch {
-
-    private static final int MIN_PARALLEL = 1;
+        implements IMultiblockAbilityPart<IParallelHatch>, IParallelHatch {
 
     private final int maxParallel;
 
@@ -49,7 +51,7 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
 
     public MetaTileEntityParallelHatch(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, tier);
-        this.maxParallel = (int) Math.pow(2, tier+1);
+        this.maxParallel = (int) Math.pow(2, tier + 1);
         this.currentParallel = this.maxParallel;
     }
 
@@ -63,61 +65,84 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
         return currentParallel;
     }
 
+    @Override
     public void setCurrentParallel(int parallelAmount) {
-        this.currentParallel = MathHelper.clamp(this.currentParallel + parallelAmount, 1, this.maxParallel);
+        this.currentParallel = MathHelper.clamp(parallelAmount, 1, this.maxParallel);
     }
 
     @Override
-    protected ModularUI createUI( EntityPlayer entityPlayer) {
-        ServerWidgetGroup parallelAmountGroup = new ServerWidgetGroup(() -> true);
-        parallelAmountGroup.addWidget(new ImageWidget(62, 36, 53, 20, GuiTextures.DISPLAY)
-                .setTooltip("gcym.machine.parallel_hatch.display"));
-
-        parallelAmountGroup.addWidget(new IncrementButtonWidget(118, 36, 30, 20, maxParallel>64?maxParallel/64:1,  maxParallel>32?maxParallel/32:1, maxParallel>16?maxParallel/16:1, maxParallel/4, this::setCurrentParallel)
-                .setDefaultTooltip()
-                .setShouldClientCallback(false));
-        parallelAmountGroup.addWidget(new IncrementButtonWidget(29, 36, 30, 20,  maxParallel>64?-maxParallel/64:-1, maxParallel>32?-maxParallel/32:-1,  maxParallel>16?-maxParallel/16:-1, -maxParallel/4, this::setCurrentParallel)
-                .setDefaultTooltip()
-                .setShouldClientCallback(false));
-
-        parallelAmountGroup.addWidget(new TextFieldWidget2(63, 42, 51, 20, this::getParallelAmountToString, val -> {
-            if (val != null && !val.isEmpty()) {
-                setCurrentParallel(Integer.parseInt(val));
-            }
-        })
-                .setCentered(true)
-                .setNumbersOnly(1, this.maxParallel)
-                .setMaxLength(6)
-                .setValidator(getTextFieldValidator(() -> this.maxParallel)));
-
-        return ModularUI.defaultBuilder()
-                .widget(new LabelWidget(5, 5, getMetaFullName()))
-                .widget(parallelAmountGroup)
-                .bindPlayerInventory(entityPlayer.inventory, GuiTextures.SLOT, 0)
-                .build(getHolder(), entityPlayer);
+    public int getMaxParallel() {
+        return this.maxParallel;
     }
 
-    public String getParallelAmountToString() {
-        return Integer.toString(this.currentParallel);
+    @Override
+    public boolean usesMui2() {
+        return true;
     }
 
-    public static @NotNull Function<String, String> getTextFieldValidator(IntSupplier maxSupplier) {
-        return val -> {
-            if (val.isEmpty())
-                return String.valueOf(MIN_PARALLEL);
-            int max = maxSupplier.getAsInt();
-            int num;
-            try {
-                num = Integer.parseInt(val);
-            } catch (NumberFormatException ignored) {
-                return String.valueOf(max);
-            }
-            if (num < MIN_PARALLEL)
-                return String.valueOf(MIN_PARALLEL);
-            if (num > max)
-                return String.valueOf(max);
-            return val;
-        };
+    @Override
+    public ModularPanel buildUI(PosGuiData guiData, PanelSyncManager guiSyncManager, UISettings settings) {
+        IntSyncValue currentParallelValue = new IntSyncValue(this::getCurrentParallel, this::setCurrentParallel);
+        guiSyncManager.syncValue("currentParallelValue", currentParallelValue);
+
+        IntSyncValue maxParallelValue = new IntSyncValue(
+                this::getMaxParallel,
+                value -> {
+                }
+        );
+        guiSyncManager.syncValue("maxParallelValue", maxParallelValue);
+
+        StringSyncValue currentParallelStringValue = new StringSyncValue(
+                // 获取值的方法
+                () -> "并行数量：" + this.currentParallel,
+                str -> {
+                }
+        );
+
+        return GTGuis.createPanel(this, 176, 126)
+                .child(IKey.lang(getMetaFullName()).asWidget().pos(5, 5))
+                .child(Flow.row()
+                        .top(18)
+                        .height(20)
+                        .child(new ButtonWidget<>()
+                                .left(5).width(40)
+                                .height(18)
+                                .tooltip(tooltip -> tooltip
+                                        .addLine(IKey.lang("减小并行数量")))
+                                .onMousePressed(mouseButton -> {
+                                    currentParallelValue.setValue(MathHelper.clamp(
+                                            currentParallelValue.getValue() -
+                                                    GTUtility.getIncrementValue(MouseData.create(mouseButton)), 1,
+                                            maxParallelValue.getValue()));
+                                    return true;
+                                })
+                                .onUpdateListener(widget -> widget.overlay(GTUtility.createAdjustOverlay(false)))
+                        )
+                        .child(new TextFieldWidget()
+                                .left(50)
+                                .width(76)
+                                .height(18)
+                                .setValidator(str -> currentParallelStringValue.getValue())
+                                .value(currentParallelStringValue)
+                                .background(GTGuiTextures.DISPLAY)
+                        )
+                        .child(new ButtonWidget<>()
+                                .left(131)
+                                .width(40)
+                                .height(18)
+                                .tooltip(tooltip -> tooltip
+                                        .addLine(IKey.lang("增大并行数量")))
+                                .onMousePressed(mouseButton -> {
+                                    currentParallelValue.setValue(MathHelper.clamp(
+                                            currentParallelValue.getValue() +
+                                                    GTUtility.getIncrementValue(MouseData.create(mouseButton)), 1,
+                                            maxParallelValue.getValue()));
+                                    return true;
+                                })
+                                .onUpdateListener(widget -> widget.overlay(GTUtility.createAdjustOverlay(true)))
+                        )
+                )
+                .bindPlayerInventory();
     }
 
     @Override
@@ -144,11 +169,11 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
         super.renderMetaTileEntity(renderState, translation, pipeline);
         if (shouldRenderOverlay()) {
             OrientedOverlayRenderer overlayRenderer;
-            if (getTier() == GTValues.IV)
+            if (getTier() <= GTValues.HV)
                 overlayRenderer = GCYMTextures.PARALLEL_HATCH_MK1_OVERLAY;
-            else if (getTier() == GTValues.LuV)
+            else if (getTier() <= GTValues.LuV)
                 overlayRenderer = GCYMTextures.PARALLEL_HATCH_MK2_OVERLAY;
-            else if (getTier() == GTValues.ZPM)
+            else if (getTier() <= GTValues.UHV)
                 overlayRenderer = GCYMTextures.PARALLEL_HATCH_MK3_OVERLAY;
             else
                 overlayRenderer = GCYMTextures.PARALLEL_HATCH_MK4_OVERLAY;
