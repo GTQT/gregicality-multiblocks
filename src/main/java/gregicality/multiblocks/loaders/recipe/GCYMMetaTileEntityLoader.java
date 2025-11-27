@@ -327,6 +327,7 @@ public final class GCYMMetaTileEntityLoader {
                 'P', MetaItems.CONVEYOR_MODULE_LuV.getStackForm(),
                 'S', MetaTileEntities.CIRCUIT_ASSEMBLER[LuV].getStackForm(),
                 'W', new UnificationEntry(cableGtSingle, NiobiumTitanium));
+
         // Parallel Hatches
         registerMachineRecipe(GCYMMetaTileEntities.PARALLEL_HATCH,
                 "SCE", "CHC", "WCW",

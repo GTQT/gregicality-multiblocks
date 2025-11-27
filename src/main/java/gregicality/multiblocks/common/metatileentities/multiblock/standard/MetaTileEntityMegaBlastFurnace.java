@@ -1,7 +1,7 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 
-import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
+import gregicality.multiblocks.api.capability.impl.GCYMHeatCoilRecipeLogic;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
 import gregicality.multiblocks.common.block.GCYMMetaBlocks;
@@ -19,7 +19,6 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.metatileentity.multiblock.ui.KeyManager;
 import gregtech.api.metatileentity.multiblock.ui.MultiblockUIBuilder;
 import gregtech.api.metatileentity.multiblock.ui.UISyncer;
@@ -30,10 +29,6 @@ import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.recipes.logic.OCParams;
-import gregtech.api.recipes.logic.OCResult;
-import gregtech.api.recipes.logic.OverclockingLogic;
-import gregtech.api.recipes.properties.RecipePropertyStorage;
 import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.util.GTUtility;
@@ -55,8 +50,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static gregtech.api.recipes.logic.OverclockingLogic.heatingCoilOC;
-
 //这是与GCYM的转底炉 巨冰箱同一系列的设备
 //此系列设备不给多线程
 public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockController implements IHeatingCoil {
@@ -71,7 +64,7 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
                 RecipeMaps.BURNER_REACTOR_RECIPES,
                 RecipeMaps.ROASTER_RECIPES,
         });
-        this.recipeMapWorkable = new MegaBlastFurnaceRecipeLogic(this);
+        this.recipeMapWorkable = new GCYMHeatCoilRecipeLogic(this);
     }
 
     private static IBlockState getCasingState() {
@@ -232,30 +225,5 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
     @Override
     public int getCurrentTemperature() {
         return this.blastFurnaceTemperature;
-    }
-
-
-    @SuppressWarnings("InnerClassMayBeStatic")
-    private class MegaBlastFurnaceRecipeLogic extends GCYMMultiblockRecipeLogic {
-
-        public MegaBlastFurnaceRecipeLogic(RecipeMapMultiblockController metaTileEntity) {
-            super(metaTileEntity);
-        }
-
-        @Override
-        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
-            super.modifyOverclockPre(ocParams, storage);
-            // coil EU/t discount
-            ocParams.setEut(OverclockingLogic.applyCoilEUtDiscount(ocParams.eut(),
-                    ((IHeatingCoil) metaTileEntity).getCurrentTemperature(),
-                    storage.get(TemperatureProperty.getInstance(), 0)));
-        }
-
-        @Override
-        protected void runOverclockingLogic(@NotNull OCParams ocParams, @NotNull OCResult ocResult,
-                                            @NotNull RecipePropertyStorage propertyStorage, long maxVoltage) {
-            heatingCoilOC(ocParams, ocResult, maxVoltage, ((IHeatingCoil) metaTileEntity).getCurrentTemperature(),
-                    propertyStorage.get(TemperatureProperty.getInstance(), 0));
-        }
     }
 }
