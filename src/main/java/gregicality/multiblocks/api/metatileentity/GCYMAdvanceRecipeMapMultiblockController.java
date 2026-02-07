@@ -16,7 +16,6 @@ import gregicality.multiblocks.api.tooltips.ThreadMultiblockInformation;
 import gregicality.multiblocks.api.tooltips.TiredMultiblockInformation;
 import gregicality.multiblocks.common.GCYMConfigHolder;
 import gregtech.api.metatileentity.multiblock.AdvanceMultiMapMultiblockController;
-import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.ui.MultiblockUIFactory;
 import gregtech.api.mui.GTGuiTextures;
 import gregtech.api.mui.GTGuis;

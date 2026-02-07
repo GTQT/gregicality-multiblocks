@@ -43,10 +43,10 @@ dependencies {
 
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
 
-    implementation rfg.deobf("curse.maven:ae2-fluid-crafting-rework-623955:5751930") // AE2FC 2.6.6
-    implementation rfg.deobf("curse.maven:ae2-extended-life-570458:6302098") // AE2FC 2.6.6
+    implementation rfg.deobf(files("libs/ae2fc-2.7.10-unofficial.jar"))
+    implementation rfg.deobf(files("libs/appliedenergistics2-v1.0.5-gtqt.jar"))
+    implementation rfg.deobf(files("libs/gregtech-gtqt-1.12.2-2.9.0-190.jar"))
 
-    implementation rfg.deobf(files("libs/!mixinbooter-8.9.jar"))
-    implementation rfg.deobf(files("libs/gregtech-MeowmelMuku-1.12.2-2.9.0-190.jar"))
+    implementation rfg.deobf("curse.maven:mixin-booter-419286:7049694")
     api rfg.deobf("curse.maven:ctm-267602:2915363") // CTM 1.0.2.31
 }
