@@ -153,7 +153,11 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
 
     @Override
     public boolean checkRecipe(@NotNull Recipe recipe, boolean consumeIfSuccess) {
-        return this.blastFurnaceTemperature >= recipe.getProperty(TemperatureProperty.getInstance(), 0);
+        int recipeTemp = recipe.getProperty(TemperatureProperty.getInstance(), 0);
+        if(this.blastFurnaceTemperature >= recipeTemp)
+            return true;
+        recipeMapWorkable.setWhyFailed("线圈温度过低，配方需求至少 "+ recipeTemp + " K温度");
+        return false;
     }
 
     @Override
