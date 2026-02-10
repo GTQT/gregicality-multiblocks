@@ -1,6 +1,7 @@
 package gregicality.multiblocks.api.capability.impl;
 
 import gregicality.multiblocks.api.capability.IParallelMultiblock;
+import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import gregicality.multiblocks.api.metatileentity.GCYMMultiblockAbility;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
 import gregicality.multiblocks.common.GCYMConfigHolder;
@@ -67,6 +68,9 @@ public class GCYMMultiblockRecipeLogic extends MultiblockRecipeLogic {
     @Override
     public long getMaxVoltage() {
         if (!GCYMConfigHolder.globalMultiblocks.enableTieredCasings)
+            return super.getMaxVoltage();
+
+        if (getMetaTileEntity() instanceof GCYMAdvanceRecipeMapMultiblockController controller && !controller.isTiered())
             return super.getMaxVoltage();
 
         if (getMetaTileEntity() instanceof GCYMRecipeMapMultiblockController controller && !controller.isTiered())

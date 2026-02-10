@@ -49,13 +49,15 @@ public class MetaTileEntityLargeBender extends GCYMAdvanceRecipeMapMultiblockCon
     protected @NotNull BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
                 .aisle("XXXXXXX", "XXXXXXX", "XXXXXXX")
-                .aisle("XXXXXXX", "XTXGGGX", "XXXXXXX")
+                .aisle("XXXXXXX", "XXXGGGX", "XXXXXXX")
                 .aisle("XXXXXXX", "XSXCCCX", "XXXXXXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(40)
+                        .or(autoAbilities())
+                        .or(tieredCasing())
+                )
                 .where('G', states(getCasingState2()))
                 .where('C', states(getCasingState3()))
-                .where('T', tieredCasing().or(air()))
                 .build();
     }
 

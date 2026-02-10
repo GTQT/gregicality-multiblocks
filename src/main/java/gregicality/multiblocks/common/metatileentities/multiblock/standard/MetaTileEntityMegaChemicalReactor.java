@@ -67,7 +67,9 @@ public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockCo
                 .where('E', states(getCasingState())
                         .or(autoAbilities())
                         .or(abilities(MultiblockAbility.INPUT_LASER)
-                                .setMaxGlobalLimited(1)))
+                                .setMaxGlobalLimited(1))
+                        .or(tieredCasing())
+                )
                 .where('H', states(getCasingState()))
                 .build();
     }

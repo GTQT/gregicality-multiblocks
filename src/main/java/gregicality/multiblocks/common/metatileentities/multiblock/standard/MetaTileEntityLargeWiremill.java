@@ -49,14 +49,16 @@ public class MetaTileEntityLargeWiremill extends GCYMAdvanceRecipeMapMultiblockC
     protected @NotNull BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start(FRONT, UP, RIGHT)
                 .aisle("XXX", "XXX", "XXX")
-                .aisle("XXX", "STX", "XXX")
+                .aisle("XXX", "SCX", "XXX")
                 .aisle("XXX", "XCX", "XX#")
                 .aisle("XXX", "XCX", "#X#")
                 .aisle("XXX", "XXX", "#X#")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(25).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(25)
+                        .or(autoAbilities())
+                        .or(tieredCasing())
+                )
                 .where('C', states(getCasingState2()))
-                .where('T', tieredCasing().or(air()))
                 .where('#', any())
                 .build();
     }

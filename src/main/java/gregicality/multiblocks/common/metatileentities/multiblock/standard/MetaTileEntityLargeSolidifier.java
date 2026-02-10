@@ -44,13 +44,15 @@ public class MetaTileEntityLargeSolidifier extends GCYMAdvanceRecipeMapMultibloc
     protected @NotNull BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start(RIGHT, FRONT, UP)
                 .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
-                .aisle("#XSX#", "XCTCX", "XAAAX", "XCACX", "#XXX#")
+                .aisle("#XSX#", "XCCCX", "XAAAX", "XCACX", "#XXX#")
                 .aisle("#XXX#", "XCACX", "XAAAX", "XCACX", "#XXX#")
                 .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(45).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(45)
+                        .or(autoAbilities())
+                        .or(tieredCasing())
+                )
                 .where('C', states(getCasingState2()))
-                .where('T', tieredCasing().or(air()))
                 .where('A', air())
                 .where('#', any())
                 .build();

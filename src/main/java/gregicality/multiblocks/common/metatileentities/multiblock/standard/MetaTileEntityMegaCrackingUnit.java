@@ -71,6 +71,7 @@ public class MetaTileEntityMegaCrackingUnit extends GCYMRecipeMapMultiblockContr
                         .or(abilities(MultiblockAbility.INPUT_ENERGY).setMaxGlobalLimited(3))
                         .or(abilities(MultiblockAbility.INPUT_LASER).setMaxGlobalLimited(1))
                         .or(abilities(MultiblockAbility.MAINTENANCE_HATCH).setExactLimit(1))
+                        .or(tieredCasing())
                 )
                 .where('G', states(getGlassState()))
                 .where('L', heatingCoils())

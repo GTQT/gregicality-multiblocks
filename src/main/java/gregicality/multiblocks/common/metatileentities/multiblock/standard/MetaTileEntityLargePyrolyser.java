@@ -70,11 +70,11 @@ public class MetaTileEntityLargePyrolyser extends GCYMRecipeMapMultiblockControl
                 .where('S', selfPredicate())
                 .where('X',
                         states(getCasingState()).setMinGlobalLimited(35)
+                                .or(tieredCasing())
                                 .or(autoAbilities(true, true, true, true, true, true, false)))
                 .where('C', heatingCoils())
                 .where('P', states(getCasingState3()))
                 .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('T', tieredCasing().or(states(getCasingState())))
                 .where('A', air())
                 .build();
     }

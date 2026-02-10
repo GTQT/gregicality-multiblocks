@@ -46,12 +46,14 @@ public class MetaTileEntityLargeCentrifuge extends GCYMAdvanceRecipeMapMultibloc
     protected @NotNull BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start(RIGHT, FRONT, UP)
                 .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
-                .aisle("XXSXX", "XACAX", "XCTCX", "XACAX", "XXXXX")
+                .aisle("XXSXX", "XACAX", "XCCCX", "XACAX", "XXXXX")
                 .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(40)
+                        .or(autoAbilities())
+                        .or(tieredCasing())
+                )
                 .where('C', states(getCasingState2()))
-                .where('T', tieredCasing().or(air()))
                 .where('A', air())
                 .where('#', any())
                 .build();

@@ -40,7 +40,10 @@ public class MetaTileEntityLargePackager extends GCYMAdvanceRecipeMapMultiblockC
                 .aisle("XXX", "XAX", "XXX").setRepeatable(3)
                 .aisle("XXX", "XSX", "XXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(30).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(30)
+                        .or(autoAbilities())
+                        .or(tieredCasing())
+                )
                 .where('A', air())
                 .build();
     }

@@ -161,6 +161,7 @@ public class MetaTileEntityMegaAlloyBlastSmelter extends GCYMRecipeMapMultiblock
                         .setMinGlobalLimited(15)
                         .or(abilities(MultiblockAbility.INPUT_LASER)
                                 .setMaxGlobalLimited(1))
+                        .or(tieredCasing())
                         .or(autoAbilities(true, true, true, true, true, true, false))
                 )
                 .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))

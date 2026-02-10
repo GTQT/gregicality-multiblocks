@@ -49,13 +49,15 @@ public class MetaTileEntityLargeExtruder extends GCYMAdvanceRecipeMapMultiblockC
                 .aisle("##XXX", "##XXX", "##XXX")
                 .aisle("##XXX", "##XPX", "##XGX").setRepeatable(2)
                 .aisle("XXXXX", "XXXPX", "XXXGX")
-                .aisle("XXXXX", "XTXPX", "XXXGX")
+                .aisle("XXXXX", "XXXPX", "XXXGX")
                 .aisle("XXXXX", "XSXXX", "XXXXX")
                 .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(40)
+                        .or(autoAbilities())
+                        .or(tieredCasing())
+                )
                 .where('P', states(getCasingState2()))
                 .where('G', states(getCasingState3()))
-                .where('T', tieredCasing().or(air()))
                 .where('#', any())
                 .build();
     }
