@@ -21,6 +21,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import static gregtech.api.GTValues.MV;
 import static gregtech.api.GTValues.VA;
 
@@ -140,23 +142,35 @@ public class AlloyBlastRecipeProducer {
     protected void buildRecipes(@NotNull BlastProperty property, @NotNull Fluid molten, int outputAmount,
                                 int componentAmount,
                                 @NotNull RecipeBuilder<BlastRecipeBuilder> builder) {
-        // add the fluid output with the correct amount
         builder.fluidOutputs(new FluidStack(molten, GTValues.L * outputAmount));
 
-        // apply alloy blast duration reduction: 3/4
         int duration = builder.getDuration() * outputAmount * 3 / 4;
 
-        // build the gas recipe if it exists
-        if (property.getGasTier() != null) {
-            RecipeBuilder<BlastRecipeBuilder> builderGas = builder.copy();
-            FluidStack gas = CraftingComponent.EBF_GASES.get(property.getGasTier());
-            builderGas.notConsumable(new IntCircuitIngredient(getGasCircuitNum(componentAmount)))
-                    .fluidInputs(new FluidStack(gas, gas.amount * outputAmount))
-                    .duration((int) (duration * 0.67))
-                    .buildAndRegister();
+        BlastProperty.GasTier requiredTier = property.getGasTier();
+        if (requiredTier != null) {
+            int baseGasDuration = (int) (duration * 0.75);
+
+            for (BlastProperty.GasTier tier : BlastProperty.GasTier.values()) {
+                if (tier.ordinal() >= requiredTier.ordinal()) {
+                    List<FluidStack> gases = CraftingComponent.EBF_GASES.get(tier);
+                    if (gases != null && !gases.isEmpty()) {
+                        int tierDiff = tier.ordinal() - requiredTier.ordinal();
+                        int newDuration = (int) (baseGasDuration * (1 - 0.1 * tierDiff));
+                        if (newDuration < 1) newDuration = 1;
+
+                        for (FluidStack gas : gases) {
+                            RecipeBuilder<BlastRecipeBuilder> builderGas = builder.copy();
+                            builderGas.notConsumable(new IntCircuitIngredient(getGasCircuitNum(componentAmount)))
+                                    .fluidInputs(new FluidStack(gas.getFluid(), gas.amount * outputAmount))
+                                    .duration(newDuration)
+                                    .buildAndRegister();
+                        }
+                    }
+                }
+            }
         }
 
-        // build the non-gas recipe
+        // 非气体配方（始终存在）
         builder.notConsumable(new IntCircuitIngredient(getCircuitNum(componentAmount)))
                 .duration(duration)
                 .buildAndRegister();
