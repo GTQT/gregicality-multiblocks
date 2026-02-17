@@ -1,6 +1,7 @@
 package gregicality.multiblocks.api.unification;
 
 import gregtech.api.unification.material.Material;
+import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.info.MaterialIconSet;
 import gregtech.api.unification.material.properties.BlastProperty;
 import gregtech.api.unification.material.properties.MaterialToolProperty;
@@ -23,31 +24,37 @@ public final class GCYMFirstDegreeMaterials {
     }
 
     public static void init() {
-        Stellite100 = new Material.Builder(getStartID(), gcymId("stellite_100"))
+        Stellite = new Material.Builder(getStartID(), gcymId("stellite"))
                 .ingot().fluid()
                 .color(0xDEDEFF).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
-                .components(Iron, 4, Chrome, 3, Tungsten, 2, Molybdenum, 1)
+                .components(Materials.Cobalt, 7, Materials.Chrome, 7, Materials.Manganese, 4, Materials.Titanium, 2)
                 .toolStats(MaterialToolProperty.Builder.of(10.0F, 7.0F, 2048, 4)
                         .enchantability(14).build())
                 .rotorStats(10.0f, 4.0f, 2560)
                 .fluidPipeProperties(3790, 250, true, true, false, false)
-                .blast(b -> b.temp(3790, BlastProperty.GasTier.HIGH).blastStats(VA[EV], 1000))
+                .blast(b -> b.temp(4585, BlastProperty.GasTier.HIGH).blastStats(VA[EV]))
+                .mix(VA[EV],80)
                 .build();
 
         WatertightSteel = new Material.Builder(getStartID(), gcymId("watertight_steel"))
                 .ingot().fluid()
                 .color(0x355D6A).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
-                .components(Iron, 7, Aluminium, 4, Nickel, 2, Chrome, 1, Sulfur, 1)
+                .components(Steel, 12, Carbon, 2, Manganese, 1, Silicon, 2, Phosphorus, 1, Sulfur, 1, Aluminium, 4)
                 .blast(b -> b.temp(3850, BlastProperty.GasTier.MID).blastStats(VA[EV], 800))
+                .build();
+
+        MaragingSteel250 = new Material.Builder(getStartID(), gcymId("maraging_steel_250"))
+                .ingot().fluid()
+                .color(0x9083C0).iconSet(MaterialIconSet.METALLIC)
+                .components(Steel, 16, Molybdenum, 1, Titanium, 1, Nickel, 4, Cobalt, 2)
+                .mix()
+                .blast(2685)
                 .build();
 
         MaragingSteel300 = new Material.Builder(getStartID(), gcymId("maraging_steel_300"))
                 .ingot().fluid()
                 .color(0x637087).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
-                .components(Iron, 16, Titanium, 1, Aluminium, 1, Nickel, 4, Cobalt, 2)
+                .components(Steel, 16, Titanium, 1, Aluminium, 1, Nickel, 4, Cobalt, 2)
                 .toolStats(MaterialToolProperty.Builder.of(10.0F, 8.0F, 2048, 5)
                         .enchantability(14).build())
                 .rotorStats(9.0f, 4.0f, 2800)
@@ -55,11 +62,17 @@ public final class GCYMFirstDegreeMaterials {
                 .blast(b -> b.temp(4000, BlastProperty.GasTier.HIGH).blastStats(VA[EV], 1000))
                 .build();
 
+        MaragingSteel350 = new Material.Builder(getStartID(), gcymId("maraging_steel_350"))
+                .ingot().fluid()
+                .color(0x7985B7).iconSet(MaterialIconSet.METALLIC)
+                .components(Steel, 16, Aluminium, 1, Molybdenum, 1, Nickel, 4, Cobalt, 2)
+                .blast(b -> b.temp(4000, BlastProperty.GasTier.HIGH).blastStats(VA[EV], 1000))
+                .build();
+
         HastelloyC276 = new Material.Builder(getStartID(), gcymId("hastelloy_c_276"))
                 .ingot().fluid()
                 .color(0xCF3939).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
-                .components(Nickel, 12, Molybdenum, 8, Chrome, 7, Tungsten, 1, Cobalt, 1, Copper, 1)
+                .components(Nickel, 32, Molybdenum, 8, Chrome, 7, Tungsten, 1, Cobalt, 1, Copper, 1)
                 .toolStats(MaterialToolProperty.Builder.of(12.0F, 8.0F, 2048, 5)
                         .enchantability(14).build())
                 .rotorStats(12.0f, 4.0f, 2800)
@@ -70,8 +83,7 @@ public final class GCYMFirstDegreeMaterials {
         HastelloyX = new Material.Builder(getStartID(), gcymId("hastelloy_x"))
                 .ingot().fluid()
                 .color(0x6BA3E3).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
-                .components(Nickel, 8, Iron, 3, Tungsten, 4, Molybdenum, 2, Chrome, 1, Niobium, 1)
+                .components(Nickel, 24, Chrome, 11, Iron, 9, Molybdenum, 4, Manganese, 1, Silicon, 1)
                 .toolStats(MaterialToolProperty.Builder.of(12.0F, 8.0F, 2048, 6)
                         .enchantability(14).build())
                 .rotorStats(12.0f, 6.0f, 3200)
@@ -79,10 +91,23 @@ public final class GCYMFirstDegreeMaterials {
                 .blast(b -> b.temp(4200, BlastProperty.GasTier.HIGH).blastStats(VA[EV], 900))
                 .build();
 
+        HastelloyN = new Material.Builder(getStartID(), gcymId("hastelloy_n"))
+                .ingot().fluid()
+                .color(0x9C97C4).iconSet(MaterialIconSet.METALLIC)
+                .components(Yttrium, 4, Molybdenum, 4, Chrome, 2, Titanium, 2, Nickel, 15)
+                .blast(b -> b.temp(4000, BlastProperty.GasTier.HIGH).blastStats(VA[EV], 800))
+                .build();
+
+        HastelloyW = new Material.Builder(getStartID(), gcymId("hastelloy_w"))
+                .ingot().fluid()
+                .color(0xC0B6D0).iconSet(MaterialIconSet.METALLIC)
+                .components(Iron, 3, Cobalt, 1, Molybdenum, 12, Chrome, 3, Nickel, 31)
+                .blast(b -> b.temp(3800, BlastProperty.GasTier.MID).blastStats(VA[HV], 600))
+                .build();
+
         Trinaquadalloy = new Material.Builder(getStartID(), gcymId("trinaquadalloy"))
                 .ingot().fluid()
                 .color(0x281832).iconSet(MaterialIconSet.BRIGHT)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
                 .components(Trinium, 6, Naquadah, 2, Carbon, 1)
                 .toolStats(MaterialToolProperty.Builder.of(12.0F, 10.0F, 3200, 6)
                         .enchantability(14).build())
@@ -95,19 +120,17 @@ public final class GCYMFirstDegreeMaterials {
         Zeron100 = new Material.Builder(getStartID(), gcymId("zeron_100"))
                 .ingot().fluid()
                 .color(0x325A8C).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
-                .components(Iron, 10, Nickel, 2, Tungsten, 2, Niobium, 1, Cobalt, 1)
+                .components(Chrome, 13, Nickel, 3, Molybdenum, 2, Copper, 10, Tungsten, 2, Steel, 20)
                 .toolStats(MaterialToolProperty.Builder.of(10.0F, 6.0F, 2048, 5)
                         .enchantability(14).build())
                 .rotorStats(10.0f, 6.0f, 2800)
                 .fluidPipeProperties(3693, 420, true, true, false, false)
-                .blast(b -> b.temp(3693, BlastProperty.GasTier.MID).blastStats(VA[EV], 1000))
+                .blast(b -> b.temp(3693, BlastProperty.GasTier.MID).blastStats(VA[LuV]))
                 .build();
 
         TitaniumCarbide = new Material.Builder(getStartID(), gcymId("titanium_carbide"))
                 .ingot().fluid()
                 .color(0xB20B3A).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
                 .components(Titanium, 1, Carbon, 1)
                 .toolStats(MaterialToolProperty.Builder.of(10.0F, 6.0F, 2048, 5)
                         .enchantability(14).build())
@@ -119,7 +142,6 @@ public final class GCYMFirstDegreeMaterials {
         TantalumCarbide = new Material.Builder(getStartID(), gcymId("tantalum_carbide"))
                 .ingot().fluid()
                 .color(0x56566A).iconSet(MaterialIconSet.METALLIC)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
                 .components(Tantalum, 1, Carbon, 1)
                 .toolStats(MaterialToolProperty.Builder.of(8.0F, 6.0F, 2048, 5)
                         .enchantability(14).build())
@@ -131,7 +153,7 @@ public final class GCYMFirstDegreeMaterials {
         MolybdenumDisilicide = new Material.Builder(getStartID(), gcymId("molybdenum_disilicide"))
                 .ingot().fluid()
                 .color(0x6A5BA3).iconSet(MaterialIconSet.METALLIC)
-                .flags(EXT_METAL, GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FOIL, GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_DOUBLE_PLATE, GENERATE_ROD, GENERATE_LONG_ROD, GENERATE_RING, GENERATE_ROUND, GENERATE_BOLT_SCREW, GENERATE_FRAME, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_ROTOR)
+                .flags(EXT_METAL)
                 .components(Molybdenum, 1, Silicon, 2)
                 .toolStats(MaterialToolProperty.Builder.of(60F, 6.0F, 2048, 4)
                         .enchantability(14).build())

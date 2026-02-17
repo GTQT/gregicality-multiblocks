@@ -38,7 +38,7 @@ public final class GCYMCasingLoader {
         ModHandler.addShapedRecipe(true, "casing_large_assembler",
                 GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.ASSEMBLING_CASING, numCasings),
-                "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, GCYMMaterials.Stellite100), 'F',
+                "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, GCYMMaterials.Stellite), 'F',
                 new UnificationEntry(OrePrefix.frameGt, Materials.Tungsten));
         ModHandler.addShapedRecipe(true, "casing_stress_proof",
                 GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
@@ -109,7 +109,7 @@ public final class GCYMCasingLoader {
                 .duration(50).EUt(16).buildAndRegister();
 
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
-                .input(OrePrefix.plate, GCYMMaterials.Stellite100, 6)
+                .input(OrePrefix.plate, GCYMMaterials.Stellite, 6)
                 .input(OrePrefix.frameGt, Materials.Tungsten)
                 .notConsumable(new IntCircuitIngredient(6))
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING

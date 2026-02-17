@@ -151,11 +151,15 @@ tile.large_multiblock_casing.steam_casing.name=Industrial Steam Casing
 recipemap.alloy_blast_smelter.name=Alloy Blast Smelting
 
 # Materials
-gcym.material.stellite_100=Stellite-100
+gcym.material.stellite=Stellite
 gcym.material.watertight_steel=Watertight Steel
+gcym.material.maraging_steel_250=Maraging Steel 250
 gcym.material.maraging_steel_300=Maraging Steel 300
+gcym.material.maraging_steel_350=Maraging Steel 350
 gcym.material.hastelloy_c_276=Hastelloy-C276
 gcym.material.hastelloy_x=Hastelloy-X
+gcym.material.hastelloy_n=Hastelloy-N
+gcym.material.hastelloy_w=Hastelloy-W
 gcym.material.trinaquadalloy=Trinaquadalloy
 gcym.material.zeron_100=Zeron-100
 gcym.material.titanium_carbide=Titanium Carbide

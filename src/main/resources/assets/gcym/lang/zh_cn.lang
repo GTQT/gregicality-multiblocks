@@ -150,11 +150,15 @@ tile.large_multiblock_casing.steam_casing.name=工业蒸汽机械方块
 recipemap.alloy_blast_smelter.name=合金高炉冶炼
 
 # Materials
-gcym.material.stellite_100=司太立100合金
+gcym.material.stellite=铬钴锰钛合金
 gcym.material.watertight_steel=防水钢
+gcym.material.maraging_steel_250=马氏体时效钢250
 gcym.material.maraging_steel_300=马氏体时效钢300
+gcym.material.maraging_steel_350=马氏体时效钢350
 gcym.material.hastelloy_c_276=哈斯特洛依合金-C276
 gcym.material.hastelloy_x=哈斯特洛依合金-X
+gcym.material.hastelloy_n=哈斯特洛依合金-N
+gcym.material.hastelloy_w=哈斯特洛依合金-W
 gcym.material.trinaquadalloy=碳化三元金属硅岩合金
 gcym.material.zeron_100=塞龙-100
 gcym.material.titanium_carbide=碳化钛

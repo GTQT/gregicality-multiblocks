@@ -8,11 +8,15 @@ public final class GCYMMaterials {
     /*
      * First Degree Materials 3000-3019
      */
-    public static Material Stellite100;
+    public static Material Stellite;
     public static Material WatertightSteel;
+    public static Material MaragingSteel250;
     public static Material MaragingSteel300;
+    public static Material MaragingSteel350;
     public static Material HastelloyC276;
     public static Material HastelloyX;
+    public static Material HastelloyN;
+    public static Material HastelloyW;
     public static Material Trinaquadalloy;
     public static Material Zeron100;
     public static Material TitaniumCarbide;
@@ -26,7 +30,8 @@ public final class GCYMMaterials {
     public static Material TitaniumTungstenCarbide;
     public static Material IncoloyMA956;
 
-    private GCYMMaterials() {}
+    private GCYMMaterials() {
+    }
 
     /*
      * High Degree Materials 3040-3059
@@ -36,11 +41,11 @@ public final class GCYMMaterials {
      * Gregicality: 3000-19999
      */
     public static void init() {
-        // First Degree 3000-3019
+        // First Degree 0-
         GTLog.logger.info("GCYM: Registering First Degree Materials");
         GCYMFirstDegreeMaterials.init();
 
-        // Second Degree 3020-3039
+        // Second Degree 100-
         GCYMSecondDegreeMaterials.init();
 
         // Flags
