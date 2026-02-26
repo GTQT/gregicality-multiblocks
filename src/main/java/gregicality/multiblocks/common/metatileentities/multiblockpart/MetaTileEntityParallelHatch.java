@@ -51,7 +51,13 @@ public class MetaTileEntityParallelHatch extends MetaTileEntityMultiblockPart
 
     public MetaTileEntityParallelHatch(ResourceLocation metaTileEntityId, int tier) {
         super(metaTileEntityId, tier);
-        this.maxParallel = (int) Math.pow(2, tier);
+        this.maxParallel = (int) Math.pow(4, tier);
+        this.currentParallel = this.maxParallel;
+    }
+
+    public MetaTileEntityParallelHatch(ResourceLocation metaTileEntityId, int tier , int maxParallel) {
+        super(metaTileEntityId, tier);
+        this.maxParallel = maxParallel;
         this.currentParallel = this.maxParallel;
     }
 

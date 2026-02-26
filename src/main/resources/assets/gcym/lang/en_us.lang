@@ -122,7 +122,7 @@ gcym.machine.tiered_hatch.max.name=Maximum Voltage Control Unit
 
 gcym.tooltip.max_energy_hatches=Energy Hatch Limit: §c%d
 
-
+gcym.machine.creative_parallel_hatch.name=创造模式并行控制仓(Max)
 # casings
 
 # unique casing

@@ -121,7 +121,9 @@ gcym.machine.tiered_hatch.uxv.name=控制单元(UXV)
 gcym.machine.tiered_hatch.opv.name=控制单元(OpV)
 gcym.machine.tiered_hatch.max.name=控制单元(MaX)
 
+gcym.tooltip.max_energy_hatches=Energy Hatch Limit: §c%d
 
+gcym.machine.creative_parallel_hatch.name=创造模式并行控制仓(Max)
 # casings
 
 # unique casing
