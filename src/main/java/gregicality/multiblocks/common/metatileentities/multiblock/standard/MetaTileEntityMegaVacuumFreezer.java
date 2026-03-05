@@ -76,6 +76,8 @@ public class MetaTileEntityMegaVacuumFreezer extends GCYMRecipeMapMultiblockCont
                         .or(autoAbilities(false, true, true, true, true, true, true))
                         .or(abilities(MultiblockAbility.INPUT_ENERGY)
                                 .setMaxGlobalLimited(8))
+                        .or(abilities(MultiblockAbility.SUBSTATION_INPUT_ENERGY)
+                                .setMaxGlobalLimited(4))
                         .or(abilities(MultiblockAbility.INPUT_LASER)
                                 .setMaxGlobalLimited(1))
                         .or(tieredCasing())

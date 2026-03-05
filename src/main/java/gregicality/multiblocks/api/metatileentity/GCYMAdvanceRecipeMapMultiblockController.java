@@ -84,7 +84,7 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
                 });
     }
 
-    // 线程节流面板
+    // 并行面板
     protected ModularPanel createParallelThrottlePanel(PanelSyncManager syncManager, IPanelHandler syncHandler) {
         IntSyncValue currentParallelValue = new IntSyncValue(this::getParallel, this::setParallel);
         syncManager.syncValue("currentParallelValue", currentParallelValue);
@@ -95,7 +95,7 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
         );
         syncManager.syncValue("maxParallelValue", maxParallelValue);
 
-        return GTGuis.createPopupPanel("Parallel_throttle", 200, 60)
+        return GTGuis.createPopupPanel("parallel_throttle", 200, 60)
                 .child(Flow.row()
                         .pos(4, 4)
                         .height(16)

@@ -108,7 +108,7 @@ public final class GCYMMetaTileEntities {
                     new MetaTileEntityTieredHatch(gcymId(String.format("tiered_hatch.%s", GTValues.VN[i])), i));
         }
 
-        // 创造
+        // 创造并行仓
         CREATIVE_PARALLEL_HATCH = registerMetaTileEntity(100, new MetaTileEntityParallelHatch(gcymId("creative_parallel_hatch"), MAX, Integer.MAX_VALUE));
     }
 }
