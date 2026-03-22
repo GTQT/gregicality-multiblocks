@@ -1,20 +1,12 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.generator;
 
-import java.util.List;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.GTValues;
 import gregtech.api.capability.GregtechCapabilities;
 import gregtech.api.capability.IEnergyContainer;
+import gregtech.api.capability.impl.MultiblockFuelRecipeLogic;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.FuelMultiblockController;
@@ -27,15 +19,44 @@ import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.common.blocks.BlockTurbineCasing;
 import gregtech.common.blocks.MetaBlocks;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import gregicality.multiblocks.api.render.GCYMTextures;
-import gregicality.multiblocks.common.block.GCYMMetaBlocks;
-import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
+import java.util.List;
 
 public class MetaTileEntitySteamEngine extends FuelMultiblockController {
 
     public MetaTileEntitySteamEngine(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.STEAM_TURBINE_FUELS, GTValues.MV);
+        this.recipeMapWorkable = new MultiblockFuelRecipeLogic(this) {
+            @Override
+            public long getMaxVoltage() {
+                return GTValues.V[GTValues.MV];
+            }
+        };
+        this.recipeMapWorkable.setMaximumOverclockVoltage(GTValues.V[GTValues.MV]);
+    }
+
+    private static TraceabilityPredicate energyOutputPredicate() {
+        return metaTileEntities(MultiblockAbility.REGISTRY.get(MultiblockAbility.OUTPUT_ENERGY).stream().filter(mte -> {
+            IEnergyContainer container = mte.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, null);
+            return container != null && container.getOutputVoltage() <= GTValues.V[GTValues.MV];
+        }).toArray(MetaTileEntity[]::new))
+                .addTooltip("gregtech.multiblock.pattern.error.limited.1", GTValues.VN[GTValues.LV])
+                .addTooltip("gregtech.multiblock.pattern.error.limited.0", GTValues.VN[GTValues.MV]);
+    }
+
+    private static IBlockState getCasingState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.STEAM_CASING);
+    }
+
+    private static IBlockState getCasingState2() {
+        return MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.BRONZE_GEARBOX);
     }
 
     @Override
@@ -58,23 +79,6 @@ public class MetaTileEntitySteamEngine extends FuelMultiblockController {
                 .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
                 .where('#', any())
                 .build();
-    }
-
-    private static TraceabilityPredicate energyOutputPredicate() {
-        return metaTileEntities(MultiblockAbility.REGISTRY.get(MultiblockAbility.OUTPUT_ENERGY).stream().filter(mte -> {
-            IEnergyContainer container = mte.getCapability(GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER, null);
-            return container != null && container.getOutputVoltage() <= GTValues.V[GTValues.MV];
-        }).toArray(MetaTileEntity[]::new))
-                .addTooltip("gregtech.multiblock.pattern.error.limited.1", GTValues.VN[GTValues.LV])
-                .addTooltip("gregtech.multiblock.pattern.error.limited.0", GTValues.VN[GTValues.MV]);
-    }
-
-    private static IBlockState getCasingState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.STEAM_CASING);
-    }
-
-    private static IBlockState getCasingState2() {
-        return MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.BRONZE_GEARBOX);
     }
 
     @Override

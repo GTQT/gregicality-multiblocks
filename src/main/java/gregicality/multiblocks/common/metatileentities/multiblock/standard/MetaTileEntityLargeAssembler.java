@@ -45,12 +45,12 @@ public class MetaTileEntityLargeAssembler extends GCYMAdvanceRecipeMapMultiblock
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
     }
 
-    private static @NotNull RecipeMap<?> @NotNull [] determineRecipeMaps() {
+    private static @NotNull RecipeMap<?> @NotNull[] determineRecipeMaps() {
         RecipeMap<?> cuisineAssemblerMap = RecipeMap.getByName("cuisine_assembler");
         if (Loader.isModLoaded(GCYMValues.GTFO_MODID) && cuisineAssemblerMap != null) {
-            return new RecipeMap<?>[]{RecipeMaps.ASSEMBLER_RECIPES, RecipeMaps.LAMINATOR_RECIPES, cuisineAssemblerMap};
+            return new RecipeMap<?>[]{RecipeMaps.ASSEMBLER_RECIPES, cuisineAssemblerMap};
         }
-        return new RecipeMap<?>[]{RecipeMaps.ASSEMBLER_RECIPES, RecipeMaps.LAMINATOR_RECIPES};
+        return new RecipeMap<?>[]{RecipeMaps.ASSEMBLER_RECIPES};
     }
 
     @Override

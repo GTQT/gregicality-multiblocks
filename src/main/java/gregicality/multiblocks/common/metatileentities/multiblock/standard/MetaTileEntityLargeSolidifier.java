@@ -24,7 +24,8 @@ import static gregtech.api.util.RelativeDirection.*;
 public class MetaTileEntityLargeSolidifier extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeSolidifier(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.FLUID_SOLIDFICATION_RECIPES, RecipeMaps.TOOL_CASTER_RECIPES});
+        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.FLUID_SOLIDFICATION_RECIPES, RecipeMaps.TOOL_CASTER_RECIPES,
+                RecipeMaps.LAMINATOR_RECIPES,  RecipeMaps.VULCANIZING_PRESS_RECIPES});
     }
 
     private static IBlockState getCasingState() {
