@@ -21,6 +21,7 @@ public final class GCYMTextures {
     public static OrientedOverlayRenderer LARGE_BENDER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_BREWERY_OVERLAY;
     public static OrientedOverlayRenderer LARGE_CENTRIFUGE_OVERLAY;
+    public static OrientedOverlayRenderer LARGE_THERMAL_CENTRIFUGE_OVERLAY;
     public static OrientedOverlayRenderer LARGE_CHEMICAL_BATH_OVERLAY;
     public static OrientedOverlayRenderer LARGE_EXTRACTOR_OVERLAY;
     public static OrientedOverlayRenderer LARGE_CUTTER_OVERLAY;
@@ -57,6 +58,7 @@ public final class GCYMTextures {
     public static SimpleOverlayRenderer STRESS_PROOF_CASING;
     public static SimpleOverlayRenderer CORROSION_PROOF_CASING;
     public static SimpleOverlayRenderer VIBRATION_SAFE_CASING;
+    public static SimpleOverlayRenderer THERMAL_PROCESS_CASING;
     public static SimpleOverlayRenderer WATERTIGHT_CASING;
     public static SimpleOverlayRenderer CUTTER_CASING;
     public static SimpleOverlayRenderer NONCONDUCTING_CASING;
@@ -78,6 +80,7 @@ public final class GCYMTextures {
         LARGE_BENDER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_bender");
         LARGE_BREWERY_OVERLAY = new OrientedOverlayRenderer("multiblock/large_brewery");
         LARGE_CENTRIFUGE_OVERLAY = new OrientedOverlayRenderer("multiblock/large_centrifuge");
+        LARGE_THERMAL_CENTRIFUGE_OVERLAY = new OrientedOverlayRenderer("multiblock/large_thermal_centrifuge");
         LARGE_CHEMICAL_BATH_OVERLAY = new OrientedOverlayRenderer("multiblock/large_chemical_bath");
         MEGA_CHEMICAL_REACTOR = new OrientedOverlayRenderer("multiblock/mega_chemical_reactor");
         LARGE_EXTRACTOR_OVERLAY = new OrientedOverlayRenderer("multiblock/large_extractor");
@@ -114,6 +117,7 @@ public final class GCYMTextures {
         STRESS_PROOF_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/stress_proof_casing");
         CORROSION_PROOF_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/corrosion_proof_casing");
         VIBRATION_SAFE_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/vibration_safe_casing");
+        THERMAL_PROCESS_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/thermal_processing_casing");
         WATERTIGHT_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/watertight_casing");
         CUTTER_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/cutter_casing");
         NONCONDUCTING_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/nonconducting_casing");

@@ -42,6 +42,7 @@ public class BlockLargeMultiblockCasing extends VariantBlock<BlockLargeMultibloc
         CUTTER_CASING("cutter_casing"),
         NONCONDUCTING_CASING("nonconducting_casing"),
         MIXER_CASING("mixer_casing"),
+        THERMAL_PROCESSING_CASING("thermal_processing_casing"),
         ENGRAVER_CASING("engraver_casing"),
         ATOMIC_CASING("atomic_casing"),
         STEAM_CASING("steam_casing");

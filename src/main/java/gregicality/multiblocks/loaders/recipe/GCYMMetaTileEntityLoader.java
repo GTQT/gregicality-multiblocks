@@ -90,13 +90,19 @@ public final class GCYMMetaTileEntityLoader {
                 'W', new UnificationEntry(cableGtSingle, Platinum));
 
         ModHandler.addShapedRecipe(true, "large_centrifuge", GCYMMetaTileEntities.LARGE_CENTRIFUGE.getStackForm(),
-                "HPH", "RCT", "MWM",
+        "ACA", "ASA", "PWP",
+                'A', new UnificationEntry(pipeHugeFluid, StainlessSteel),
                 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.IV),
-                'H', new UnificationEntry(spring, MolybdenumDisilicide),
-                'P', new UnificationEntry(pipeHugeFluid, StainlessSteel),
-                'R', MetaTileEntities.CENTRIFUGE[IV].getStackForm(),
-                'T', MetaTileEntities.THERMAL_CENTRIFUGE[IV].getStackForm(),
-                'M', MetaItems.ELECTRIC_MOTOR_IV.getStackForm(),
+                'P', MetaItems.ELECTRIC_MOTOR_IV.getStackForm(),
+                'S', MetaTileEntities.CENTRIFUGE[IV].getStackForm(),
+                'W', new UnificationEntry(cableGtSingle, Platinum));
+
+        ModHandler.addShapedRecipe(true, "large_thermal_centrifuge", GCYMMetaTileEntities.LARGE_THERMAL_CENTRIFUGE.getStackForm(),
+                "ACA", "ASA", "PWP",
+                'A', new UnificationEntry(spring, MolybdenumDisilicide),
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.IV),
+                'P', MetaItems.ELECTRIC_MOTOR_IV.getStackForm(),
+                'S', MetaTileEntities.THERMAL_CENTRIFUGE[IV].getStackForm(),
                 'W', new UnificationEntry(cableGtSingle, Platinum));
 
         ModHandler.addShapedRecipe(true, "large_chemical_bath", GCYMMetaTileEntities.LARGE_CHEMICAL_BATH.getStackForm(),

@@ -9,6 +9,7 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -17,14 +18,20 @@ import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidRegistry;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static gregtech.api.pattern.FluidTraceability.*;
 import static gregtech.api.util.RelativeDirection.*;
 
-public class MetaTileEntityLargeChemicalBath extends GCYMAdvanceRecipeMapMultiblockController { // todo render liquid in the
-    // structure that looks the
-    // same as what is in the fluid
-    // hatches
+public class MetaTileEntityLargeChemicalBath extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private boolean waterFilled;
+    private List<BlockPos> waterPositions;
 
     public MetaTileEntityLargeChemicalBath(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{RecipeMaps.CHEMICAL_BATH_RECIPES, RecipeMaps.ORE_WASHER_RECIPES});
@@ -36,6 +43,37 @@ public class MetaTileEntityLargeChemicalBath extends GCYMAdvanceRecipeMapMultibl
 
     private static IBlockState getCasingState2() {
         return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.TITANIUM_PIPE);
+    }
+
+    @Override
+    protected void formStructure(PatternMatchContext context) {
+        super.formStructure(context);
+
+        this.waterPositions = context.getOrDefault(FLUID_BLOCKS_KEY, new ArrayList<>());
+        this.waterFilled = waterPositions.isEmpty();
+    }
+
+    @Override
+    public void invalidateStructure() {
+        super.invalidateStructure();
+        this.waterPositions = null; // Clear water fill data when the structure is invalidated
+        this.waterFilled = false;
+    }
+
+    @Override
+    protected void updateFormedValid() {
+        super.updateFormedValid();
+        if (!waterFilled && getOffsetTimer() % 5 == 0) {
+            fillFluid(this, this.waterPositions, FluidRegistry.WATER);
+            if (this.waterPositions.isEmpty()) {
+                this.waterFilled = true;
+            }
+        }
+    }
+
+    @Override
+    public boolean isStructureObstructed() {
+        return super.isStructureObstructed() || !waterFilled;
     }
 
     @Override
@@ -55,7 +93,7 @@ public class MetaTileEntityLargeChemicalBath extends GCYMAdvanceRecipeMapMultibl
                         .or(tieredCasing())
                 )
                 .where('C', states(getCasingState2()))
-                .where('A', air())
+                .where('A', fluid(FluidRegistry.WATER))
                 .where('#', any())
                 .build();
     }

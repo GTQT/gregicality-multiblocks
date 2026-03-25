@@ -40,6 +40,7 @@ gcym.machine.steam_engine.tooltip.1=最高产生%s§7级的能量。
 gcym.machine.large_circuit_assembler.name=大型电路组装机
 gcym.machine.large_chemical_complex.name=大型化工复合体
 gcym.machine.large_pyrolyser.name=大型热解炉
+gcym.machine.large_thermal_centrifuge.name=工业热力精炼厂
 
 gcym.tooltip.ctrl=按住CTRL以显示详细配方工作逻辑
 gcym.tooltip.shift=按住SHIFT以显示详细线程工作逻辑
@@ -83,6 +84,7 @@ gcym.multiblock.steam_engine.description=用于高效发电的大型蒸汽涡轮
 gcym.multiblock.large_circuit_assembler.description=用于制造电路的多方块电路组装机
 gcym.multiblock.large_chemical_complex.description=用于进行多种化学反应的多方块化学反应釜
 gcym.multiblock.large_pyrolyser.description=用于批量热解木料的多方块热解炉
+gcym.multiblock.large_thermal_centrifuge.description=用于批量分离矿物的多方块热能离心机
 
 # hatches
 gcym.machine.parallel_hatch.lv.name=并行控制仓(LV)
@@ -144,6 +146,7 @@ tile.large_multiblock_casing.watertight_casing.name=防水机械方块
 tile.large_multiblock_casing.cutter_casing.name=防震切割机械方块
 tile.large_multiblock_casing.nonconducting_casing.name=绝缘机械方块
 tile.large_multiblock_casing.mixer_casing.name=惰性搅拌机械方块
+tile.large_multiblock_casing.thermal_processing_casing.name=热处理机械方块
 tile.large_multiblock_casing.engraver_casing.name=抗激光蚀刻机械方块
 tile.large_multiblock_casing.atomic_casing.name=原子机械方块
 tile.large_multiblock_casing.steam_casing.name=工业蒸汽机械方块

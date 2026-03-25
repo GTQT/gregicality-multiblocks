@@ -37,6 +37,8 @@ gcym.machine.steam_engine.tooltip.1=Produces up to %s§7 power.
 gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
 gcym.machine.large_chemical_complex.name=Large Chemical Complex
 gcym.machine.large_pyrolyser.name=Large Pyrolyser
+gcym.machine.large_thermal_centrifuge.name=Large Thermal Centrifuge
+
 gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
 gcym.tooltip.shift=Press and hold SHIFT to display the detailed threading logic
 gcym.tooltip.parallel_avaliable=-Parallel Support:
@@ -46,8 +48,6 @@ gcym.tooltip.parallel_enabled=It can be processed in parallel via § b Parallel 
 gcym.tooltip.thread_enabled=Multithreading can be done via § b thread control bin § 7.
 gcym.tooltip.tiered_hatch_enabled=Requires §bVoltage Control Units§7 to run.
 gcym.multiblock.tiered_hatch.tooltip=Max Tiered EU/t: §a%s (%s§r)
-
-
 
 # multiblock descriptions
 gcym.multiblock.large_macerator.description=A multiblock Macerator for grinding.
@@ -81,6 +81,7 @@ gcym.multiblock.steam_engine.description=A large Steam Engine for effective powe
 gcym.multiblock.large_circuit_assembler.description=A multiblock Circuit Assembler for fabricating circuits.
 gcym.multiblock.large_chemical_complex.description=A multiblock chemical reactors for a variety of chemical reactions
 gcym.multiblock.large_pyrolyser.description=A multiblock pyrolyser for batch pyrolysis wood
+gcym.multiblock.large_thermal_centrifuge.description=A multiblock Thermal Centrifuge for separating ore into dust.
 
 # hatches
 
@@ -143,6 +144,7 @@ tile.large_multiblock_casing.watertight_casing.name=Watertight Casing
 tile.large_multiblock_casing.cutter_casing.name=Shock Proof Cutting Casing
 tile.large_multiblock_casing.nonconducting_casing.name=Nonconducting Casing
 tile.large_multiblock_casing.mixer_casing.name=Reaction-Safe Mixing Casing
+tile.large_multiblock_casing.thermal_processing_casing.name=Thermal Processing Casing
 tile.large_multiblock_casing.engraver_casing.name=Laser-Safe Engraving Casing
 tile.large_multiblock_casing.atomic_casing.name=Atomic Casing
 tile.large_multiblock_casing.steam_casing.name=Industrial Steam Casing

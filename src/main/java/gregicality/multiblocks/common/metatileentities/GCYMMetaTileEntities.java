@@ -40,6 +40,7 @@ public final class GCYMMetaTileEntities {
     public static MetaTileEntityLargeCircuitAssembler LARGE_CIRCUIT_ASSEMBLER;
     public static MetaTileEntityLargeChemicalComplex LARGE_CHEMICAL_COMPLEX;
     public static MetaTileEntityLargePyrolyser LARGE_PYROLYSER;
+    public static MetaTileEntityLargeThermalCentrifuge LARGE_THERMAL_CENTRIFUGE;
     public static MetaTileEntityMegaBlastFurnace MEGA_BLAST_FURNACE;
     public static MetaTileEntityMegaVacuumFreezer MEGA_VACUUM_FREEZER;
     public static MetaTileEntityMegaAlloyBlastSmelter MEGA_ALLOY_BLAST_SMELTER;
@@ -84,6 +85,7 @@ public final class GCYMMetaTileEntities {
         LARGE_CIRCUIT_ASSEMBLER = registerMetaTileEntity(25, new MetaTileEntityLargeCircuitAssembler(gcymId("large_circuit_assembler")));
         LARGE_CHEMICAL_COMPLEX = registerMetaTileEntity(26, new MetaTileEntityLargeChemicalComplex(gcymId("large_chemical_complex")));
         LARGE_PYROLYSER = registerMetaTileEntity(27, new MetaTileEntityLargePyrolyser(gcymId("large_pyrolyser")));
+        LARGE_THERMAL_CENTRIFUGE = registerMetaTileEntity(28, new MetaTileEntityLargeThermalCentrifuge(gcymId("large_thermal_centrifuge")));
 
         //巨型设备
         MEGA_BLAST_FURNACE = registerMetaTileEntity(30, new MetaTileEntityMegaBlastFurnace(gcymId("mega_blast_furnace")));

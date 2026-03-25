@@ -75,6 +75,11 @@ public final class GCYMCasingLoader {
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.MIXER_CASING, numCasings),
                 "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, GCYMMaterials.HastelloyX), 'F',
                 new UnificationEntry(OrePrefix.frameGt, GCYMMaterials.MaragingSteel300));
+        ModHandler.addShapedRecipe(true, "casing_large_thermal_centrifuge",
+                GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                        .getItemVariant(BlockLargeMultiblockCasing.CasingType.THERMAL_PROCESSING_CASING, numCasings),
+                "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plate, Materials.RedSteel), 'F',
+                new UnificationEntry(OrePrefix.frameGt, Materials.BlackSteel));
         ModHandler.addShapedRecipe(true, "casing_large_engraver",
                 GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.ENGRAVER_CASING, numCasings),
@@ -170,6 +175,14 @@ public final class GCYMCasingLoader {
                 .notConsumable(new IntCircuitIngredient(6))
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.MIXER_CASING, numCasings))
+                .duration(50).EUt(16).buildAndRegister();
+
+        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
+                .input(OrePrefix.plate, Materials.RedSteel, 6)
+                .input(OrePrefix.frameGt, Materials.BlackSteel)
+                .notConsumable(new IntCircuitIngredient(6))
+                .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                        .getItemVariant(BlockLargeMultiblockCasing.CasingType.THERMAL_PROCESSING_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
 
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
