@@ -39,6 +39,7 @@ import java.util.List;
 
 //此系列设备不给多线程
 public class MetaTileEntityLargePyrolyser extends GCYMRecipeMapMultiblockController {
+
     private int coilTier;
 
     public MetaTileEntityLargePyrolyser(ResourceLocation metaTileEntityId) {
