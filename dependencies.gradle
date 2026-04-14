@@ -38,14 +38,14 @@
  * For more details, see https://docs.gradle.org/8.4/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    api("com.cleanroommc:groovyscript:1.2.0-hotfix1") { transitive = false }
-    api("com.cleanroommc:modularui:3.0.7") { transitive = false }
+    api("com.cleanroommc:groovyscript:1.2.4") { transitive = false }
+    api("com.cleanroommc:modularui:3.1.5") { transitive = false }
 
     implementation rfg.deobf("curse.maven:codechicken-lib-1-8-242818:2779848")
 
     implementation rfg.deobf(files("libs/ae2fc-2.7.10-unofficial.jar"))
     implementation rfg.deobf(files("libs/appliedenergistics2-v1.0.5-gtqt.jar"))
-    implementation rfg.deobf(files("libs/gregtech-gtqt-1.12.2-2.9.0-190.jar"))
+    implementation rfg.deobf(files("libs/gregtech-gtqt-1.12.2-1.9.0.jar"))
 
     implementation rfg.deobf("curse.maven:mixin-booter-419286:7049694")
     api rfg.deobf("curse.maven:ctm-267602:2915363") // CTM 1.0.2.31

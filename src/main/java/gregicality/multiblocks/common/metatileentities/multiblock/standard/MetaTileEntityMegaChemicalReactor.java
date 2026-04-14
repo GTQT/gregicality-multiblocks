@@ -34,14 +34,9 @@ public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockCo
 
     public MetaTileEntityMegaChemicalReactor(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
-                RecipeMaps.CHEMICAL_RECIPES,
                 RecipeMaps.LARGE_CHEMICAL_RECIPES,
                 RecipeMaps.POLYMERIZATION_RECIPES,
-                RecipeMaps.DESULFURIZATION_RECIPES,
-                RecipeMaps.CHEMICAL_DEHYDRATOR_RECIPES,
-                RecipeMaps.CRYOGENIC_REACTOR_RECIPES,
-                RecipeMaps.SONICATION_RECIPES,
-                RecipeMaps.LIGHTNING_PROCESSOR_RECIPES
+                RecipeMaps.DESULFURIZATION_RECIPES
         });
         this.recipeMapWorkable = new GCYMMultiblockRecipeLogic(this, true);
     }

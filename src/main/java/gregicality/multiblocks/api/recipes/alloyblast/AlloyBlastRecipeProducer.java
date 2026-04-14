@@ -160,7 +160,7 @@ public class AlloyBlastRecipeProducer {
 
                         for (FluidStack gas : gases) {
                             RecipeBuilder<BlastRecipeBuilder> builderGas = builder.copy();
-                            builderGas.notConsumable(new IntCircuitIngredient(getGasCircuitNum(componentAmount)))
+                            builderGas.circuitMeta(getGasCircuitNum(componentAmount))
                                     .fluidInputs(new FluidStack(gas.getFluid(), gas.amount * outputAmount))
                                     .duration(newDuration)
                                     .buildAndRegister();
@@ -171,7 +171,7 @@ public class AlloyBlastRecipeProducer {
         }
 
         // 非气体配方（始终存在）
-        builder.notConsumable(new IntCircuitIngredient(getCircuitNum(componentAmount)))
+        builder.circuitMeta(getCircuitNum(componentAmount))
                 .duration(duration)
                 .buildAndRegister();
     }

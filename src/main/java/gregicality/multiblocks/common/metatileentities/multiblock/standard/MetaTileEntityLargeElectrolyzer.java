@@ -10,6 +10,7 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -20,7 +21,10 @@ import org.jetbrains.annotations.NotNull;
 public class MetaTileEntityLargeElectrolyzer extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeElectrolyzer(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, RecipeMaps.ELECTROLYZER_RECIPES);
+        super(metaTileEntityId, new RecipeMap[]{
+                RecipeMaps.ELECTROLYZER_RECIPES,
+                RecipeMaps.LIGHTNING_PROCESSOR_RECIPES
+        });
     }
 
     private static IBlockState getCasingState() {

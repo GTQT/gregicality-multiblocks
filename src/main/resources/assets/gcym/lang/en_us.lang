@@ -38,6 +38,9 @@ gcym.machine.large_circuit_assembler.name=Large Circuit Assembler
 gcym.machine.large_chemical_complex.name=Large Chemical Complex
 gcym.machine.large_pyrolyser.name=Large Pyrolyser
 gcym.machine.large_thermal_centrifuge.name=Large Thermal Centrifuge
+gcym.machine.large_sonicator.name=Large Sonication Chamber
+gcym.machine.large_rock_breaker.name=Large Rock Breaker
+gcym.machine.large_gas_collector.name=Large Gas Collector
 
 gcym.tooltip.ctrl=Press and hold CTRL to display the detailed recipe working logic
 gcym.tooltip.shift=Press and hold SHIFT to display the detailed threading logic
@@ -82,7 +85,9 @@ gcym.multiblock.large_circuit_assembler.description=A multiblock Circuit Assembl
 gcym.multiblock.large_chemical_complex.description=A multiblock chemical reactors for a variety of chemical reactions
 gcym.multiblock.large_pyrolyser.description=A multiblock pyrolyser for batch pyrolysis wood
 gcym.multiblock.large_thermal_centrifuge.description=A multiblock Thermal Centrifuge for separating ore into dust.
-
+gcym.multiblock.large_sonicator.description=A multiblock sonicator for sonicating things.
+gcym.multiblock.large_rock_breaker.description=A multiblock Rock Breaker for breaking rocks.
+gcym.multiblock.large_gas_collector.description=A multiblock Gas Collector for collecting gases.
 # hatches
 
 gcym.machine.parallel_hatch.lv.name=Parallel Hatch(LV)

@@ -10,6 +10,7 @@ import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.tooltips.InformationHandler;
 import gregtech.api.util.tooltips.TooltipBuilder;
@@ -34,7 +35,11 @@ import java.util.List;
 public class MetaTileEntityMegaVacuumFreezer extends GCYMRecipeMapMultiblockController {
 
     public MetaTileEntityMegaVacuumFreezer(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, RecipeMaps.VACUUM_RECIPES);
+        super(metaTileEntityId, new RecipeMap[]{
+                RecipeMaps.VACUUM_RECIPES,
+                RecipeMaps.CRYOGENIC_REACTOR_RECIPES,
+                RecipeMaps.CHEMICAL_DEHYDRATOR_RECIPES
+        });
     }
 
     private static IBlockState getCasingState() {

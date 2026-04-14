@@ -17,9 +17,14 @@ import gregtech.loaders.recipe.MetaTileEntityLoader;
 import org.apache.commons.lang3.ArrayUtils;
 
 import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
+import static gregicality.multiblocks.common.metatileentities.GCYMMetaTileEntities.LARGE_GAS_COLLECTOR;
+import static gregicality.multiblocks.common.metatileentities.GCYMMetaTileEntities.LARGE_ROCK_BREAKER;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.ore.OrePrefix.*;
+import static gregtech.common.items.MetaItems.*;
+import static gregtech.common.metatileentities.MetaTileEntities.GAS_COLLECTOR;
+import static gregtech.common.metatileentities.MetaTileEntities.ROCK_BREAKER;
 import static gregtech.loaders.recipe.CraftingComponent.*;
 import static gregtech.loaders.recipe.MetaTileEntityLoader.registerMachineRecipe;
 
@@ -104,6 +109,31 @@ public final class GCYMMetaTileEntityLoader {
                 'P', MetaItems.ELECTRIC_MOTOR_IV.getStackForm(),
                 'S', MetaTileEntities.THERMAL_CENTRIFUGE[IV].getStackForm(),
                 'W', new UnificationEntry(cableGtSingle, Platinum));
+
+        ModHandler.addShapedRecipe(true, "large_sonicator", GCYMMetaTileEntities.LARGE_SONICATOR.getStackForm(),
+                "LFL", "PHP", "CPC",
+                'L', new UnificationEntry(pipeLargeFluid, Naquadah),
+                'F', FIELD_GENERATOR_UV.getStackForm(),
+                'P', ELECTRIC_PUMP_UV.getStackForm(),
+                'H', MetaTileEntities.HULL[UV].getStackForm(),
+                'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UV));
+
+        ModHandler.addShapedRecipe(true, "large_rock_breaker", LARGE_ROCK_BREAKER.getStackForm(),
+                "ICI", "PXP", "WCW",
+                'X', ROCK_BREAKER[IV].getStackForm(),
+                'C', COMPONENT_GRINDER_TUNGSTEN,
+                'W', new UnificationEntry(cableGtSingle, Platinum),
+                'P', ELECTRIC_PISTON_IV,
+                'I', new UnificationEntry(pipeLargeItem, SterlingSilver));
+
+        ModHandler.addShapedRecipe(true, "large_gas_collector", LARGE_GAS_COLLECTOR.getStackForm(),
+                "ARA", "PHP", "WFW",
+                'H', GAS_COLLECTOR[IV].getStackForm(),
+                'P', new UnificationEntry(pipeNormalFluid, TungstenSteel),
+                'W', new UnificationEntry(cableGtQuadruple, Platinum),
+                'R', new UnificationEntry(rotor, StainlessSteel),
+                'A', new UnificationEntry(plate, BlackSteel),
+                'F', FIELD_GENERATOR_IV);
 
         ModHandler.addShapedRecipe(true, "large_chemical_bath", GCYMMetaTileEntities.LARGE_CHEMICAL_BATH.getStackForm(),
                 "PGP", "BCO", "MWM",
@@ -269,7 +299,7 @@ public final class GCYMMetaTileEntityLoader {
                 "PCP", "FSF", "DWD",
                 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
                 'S', MetaTileEntities.ELECTRIC_BLAST_FURNACE.getStackForm(),
-                'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                'F', FIELD_GENERATOR_UV.getStackForm(),
                 'P', new UnificationEntry(spring, Neutronium),
                 'D', new UnificationEntry(plateDense, Neutronium),
                 'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
@@ -279,7 +309,7 @@ public final class GCYMMetaTileEntityLoader {
                 "PCP", "FSF", "DWD",
                 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
                 'S', MetaTileEntities.VACUUM_FREEZER.getStackForm(),
-                'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                'F', FIELD_GENERATOR_UV.getStackForm(),
                 'P', new UnificationEntry(pipeNormalFluid, Neutronium),
                 'D', new UnificationEntry(plateDense, Neutronium),
                 'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
@@ -289,7 +319,7 @@ public final class GCYMMetaTileEntityLoader {
                 "PCP", "FSF", "DWD",
                 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
                 'S', GCYMMetaTileEntities.ALLOY_BLAST_SMELTER.getStackForm(),
-                'F', MetaItems.FIELD_GENERATOR_UV.getStackForm(),
+                'F', FIELD_GENERATOR_UV.getStackForm(),
                 'P', new UnificationEntry(pipeNormalFluid, Neutronium),
                 'D', new UnificationEntry(plateDense, Neutronium),
                 'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
@@ -299,7 +329,7 @@ public final class GCYMMetaTileEntityLoader {
                 "PCP", "FSF", "DWD",
                 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
                 'S', MetaTileEntities.LARGE_CHEMICAL_REACTOR.getStackForm(),
-                'F', MetaItems.ELECTRIC_PUMP_UV.getStackForm(),
+                'F', ELECTRIC_PUMP_UV.getStackForm(),
                 'P', new UnificationEntry(pipeNormalFluid, Neutronium),
                 'D', new UnificationEntry(plateDense, Neutronium),
                 'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));
@@ -309,7 +339,7 @@ public final class GCYMMetaTileEntityLoader {
                 "PCP", "FSF", "DWD",
                 'C', new UnificationEntry(circuit, MarkerMaterials.Tier.UHV),
                 'S', MetaTileEntities.CRACKER.getStackForm(),
-                'F', MetaItems.ELECTRIC_PUMP_UV.getStackForm(),
+                'F', ELECTRIC_PUMP_UV.getStackForm(),
                 'P', new UnificationEntry(pipeNormalFluid, Neutronium),
                 'D', new UnificationEntry(plateDense, Neutronium),
                 'W', new UnificationEntry(wireGtQuadruple, RutheniumTriniumAmericiumNeutronate));

@@ -41,6 +41,10 @@ public final class GCYMMetaTileEntities {
     public static MetaTileEntityLargeChemicalComplex LARGE_CHEMICAL_COMPLEX;
     public static MetaTileEntityLargePyrolyser LARGE_PYROLYSER;
     public static MetaTileEntityLargeThermalCentrifuge LARGE_THERMAL_CENTRIFUGE;
+    public static MetaTileEntityLargeSonicator LARGE_SONICATOR;
+    public static MetaTileEntityLargeRockBreaker LARGE_ROCK_BREAKER;
+    public static MetaTileEntityLargeGasCollector LARGE_GAS_COLLECTOR;
+
     public static MetaTileEntityMegaBlastFurnace MEGA_BLAST_FURNACE;
     public static MetaTileEntityMegaVacuumFreezer MEGA_VACUUM_FREEZER;
     public static MetaTileEntityMegaAlloyBlastSmelter MEGA_ALLOY_BLAST_SMELTER;
@@ -86,27 +90,30 @@ public final class GCYMMetaTileEntities {
         LARGE_CHEMICAL_COMPLEX = registerMetaTileEntity(26, new MetaTileEntityLargeChemicalComplex(gcymId("large_chemical_complex")));
         LARGE_PYROLYSER = registerMetaTileEntity(27, new MetaTileEntityLargePyrolyser(gcymId("large_pyrolyser")));
         LARGE_THERMAL_CENTRIFUGE = registerMetaTileEntity(28, new MetaTileEntityLargeThermalCentrifuge(gcymId("large_thermal_centrifuge")));
+        LARGE_SONICATOR = registerMetaTileEntity(29, new MetaTileEntityLargeSonicator(gcymId("large_sonicator")));
+        LARGE_ROCK_BREAKER = registerMetaTileEntity(30, new MetaTileEntityLargeRockBreaker(gcymId("large_rock_breaker")));
+        LARGE_GAS_COLLECTOR = registerMetaTileEntity(31, new MetaTileEntityLargeGasCollector(gcymId("large_gas_collector")));
 
         //巨型设备
-        MEGA_BLAST_FURNACE = registerMetaTileEntity(30, new MetaTileEntityMegaBlastFurnace(gcymId("mega_blast_furnace")));
-        MEGA_VACUUM_FREEZER = registerMetaTileEntity(31, new MetaTileEntityMegaVacuumFreezer(gcymId("mega_vacuum_freezer")));
-        MEGA_ALLOY_BLAST_SMELTER = registerMetaTileEntity(32, new MetaTileEntityMegaAlloyBlastSmelter(gcymId("mega_alloy_blast_smelter")));
-        MEGA_CHEMICAL_REACTOR = registerMetaTileEntity(33, new MetaTileEntityMegaChemicalReactor(gcymId("mega_chemical_reactor")));
-        MEGA_CRACKING_UNIT = registerMetaTileEntity(34, new MetaTileEntityMegaCrackingUnit(gcymId("mega_cracking_unit")));
+        MEGA_BLAST_FURNACE = registerMetaTileEntity(40, new MetaTileEntityMegaBlastFurnace(gcymId("mega_blast_furnace")));
+        MEGA_VACUUM_FREEZER = registerMetaTileEntity(41, new MetaTileEntityMegaVacuumFreezer(gcymId("mega_vacuum_freezer")));
+        MEGA_ALLOY_BLAST_SMELTER = registerMetaTileEntity(42, new MetaTileEntityMegaAlloyBlastSmelter(gcymId("mega_alloy_blast_smelter")));
+        MEGA_CHEMICAL_REACTOR = registerMetaTileEntity(43, new MetaTileEntityMegaChemicalReactor(gcymId("mega_chemical_reactor")));
+        MEGA_CRACKING_UNIT = registerMetaTileEntity(44, new MetaTileEntityMegaCrackingUnit(gcymId("mega_cracking_unit")));
         //发电机
-        STEAM_ENGINE = registerMetaTileEntity(40, new MetaTileEntitySteamEngine(gcymId("steam_engine")));
+        STEAM_ENGINE = registerMetaTileEntity(50, new MetaTileEntitySteamEngine(gcymId("steam_engine")));
 
 
         for (int i = 0; i < PARALLEL_HATCH.length; i++) {
             int tier = i + 1;
-            PARALLEL_HATCH[i] = registerMetaTileEntity(50 + i, new MetaTileEntityParallelHatch(
+            PARALLEL_HATCH[i] = registerMetaTileEntity(60 + i, new MetaTileEntityParallelHatch(
                     gcymId(String.format("parallel_hatch.%s", GTValues.VN[tier])), tier));
         }
 
         for (int i = 0; i < TIERED_HATCH.length; i++) {
             if (!GregTechAPI.isHighTier() && i > GTValues.UHV)
                 break;
-            TIERED_HATCH[i] = registerMetaTileEntity(65 + i,
+            TIERED_HATCH[i] = registerMetaTileEntity(75 + i,
                     new MetaTileEntityTieredHatch(gcymId(String.format("tiered_hatch.%s", GTValues.VN[i])), i));
         }
 

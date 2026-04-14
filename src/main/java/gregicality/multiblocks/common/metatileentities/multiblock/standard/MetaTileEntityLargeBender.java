@@ -23,8 +23,12 @@ import org.jetbrains.annotations.NotNull;
 public class MetaTileEntityLargeBender extends GCYMAdvanceRecipeMapMultiblockController {
 
     public MetaTileEntityLargeBender(ResourceLocation metaTileEntityId) {
-        super(metaTileEntityId, new RecipeMap[]{RecipeMaps.BENDER_RECIPES, RecipeMaps.COMPRESSOR_RECIPES,
-                RecipeMaps.FORMING_PRESS_RECIPES, RecipeMaps.FORGE_HAMMER_RECIPES});
+        super(metaTileEntityId, new RecipeMap[]{
+                RecipeMaps.BENDER_RECIPES,
+                RecipeMaps.COMPRESSOR_RECIPES,
+                RecipeMaps.FORMING_PRESS_RECIPES,
+                RecipeMaps.FORGE_HAMMER_RECIPES
+        });
     }
 
     private static IBlockState getCasingState() {

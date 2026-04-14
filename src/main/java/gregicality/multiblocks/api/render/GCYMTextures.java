@@ -36,6 +36,7 @@ public final class GCYMTextures {
     public static OrientedOverlayRenderer LARGE_ENGRAVER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_SIFTER_OVERLAY;
     public static OrientedOverlayRenderer LARGE_WIREMILL_OVERLAY;
+    public static OrientedOverlayRenderer LARGE_SONICATOR_OVERLAY;
     public static OrientedOverlayRenderer ELECTRIC_IMPLOSION_OVERLAY;
     public static OrientedOverlayRenderer LARGE_MASS_FABRICATOR_OVERLAY;
     public static OrientedOverlayRenderer LARGE_REPLICATOR_OVERLAY;
@@ -96,6 +97,7 @@ public final class GCYMTextures {
         LARGE_ENGRAVER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_engraver");
         LARGE_SIFTER_OVERLAY = new OrientedOverlayRenderer("multiblock/large_sifter");
         LARGE_WIREMILL_OVERLAY = new OrientedOverlayRenderer("multiblock/large_wiremill");
+        LARGE_SONICATOR_OVERLAY = new OrientedOverlayRenderer("multiblock/large_sonicator");
         ELECTRIC_IMPLOSION_OVERLAY = new OrientedOverlayRenderer("multiblock/electric_implosion");
         LARGE_MASS_FABRICATOR_OVERLAY = new OrientedOverlayRenderer("multiblock/large_mass_fabricator");
         LARGE_REPLICATOR_OVERLAY = new OrientedOverlayRenderer("multiblock/large_replicator");

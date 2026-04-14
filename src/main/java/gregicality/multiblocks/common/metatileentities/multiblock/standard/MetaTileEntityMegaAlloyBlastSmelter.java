@@ -40,6 +40,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -128,8 +129,13 @@ public class MetaTileEntityMegaAlloyBlastSmelter extends GCYMRecipeMapMultiblock
         this.blastFurnaceTemperature = 0;
     }
 
-    public boolean checkRecipe(Recipe recipe, boolean consumeIfSuccess) {
-        return this.blastFurnaceTemperature >= recipe.getProperty(TemperatureProperty.getInstance(), 0);
+    @Override
+    public boolean checkRecipe(@NotNull Recipe recipe, boolean consumeIfSuccess) {
+        int recipeTemp = recipe.getProperty(TemperatureProperty.getInstance(), 0);
+        if(this.blastFurnaceTemperature >= recipeTemp)
+            return true;
+        recipeMapWorkable.setWhyFailed("线圈温度过低，配方需求至少 "+ recipeTemp + " K温度");
+        return false;
     }
 
     public int getCurrentTemperature() {

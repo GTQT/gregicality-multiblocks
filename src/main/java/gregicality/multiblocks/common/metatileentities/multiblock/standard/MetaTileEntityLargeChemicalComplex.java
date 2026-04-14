@@ -82,7 +82,7 @@ public class MetaTileEntityLargeChemicalComplex extends GCYMRecipeMapMultiblockC
 
     @Override
     protected @NotNull OrientedOverlayRenderer getFrontOverlay() {
-        return GCYMTextures.MEGA_CHEMICAL_REACTOR;
+        return Textures.LARGE_CHEMICAL_REACTOR_OVERLAY;
     }
 
     @Override
