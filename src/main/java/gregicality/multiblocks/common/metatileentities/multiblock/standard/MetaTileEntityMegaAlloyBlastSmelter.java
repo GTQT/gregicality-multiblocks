@@ -167,8 +167,6 @@ public class MetaTileEntityMegaAlloyBlastSmelter extends GCYMRecipeMapMultiblock
                         .setMinGlobalLimited(15)
                         .or(abilities(MultiblockAbility.INPUT_ENERGY)
                                 .setMaxGlobalLimited(8))
-                        .or(abilities(MultiblockAbility.SUBSTATION_INPUT_ENERGY)
-                                .setMaxGlobalLimited(4))
                         .or(abilities(MultiblockAbility.INPUT_LASER)
                                 .setMaxGlobalLimited(1))
                         .or(tieredCasing())
