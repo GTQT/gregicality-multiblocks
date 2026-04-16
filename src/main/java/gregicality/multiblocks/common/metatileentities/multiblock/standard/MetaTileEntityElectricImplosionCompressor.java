@@ -2,6 +2,8 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 import gregicality.multiblocks.api.metatileentity.GCYMAdvanceRecipeMapMultiblockController;
 import gregicality.multiblocks.api.render.GCYMTextures;
+import gregicality.multiblocks.common.block.GCYMMetaBlocks;
+import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
@@ -31,11 +33,15 @@ public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipe
         return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.TUNGSTENSTEEL_ROBUST);
     }
 
-    private static IBlockState getCasingState2() {
-        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.TUNGSTENSTEEL_PIPE);
+    private static IBlockState getStructureState() {
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING);
     }
 
-    private static IBlockState getCasingState3() {
+    private static IBlockState getPipeState() {
+        return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.POLYTETRAFLUOROETHYLENE_PIPE);
+    }
+
+    private static IBlockState geGlassState() {
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
     }
 
@@ -47,27 +53,29 @@ public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipe
     @Override
     protected @NotNull BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start()
-                .aisle("XXXXX", "F###F", "F###F", "F###F", "F###F", "XXXXX")
-                .aisle("XXXXX", "#PGP#", "#PGP#", "#PGP#", "#PGP#", "XXXXX")
-                .aisle("XXXXX", "#GAG#", "#GAG#", "#GAG#", "#GAG#", "XXMXX")
-                .aisle("XXXXX", "#PGP#", "#PGP#", "#PGP#", "#PGP#", "XXXXX")
-                .aisle("XXSXX", "F###F", "F###F", "F###F", "F###F", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X',
-                        states(getCasingState()).setMinGlobalLimited(40)
-                                .or(autoAbilities(true, true, true, true, true, true, false)))
-                .where('P', states(getCasingState2()))
-                .where('G', states(getCasingState3()))
-                .where('F', frames(Materials.TungstenSteel))
-                .where('A', air())
-                .where('#', any())
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
+                .aisle("               ", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "               ")
+                .aisle("F F         F F", "F F   FFF   F F", "FBF  FFAFF  FBF", "FBF  AAAAA  FBF", "FBF  FFAFF  FBF", "F F   FFF   F F", "F F         F F")
+                .aisle("F F         F F", "FBF  FFCFF  FBF", "F FFFEEEEEFFF F", "F FAA     AAF F", "F FFFEEEEEFFF F", "FBF  FFCFF  FBF", "F F         F F")
+                .aisle("F F         F F", "FBFFFFCCCFFFFBF", "F FBBBEDEBBBF F", "F F         F F", "F FBBBEDEBBBF F", "FBFFFFCCCFFFFBF", "F F         F F")
+                .aisle("F F         F F", "FBF  FFCFF  FBF", "F FFFEEEEEFFF F", "F FAA     AAF F", "F FFFEEEEEFFF F", "FBF  FFCFF  FBF", "F F         F F")
+                .aisle("F F         F F", "F F   F~F   F F", "FBF  FFAFF  FBF", "FBF  AAAAA  FBF", "FBF  FFAFF  FBF", "F F   FFF   F F", "F F         F F")
+                .aisle("               ", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "               ")
+                .where('~', selfPredicate())
+                .where('A', states(geGlassState()))
+                .where('B', states(getCasingState()))
+                .where('C', states(getPipeState()))
+                .where('D', frames(Materials.Naquadah))
+                .where('E', air())
+                .where('F', states(getStructureState()).setMinGlobalLimited(230)
+                        .or(autoAbilities())
+                )
+                .where(' ', any())
                 .build();
     }
 
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {
-        return Textures.ROBUST_TUNGSTENSTEEL_CASING;
+        return GCYMTextures.ATOMIC_CASING;
     }
 
     @Override
@@ -77,6 +85,6 @@ public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipe
 
     @Override
     public boolean hasMufflerMechanics() {
-        return true;
+        return false;
     }
 }
