@@ -86,6 +86,12 @@
           "all": "gregtech:blocks/casings/large_multiblock_casing/atomic_casing"
         }
       },
+      "naquadah_reinforced_casing": {
+        "model": "minecraft:cube_all",
+        "textures": {
+          "all": "gregtech:blocks/casings/large_multiblock_casing/naquadah_reinforced_casing"
+        }
+      },
       "steam_casing": {
         "model": "minecraft:cube_all",
         "textures": {

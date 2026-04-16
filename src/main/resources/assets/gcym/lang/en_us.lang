@@ -152,6 +152,7 @@ tile.large_multiblock_casing.mixer_casing.name=Reaction-Safe Mixing Casing
 tile.large_multiblock_casing.thermal_processing_casing.name=Thermal Processing Casing
 tile.large_multiblock_casing.engraver_casing.name=Laser-Safe Engraving Casing
 tile.large_multiblock_casing.atomic_casing.name=Atomic Casing
+tile.large_multiblock_casing.naquadah_reinforced_casing.name=Naquadah Reinforced Casing
 tile.large_multiblock_casing.steam_casing.name=Industrial Steam Casing
 
 # RecipeMaps

@@ -66,6 +66,7 @@ public final class GCYMTextures {
     public static SimpleOverlayRenderer MIXER_CASING;
     public static SimpleOverlayRenderer ENGRAVER_CASING;
     public static SimpleOverlayRenderer ATOMIC_CASING;
+    public static SimpleOverlayRenderer NAQUADAH_REINFORCED_CASING;
     public static SimpleOverlayRenderer STEAM_CASING;
 
     private GCYMTextures() {}
@@ -126,6 +127,7 @@ public final class GCYMTextures {
         MIXER_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/mixer_casing");
         ENGRAVER_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/engraver_casing");
         ATOMIC_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/atomic_casing");
+        NAQUADAH_REINFORCED_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/naquadah_reinforced_casing");
         STEAM_CASING = new SimpleOverlayRenderer("casings/large_multiblock_casing/steam_casing");
     }
 }

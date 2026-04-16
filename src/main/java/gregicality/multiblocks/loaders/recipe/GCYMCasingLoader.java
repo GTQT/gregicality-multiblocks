@@ -90,6 +90,13 @@ public final class GCYMCasingLoader {
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING, numCasings),
                 "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plateDouble, GCYMMaterials.Trinaquadalloy),
                 'F', new UnificationEntry(OrePrefix.frameGt, Materials.NaquadahAlloy));
+
+        ModHandler.addShapedRecipe(true, "casing_naquadah_reinforced",
+                GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                        .getItemVariant(BlockLargeMultiblockCasing.CasingType.NAQUADAH_REINFORCED_CASING, numCasings),
+                "PhP", "PFP", "PwP", 'P', new UnificationEntry(OrePrefix.plateDouble, Materials.Tritanium),
+                'F', new UnificationEntry(OrePrefix.frameGt, Materials.Naquadria));
+        
         ModHandler.addShapedRecipe(true, "casing_steam",
                 GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.STEAM_CASING, numCasings),
@@ -99,7 +106,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.Zeron100, 6)
                 .input(OrePrefix.frameGt, Materials.Titanium)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.MACERATOR_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -108,7 +115,7 @@ public final class GCYMCasingLoader {
                 .input(OrePrefix.plate, GCYMMaterials.HSLASteel, 4)
                 .input(OrePrefix.plate, GCYMMaterials.TitaniumCarbide, 2)
                 .input(OrePrefix.frameGt, Materials.TungstenCarbide)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.HIGH_TEMPERATURE_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -116,7 +123,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.Stellite, 6)
                 .input(OrePrefix.frameGt, Materials.Tungsten)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.ASSEMBLING_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -124,7 +131,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.MaragingSteel300, 6)
                 .input(OrePrefix.frameGt, Materials.StainlessSteel)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.STRESS_PROOF_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -132,7 +139,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, Materials.CobaltBrass, 6)
                 .input(OrePrefix.frameGt, GCYMMaterials.HSLASteel)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.CORROSION_PROOF_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -140,7 +147,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.IncoloyMA956, 6)
                 .input(OrePrefix.frameGt, GCYMMaterials.IncoloyMA956)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.VIBRATION_SAFE_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -148,7 +155,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.WatertightSteel, 6)
                 .input(OrePrefix.frameGt, GCYMMaterials.WatertightSteel)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.WATERTIGHT_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -156,7 +163,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.HastelloyC276, 6)
                 .input(OrePrefix.frameGt, GCYMMaterials.HastelloyC276)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.CUTTER_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -164,7 +171,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.HSLASteel, 6)
                 .input(OrePrefix.frameGt, GCYMMaterials.HSLASteel)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.NONCONDUCTING_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -172,7 +179,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.HastelloyX, 6)
                 .input(OrePrefix.frameGt, GCYMMaterials.MaragingSteel300)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.MIXER_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -180,7 +187,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, Materials.RedSteel, 6)
                 .input(OrePrefix.frameGt, Materials.BlackSteel)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.THERMAL_PROCESSING_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -188,7 +195,7 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, GCYMMaterials.TitaniumTungstenCarbide, 6)
                 .input(OrePrefix.frameGt, Materials.Titanium)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.ENGRAVER_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
@@ -196,15 +203,23 @@ public final class GCYMCasingLoader {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plateDouble, GCYMMaterials.Trinaquadalloy, 6)
                 .input(OrePrefix.frameGt, Materials.NaquadahAlloy)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();
 
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
+                .input(OrePrefix.plateDouble, Materials.Naquadria, 6)
+                .input(OrePrefix.frameGt, Materials.Tritanium)
+                .circuitMeta(6)
+                .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
+                        .getItemVariant(BlockLargeMultiblockCasing.CasingType.NAQUADAH_REINFORCED_CASING, numCasings))
+                .duration(50).EUt(16).buildAndRegister();
+
+        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder()
                 .input(OrePrefix.plate, Materials.Brass, 6)
                 .input(OrePrefix.frameGt, Materials.Brass)
-                .notConsumable(new IntCircuitIngredient(6))
+                .circuitMeta(6)
                 .outputs(GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING
                         .getItemVariant(BlockLargeMultiblockCasing.CasingType.STEAM_CASING, numCasings))
                 .duration(50).EUt(16).buildAndRegister();

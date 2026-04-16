@@ -155,6 +155,7 @@ tile.large_multiblock_casing.mixer_casing.name=惰性搅拌机械方块
 tile.large_multiblock_casing.thermal_processing_casing.name=热处理机械方块
 tile.large_multiblock_casing.engraver_casing.name=抗激光蚀刻机械方块
 tile.large_multiblock_casing.atomic_casing.name=原子机械方块
+tile.large_multiblock_casing.naquadah_reinforced_casing.name=强化硅岩机械方块
 tile.large_multiblock_casing.steam_casing.name=工业蒸汽机械方块
 
 # RecipeMaps

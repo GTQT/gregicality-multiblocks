@@ -34,7 +34,7 @@ public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipe
     }
 
     private static IBlockState getStructureState() {
-        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.ATOMIC_CASING);
+        return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.NAQUADAH_REINFORCED_CASING);
     }
 
     private static IBlockState getPipeState() {
@@ -75,7 +75,7 @@ public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipe
 
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {
-        return GCYMTextures.ATOMIC_CASING;
+        return GCYMTextures.NAQUADAH_REINFORCED_CASING;
     }
 
     @Override

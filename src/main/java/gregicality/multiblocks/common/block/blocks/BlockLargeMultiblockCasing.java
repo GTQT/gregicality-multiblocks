@@ -45,6 +45,7 @@ public class BlockLargeMultiblockCasing extends VariantBlock<BlockLargeMultibloc
         THERMAL_PROCESSING_CASING("thermal_processing_casing"),
         ENGRAVER_CASING("engraver_casing"),
         ATOMIC_CASING("atomic_casing"),
+        NAQUADAH_REINFORCED_CASING("naquadah_reinforced_casing"),
         STEAM_CASING("steam_casing");
 
         private final String name;
