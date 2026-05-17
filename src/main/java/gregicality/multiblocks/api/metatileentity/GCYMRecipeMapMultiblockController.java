@@ -63,7 +63,7 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
     protected MultiblockUIFactory createUIFactory() {
         return super.createUIFactory()
                 .createParallelButton((guiData, syncManager) -> {
-                    var throttlePanel = syncManager.panel("parallel_panel", this::createParallelThrottlePanel, true);
+                    var throttlePanel = syncManager.syncedPanel("parallel_panel", true, this::createParallelThrottlePanel);
                     // 配置按钮 - 打开并行调整UI
                     return new ButtonWidget<>()
                             .size(18)
