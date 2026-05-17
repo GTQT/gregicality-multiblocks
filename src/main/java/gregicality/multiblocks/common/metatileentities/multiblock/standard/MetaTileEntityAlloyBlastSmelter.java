@@ -17,10 +17,8 @@ import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
-import gregtech.api.pattern.MultiblockShapeInfo;
-import gregtech.api.pattern.PatternMatchContext;
+import gregtech.api.pattern.*;
+import gregtech.api.pattern.casing.*;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.util.GTUtility;
@@ -30,8 +28,11 @@ import gregtech.api.util.tooltips.TooltipBuilder;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.ConfigHolder;
+import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.BlockWireCoil;
+import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
+import gregtech.common.metatileentities.multi.electric.MetaTileEntityElectricBlastFurnace;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -122,55 +123,32 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
         return false;
     }
 
-    @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("#XXX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
-                .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
-                .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXMXX")
-                .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
-                .aisle("#XSX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
-                .where('S', selfPredicate())
-                .where('X',
-                        states(getCasingState()).setMinGlobalLimited(30)
-                                .or(autoAbilities(true, true, true, true, true, true, false)))
-                .where('C', heatingCoils())
-                .where('G', states(getCasingState2()))
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('A', air())
-                .where('#', any())
-                .build();
-    }
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:alloy_blast_smelter", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("#XXX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
+                    .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
+                    .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXMXX")
+                    .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
+                    .aisle("#XSX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
+                    .where('S',  selfPredicateByClass(MetaTileEntityAlloyBlastSmelter.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .withOptionalHatches(MultiblockAbility.INPUT_ENERGY, 8)
+                    .withOptionalHatches(MultiblockAbility.INPUT_LASER, 1)
+                    .withHatches(MultiblockAbility.MAINTENANCE_HATCH, 1,1)
+                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .tieredCasing('C', GTCasingGroups.heatingCoils())
+                    .withChannel(GTStructureChannels.HEATING_COIL)
+                    .where('G', states(getCasingState2()))
+                    .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     @Override
-    public List<MultiblockShapeInfo> getMatchingShapes() {
-        ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
-        MultiblockShapeInfo.Builder builder = MultiblockShapeInfo.builder()
-                .aisle("#XEX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
-                .aisle("XXXXX", "C###C", "G###G", "C###C", "XXXXX")
-                .aisle("XXXXX", "C###C", "G###G", "C###C", "XXMXX")
-                .aisle("FXXXH", "C###C", "G###G", "C###C", "XXXXX")
-                .aisle("#ISO#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
-                .where('S', GCYMMetaTileEntities.ALLOY_BLAST_SMELTER, EnumFacing.SOUTH)
-                .where('X', getCasingState())
-                .where('G', getCasingState2())
-                .where('M', MetaTileEntities.MUFFLER_HATCH[GTValues.HV], EnumFacing.UP)
-                .where('I', MetaTileEntities.ITEM_IMPORT_BUS[GTValues.HV], EnumFacing.SOUTH)
-                .where('F', MetaTileEntities.FLUID_IMPORT_HATCH[GTValues.HV], EnumFacing.SOUTH)
-                .where('O', MetaTileEntities.FLUID_EXPORT_HATCH[GTValues.HV], EnumFacing.SOUTH)
-                .where('E', MetaTileEntities.ENERGY_INPUT_HATCH[GTValues.EV], EnumFacing.NORTH)
-                .where('H',
-                        () -> ConfigHolder.machines.enableMaintenance ? MetaTileEntities.MAINTENANCE_HATCH :
-                                getCasingState(),
-                        EnumFacing.SOUTH)
-                .where('#', Blocks.AIR.getDefaultState());
-
-        GregTechAPI.HEATING_COILS.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getValue().getTier()))
-                .forEach(entry -> shapeInfo.add(builder.where('C', entry.getKey()).build()));
-        return shapeInfo;
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
-
     @Override
     public void addInformation(ItemStack stack, @Nullable World player, @NotNull List<String> tooltip,
                                boolean advanced) {

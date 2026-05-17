@@ -9,8 +9,12 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -19,6 +23,26 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeArcFurnace extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_arc_furnace", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#")
+                    .aisle("XXXXX", "XCACX", "XCACX", "XXXXX")
+                    .aisle("XXXXX", "XAAAX", "XAAAX", "XXMXX")
+                    .aisle("XXXXX", "XACAX", "XACAX", "XXXXX")
+                    .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#")
+                    .where('S', selfPredicateByClass(MetaTileEntityLargeArcFurnace.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .withHatches(MultiblockAbility.INPUT_ENERGY, 1, 4)
+                    .withHatches(MultiblockAbility.MAINTENANCE_HATCH, 1, 1)
+                    .withCustomHatches(tieredCasing(), 1)
+                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeArcFurnace(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.ARC_FURNACE_RECIPES);
@@ -39,22 +63,8 @@ public class MetaTileEntityLargeArcFurnace extends GCYMAdvanceRecipeMapMultibloc
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#")
-                .aisle("XXXXX", "XCACX", "XCACX", "XXXXX")
-                .aisle("XXXXX", "XAAAX", "XAAAX", "XXMXX")
-                .aisle("XXXXX", "XACAX", "XACAX", "XXXXX")
-                .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(45)
-                        .or(tieredCasing())
-                        .or(autoAbilities(true, true, true, true, true, true, false)))
-                .where('C', states(getCasingState2()))
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

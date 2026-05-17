@@ -7,8 +7,12 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.tooltips.InformationHandler;
@@ -32,6 +36,36 @@ import java.util.List;
 //此系列设备不给多线程
 public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockController {
 
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:mega_chemical_reactor", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("XXXXX", "XEEEX", "XEEEX", "XEEEX", "XXXXX")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
+                    .aisle("XXXXX", "XGGGX", "XGSGX", "XGGGX", "XXXXX")
+                    .where('S', selfPredicateByClass(MetaTileEntityMegaChemicalReactor.class))
+                    .where('E', states(getCasingState())
+                            .or(abilities(MultiblockAbility.INPUT_ENERGY)
+                                    .setMaxGlobalLimited(8))
+                            .or(abilities(MultiblockAbility.INPUT_LASER)
+                                    .setMaxGlobalLimited(1))
+                    )
+                    .where('P', states(getPipeCasingState()))
+                    .where('#', air())
+                    .where('G', states(getGlassState()))
+                    .where('F', states(getCoilState()))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .applyPreset(HatchPresets.MUFFLER_IO)
+                    .withCustomHatches(tieredCasing(), 1)
+                    .where('H', states(getCasingState()))
+                    .buildTemplate()
+    );
+
     public MetaTileEntityMegaChemicalReactor(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
                 RecipeMaps.LARGE_CHEMICAL_RECIPES,
@@ -41,50 +75,25 @@ public class MetaTileEntityMegaChemicalReactor extends GCYMRecipeMapMultiblockCo
         this.recipeMapWorkable = new GCYMMultiblockRecipeLogic(this, true);
     }
 
-    @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXXXX", "XEEEX", "XEEEX", "XEEEX", "XXXXX")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("HPXPH", "#GGG#", "#GFG#", "#GGG#", "HPXPH")
-                .aisle("XXXXX", "XGGGX", "XGSGX", "XGGGX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()))
-                .where('P', states(getPipeCasingState()))
-                .where('#', air())
-                .where('G', states(getGlassState()))
-                .where('F', states(getCoilState()))
-                .where('E', states(getCasingState())
-                        .or(autoAbilities(false, true, true, true, true, true, true))
-                        .or(abilities(MultiblockAbility.INPUT_ENERGY)
-                                .setMaxGlobalLimited(8))
-                        .or(abilities(MultiblockAbility.INPUT_LASER)
-                                .setMaxGlobalLimited(1))
-                        .or(tieredCasing())
-                )
-                .where('H', states(getCasingState()))
-                .build();
-    }
-
-    protected IBlockState getCasingState() {
+    protected static IBlockState getCasingState() {
         return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.PTFE_INERT_CASING);
     }
 
-    protected IBlockState getPipeCasingState() {
+    protected static IBlockState getPipeCasingState() {
         return MetaBlocks.BOILER_CASING.getState(BlockBoilerCasing.BoilerCasingType.POLYTETRAFLUOROETHYLENE_PIPE);
     }
 
-    protected IBlockState getGlassState() {
+    protected static IBlockState getGlassState() {
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
     }
 
-    protected IBlockState getCoilState() {
+    protected static IBlockState getCoilState() {
         return MetaBlocks.FUSION_CASING.getState(BlockFusionCasing.CasingType.FUSION_COIL);
+    }
+
+    @Override
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @SideOnly(Side.CLIENT)

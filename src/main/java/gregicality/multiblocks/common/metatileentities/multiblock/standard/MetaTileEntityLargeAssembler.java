@@ -9,8 +9,12 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.tooltips.TooltipBuilder;
@@ -33,6 +37,27 @@ import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeAssembler extends GCYMAdvanceRecipeMapMultiblockController {
 
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_assembler", () ->
+            DeclarativePatternBuilder.start(FRONT, UP, RIGHT)
+                    .aisle("XXX", "XXX", "XXX")
+                    .aisleRepeatable(3, 3, "XXX", "CAX", "CCX")
+                    .aisle("XXX", "XXX", "XXX")
+                    .aisle("XXX", "XAX", "#XX")
+                    .aisle("XXX", "SXX", "#XX")
+                    .aisle("XXX", "XAX", "#XX")
+                    .aisle("XXX", "XXX", "XXX")
+                    .where('S', selfPredicateByClass(MetaTileEntityLargeAssembler.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .withHatches(MultiblockAbility.INPUT_ENERGY, 1, 1)
+                    .withCustomHatches(tieredCasing(), 1)
+                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .applyPreset(HatchPresets.MUFFLER_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
+
     public MetaTileEntityLargeAssembler(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, determineRecipeMaps());
     }
@@ -45,7 +70,7 @@ public class MetaTileEntityLargeAssembler extends GCYMAdvanceRecipeMapMultiblock
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.TEMPERED_GLASS);
     }
 
-    private static @NotNull RecipeMap<?> @NotNull[] determineRecipeMaps() {
+    private static @NotNull RecipeMap<?> @NotNull [] determineRecipeMaps() {
         RecipeMap<?> cuisineAssemblerMap = RecipeMap.getByName("cuisine_assembler");
         if (Loader.isModLoaded(GCYMValues.GTFO_MODID) && cuisineAssemblerMap != null) {
             return new RecipeMap<?>[]{RecipeMaps.ASSEMBLER_RECIPES, cuisineAssemblerMap};
@@ -59,24 +84,8 @@ public class MetaTileEntityLargeAssembler extends GCYMAdvanceRecipeMapMultiblock
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start(FRONT, UP, RIGHT)
-                .aisle("XXX", "XXX", "XXX")
-                .aisle("XXX", "CAX", "CCX").setRepeatable(3)
-                .aisle("XXX", "XXX", "XXX")
-                .aisle("XXX", "XAX", "#XX")
-                .aisle("XXX", "SXX", "#XX")
-                .aisle("XXX", "XAX", "#XX")
-                .aisle("XXX", "XXX", "XXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40)
-                        .or(autoAbilities(false, true, true, true, true, true, true))
-                        .or(tieredCasing())
-                        .or(abilities(MultiblockAbility.INPUT_ENERGY).setExactLimit(1)))
-                .where('C', states(getCasingState2()))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

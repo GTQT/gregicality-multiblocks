@@ -8,12 +8,15 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.unification.material.Materials;
 import gregtech.client.renderer.ICubeRenderer;
-import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.BlockGlassCasing;
@@ -24,6 +27,29 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:electric_implosion_compressor", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("               ", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "               ")
+                    .aisle("F F         F F", "F F   FFF   F F", "FBF  FFAFF  FBF", "FBF  AAAAA  FBF", "FBF  FFAFF  FBF", "F F   FFF   F F", "F F         F F")
+                    .aisle("F F         F F", "FBF  FFCFF  FBF", "F FFFEEEEEFFF F", "F FAA     AAF F", "F FFFEEEEEFFF F", "FBF  FFCFF  FBF", "F F         F F")
+                    .aisle("F F         F F", "FBFFFFCCCFFFFBF", "F FBBBEDEBBBF F", "F F         F F", "F FBBBEDEBBBF F", "FBFFFFCCCFFFFBF", "F F         F F")
+                    .aisle("F F         F F", "FBF  FFCFF  FBF", "F FFFEEEEEFFF F", "F FAA     AAF F", "F FFFEEEEEFFF F", "FBF  FFCFF  FBF", "F F         F F")
+                    .aisle("F F         F F", "F F   F~F   F F", "FBF  FFAFF  FBF", "FBF  AAAAA  FBF", "FBF  FFAFF  FBF", "F F   FFF   F F", "F F         F F")
+                    .aisle("               ", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "               ")
+                    .where('~', selfPredicateByClass(MetaTileEntityElectricImplosionCompressor.class))
+                    .where('A', states(geGlassState()))
+                    .where('B', states(getCasingState()))
+                    .where('C', states(getPipeState()))
+                    .where('D', frames(Materials.Naquadah))
+                    .where('E', air())
+                    .casing('F', CasingDefinition.simple(getStructureState()))
+                    .withHatches(MultiblockAbility.INPUT_ENERGY, 1, 4)
+                    .withHatches(MultiblockAbility.MAINTENANCE_HATCH, 1, 1)
+                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .where(' ', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityElectricImplosionCompressor(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.ELECTRIC_IMPLOSION_RECIPES);
@@ -46,31 +72,13 @@ public class MetaTileEntityElectricImplosionCompressor extends GCYMAdvanceRecipe
     }
 
     @Override
-    public MetaTileEntity createMetaTileEntity(IGregTechTileEntity metaTileEntityHolder) {
-        return new MetaTileEntityElectricImplosionCompressor(this.metaTileEntityId);
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("               ", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "               ")
-                .aisle("F F         F F", "F F   FFF   F F", "FBF  FFAFF  FBF", "FBF  AAAAA  FBF", "FBF  FFAFF  FBF", "F F   FFF   F F", "F F         F F")
-                .aisle("F F         F F", "FBF  FFCFF  FBF", "F FFFEEEEEFFF F", "F FAA     AAF F", "F FFFEEEEEFFF F", "FBF  FFCFF  FBF", "F F         F F")
-                .aisle("F F         F F", "FBFFFFCCCFFFFBF", "F FBBBEDEBBBF F", "F F         F F", "F FBBBEDEBBBF F", "FBFFFFCCCFFFFBF", "F F         F F")
-                .aisle("F F         F F", "FBF  FFCFF  FBF", "F FFFEEEEEFFF F", "F FAA     AAF F", "F FFFEEEEEFFF F", "FBF  FFCFF  FBF", "F F         F F")
-                .aisle("F F         F F", "F F   F~F   F F", "FBF  FFAFF  FBF", "FBF  AAAAA  FBF", "FBF  FFAFF  FBF", "F F   FFF   F F", "F F         F F")
-                .aisle("               ", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "F F         F F", "               ")
-                .where('~', selfPredicate())
-                .where('A', states(geGlassState()))
-                .where('B', states(getCasingState()))
-                .where('C', states(getPipeState()))
-                .where('D', frames(Materials.Naquadah))
-                .where('E', air())
-                .where('F', states(getStructureState()).setMinGlobalLimited(230)
-                        .or(autoAbilities())
-                )
-                .where(' ', any())
-                .build();
+    public MetaTileEntity createMetaTileEntity(IGregTechTileEntity metaTileEntityHolder) {
+        return new MetaTileEntityElectricImplosionCompressor(this.metaTileEntityId);
     }
 
     @Override

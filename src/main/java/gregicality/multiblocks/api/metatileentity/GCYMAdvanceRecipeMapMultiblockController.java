@@ -181,7 +181,7 @@ public abstract class GCYMAdvanceRecipeMapMultiblockController extends AdvanceMu
     }
 
     @Override
-    public TraceabilityPredicate autoAbilities(boolean checkEnergyIn, boolean checkMaintenance, boolean checkItemIn,
+    public  TraceabilityPredicate autoAbilities(boolean checkEnergyIn, boolean checkMaintenance, boolean checkItemIn,
                                                boolean checkItemOut, boolean checkFluidIn, boolean checkFluidOut,
                                                boolean checkMuffler) {
         TraceabilityPredicate predicate = super.autoAbilities(checkEnergyIn, checkMaintenance, checkItemIn,

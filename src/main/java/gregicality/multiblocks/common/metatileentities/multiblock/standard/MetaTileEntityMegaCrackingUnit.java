@@ -11,23 +11,23 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.metatileentity.multiblock.ui.MultiblockUIBuilder;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.metatileentity.multiblock.ui.KeyManager;
+import gregtech.api.metatileentity.multiblock.ui.UISyncer;
+import gregtech.api.pattern.BlockPatternTemplate;
 import gregtech.api.pattern.PatternMatchContext;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.*;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.logic.OCResult;
 import gregtech.api.recipes.properties.RecipePropertyStorage;
-import gregtech.api.util.GTUtility;
 import gregtech.api.util.KeyUtil;
 import gregtech.api.util.tooltips.InformationHandler;
 import gregtech.api.util.tooltips.TooltipBuilder;
 import gregtech.client.renderer.ICubeRenderer;
-import gregtech.client.renderer.texture.Textures;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
 import gregtech.common.blocks.BlockGlassCasing;
-import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -45,6 +45,40 @@ import java.util.List;
 //这是与GCYM的转底炉 巨冰箱同一系列的设备
 //此系列设备不给多线程
 public class MetaTileEntityMegaCrackingUnit extends GCYMRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:mega_cracking_unit", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("CCCCCCCCCCCCC", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ")
+                    .aisle("CCCCCCCCCCCCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC")
+                    .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " CGGGGGGGGGC ")
+                    .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " EAAAAAAAAAD ", " EALALALALAD ", " EAAAAAAAAAD ", " GALALALALAG ", " CGGGEEEGGGC ")
+                    .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " EALALALALAD ", " EALALALALAD ", " EALALALALAD ", " GALALALALAG ", " CGGGEEEGGGC ")
+                    .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " EAAAAAAAAAD ", " EALALALALAD ", " EAAAAAAAAAD ", " GALALALALAG ", " CGGGEEEGGGC ")
+                    .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " CGGGGGGGGGC ")
+                    .aisle("CCCCCCCCCCCCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC")
+                    .aisle("CCCCCCSCCCCCC", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ")
+                    .where('S', selfPredicateByClass(MetaTileEntityMegaCrackingUnit.class))
+                    .casing('C', CasingDefinition.simple(getCasingState()))
+                    .withOptionalHatches(MultiblockAbility.INPUT_ENERGY, 8)
+                    .withOptionalHatches(MultiblockAbility.INPUT_LASER, 1)
+                    .applyPreset(HatchPresets.MUFFLER_IO)
+                    .withCustomHatches(tieredCasing(), 1)
+                    .where('G', states(getGlassState()))
+                    .tieredCasing('L', GTCasingGroups.heatingCoils())
+                    .withChannel(GTStructureChannels.HEATING_COIL)
+                    .where('D', states(getCasingState())
+                            .or(abilities(MultiblockAbility.IMPORT_ITEMS).setPreviewCount(1))
+                            .or(abilities(MultiblockAbility.IMPORT_FLUIDS).setPreviewCount(1))
+                    )
+                    .where('E', states(getCasingState())
+                            .or(abilities(MultiblockAbility.EXPORT_ITEMS).setPreviewCount(1))
+                            .or(abilities(MultiblockAbility.EXPORT_FLUIDS).setPreviewCount(1))
+                    )
+                    .where(' ', any())
+                    .where('A', air())
+                    .buildTemplate()
+    );
+
     private int coilTier;
 
     public MetaTileEntityMegaCrackingUnit(ResourceLocation metaTileEntityId) {
@@ -54,46 +88,17 @@ public class MetaTileEntityMegaCrackingUnit extends GCYMRecipeMapMultiblockContr
         this.recipeMapWorkable = new CrackingUnitWorkableHandler(this);
     }
 
-    @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("CCCCCCCCCCCCC", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ")
-                .aisle("CCCCCCCCCCCCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC")
-                .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " CGGGGGGGGGC ")
-                .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " EAAAAAAAAAD ", " EALALALALAD ", " EAAAAAAAAAD ", " GALALALALAG ", " CGGGEEEGGGC ")
-                .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " EALALALALAD ", " EALALALALAD ", " EALALALALAD ", " GALALALALAG ", " CGGGEEEGGGC ")
-                .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " EAAAAAAAAAD ", " EALALALALAD ", " EAAAAAAAAAD ", " GALALALALAG ", " CGGGEEEGGGC ")
-                .aisle("CCCCCCCCCCCCC", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " GALALALALAG ", " CGGGGGGGGGC ")
-                .aisle("CCCCCCCCCCCCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC", "CCGGGGGGGGGCC")
-                .aisle("CCCCCCSCCCCCC", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ", " C         C ")
-                .where('S', this.selfPredicate())
-                .where('C', states(getCasingState())
-                        .or(abilities(MultiblockAbility.INPUT_ENERGY)
-                                .setMaxGlobalLimited(8))
-                        .or(abilities(MultiblockAbility.INPUT_LASER)
-                                .setMaxGlobalLimited(1))
-                        .or(abilities(MultiblockAbility.MAINTENANCE_HATCH).setExactLimit(1))
-                        .or(tieredCasing())
-                )
-                .where('G', states(getGlassState()))
-                .where('L', heatingCoils())
-                .where('D', states(getCasingState())
-                        .or(autoAbilities(false, true, false, true, false, true, false))
-                )
-                .where('E', states(getCasingState())
-                        .or(autoAbilities(false, true, true, false, true, false, false))
-                )
-                .where(' ', any())
-                .where('A', air())
-                .build();
-    }
-
-    protected IBlockState getCasingState() {
+    protected static IBlockState getCasingState() {
         return GCYMMetaBlocks.LARGE_MULTIBLOCK_CASING.getState(BlockLargeMultiblockCasing.CasingType.WATERTIGHT_CASING);
     }
 
-    protected IBlockState getGlassState() {
+    protected static IBlockState getGlassState() {
         return MetaBlocks.TRANSPARENT_CASING.getState(BlockGlassCasing.CasingType.FUSION_GLASS);
+    }
+
+    @Override
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override
@@ -102,30 +107,21 @@ public class MetaTileEntityMegaCrackingUnit extends GCYMRecipeMapMultiblockContr
     }
 
     @Override
-    protected void configureDisplayText(MultiblockUIBuilder builder) {
-        builder.setWorkingStatus(recipeMapWorkable.isWorkingEnabled(), recipeMapWorkable.isActive())
-                .addEnergyUsageLine(getEnergyContainer())
-                .addEnergyTierLine(GTUtility.getTierByVoltage(recipeMapWorkable.getMaxVoltage()))
-                .addCustom((textList, syncer) -> {
-                    if (!isStructureFormed()) return;
+    public void addCustomCapacity(KeyManager keyManager, UISyncer syncer) {
+        if (isStructureFormed()) {
+            // Coil energy discount line
+            IKey energyDiscount = KeyUtil.number(TextFormatting.AQUA,
+                    syncer.syncLong(100 - 10L * getCoilTier()), "%");
 
-                    // Coil energy discount line
-                    IKey energyDiscount = KeyUtil.number(TextFormatting.AQUA,
-                            syncer.syncLong(100 - 10L * getCoilTier()), "%");
+            IKey base = KeyUtil.lang(TextFormatting.GRAY,
+                    "gregtech.multiblock.cracking_unit.energy",
+                    energyDiscount);
 
-                    IKey base = KeyUtil.lang(TextFormatting.GRAY,
-                            "gregtech.multiblock.cracking_unit.energy",
-                            energyDiscount);
+            IKey hover = KeyUtil.lang(TextFormatting.GRAY,
+                    "gregtech.multiblock.cracking_unit.energy_hover");
 
-                    IKey hover = KeyUtil.lang(TextFormatting.GRAY,
-                            "gregtech.multiblock.cracking_unit.energy_hover");
-
-                    textList.add(KeyUtil.setHover(base, hover));
-                })
-                .addParallelsLine(recipeMapWorkable.getParallelLimit())
-                .addWorkingStatusLine()
-                .addProgressLine(recipeMapWorkable.getProgress(), recipeMapWorkable.getMaxProgress())
-                .addRecipeOutputLine(recipeMapWorkable);
+            keyManager.add(KeyUtil.setHover(base, hover));
+        }
     }
 
     @SideOnly(Side.CLIENT)
