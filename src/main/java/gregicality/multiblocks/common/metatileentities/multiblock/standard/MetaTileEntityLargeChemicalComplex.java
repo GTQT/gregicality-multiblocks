@@ -2,12 +2,15 @@ package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
 import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
 import gregicality.multiblocks.api.metatileentity.GCYMRecipeMapMultiblockController;
-import gregicality.multiblocks.api.render.GCYMTextures;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.tooltips.TooltipBuilder;
@@ -33,6 +36,25 @@ import java.util.List;
 //此系列设备不给多线程
 public class MetaTileEntityLargeChemicalComplex extends GCYMRecipeMapMultiblockController {
 
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_chemical_complex", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("X###X", "XXXXX", "X###X", "XXXXX", "X###X")
+                    .aisle("XXXXX", "XPPPX", "XCCCX", "XPPPX", "XXXXX")
+                    .aisle("XXXXX", "XPPPX", "XCPCX", "XPPPX", "XXXXX")
+                    .aisle("XXXXX", "XPPPX", "XCCCX", "XPPPX", "XXXXX")
+                    .aisle("X###X", "SXXXX", "X###X", "XXXXX", "X###X")
+                    .where('S', selfPredicate(MetaTileEntityLargeChemicalComplex.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('P', states(getCasingState2()))
+                    .where('C', heatingCoils())
+                    .where('#', any())
+                    .buildTemplate()
+    );
+
     public MetaTileEntityLargeChemicalComplex(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
                 RecipeMaps.CHEMICAL_RECIPES,
@@ -56,22 +78,8 @@ public class MetaTileEntityLargeChemicalComplex extends GCYMRecipeMapMultiblockC
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("X###X", "XXXXX", "X###X", "XXXXX", "X###X")
-                .aisle("XXXXX", "XPPPX", "XCCCX", "XPPPX", "XXXXX")
-                .aisle("XXXXX", "XPPPX", "XCPCX", "XPPPX", "XXXXX")
-                .aisle("XXXXX", "XPPPX", "XCCCX", "XPPPX", "XXXXX")
-                .aisle("X###X", "SXXXX", "X###X", "XXXXX", "X###X")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('P', states(getCasingState2()))
-                .where('C', heatingCoils())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @SideOnly(Side.CLIENT)

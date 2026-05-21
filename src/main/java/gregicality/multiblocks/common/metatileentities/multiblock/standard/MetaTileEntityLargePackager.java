@@ -5,8 +5,10 @@ import gregicality.multiblocks.api.render.GCYMTextures;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.*;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -33,20 +35,20 @@ public class MetaTileEntityLargePackager extends GCYMAdvanceRecipeMapMultiblockC
         return new MetaTileEntityLargePackager(this.metaTileEntityId);
     }
 
-    @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_packager", () ->
+            DeclarativePatternBuilder.start()
                 .aisle("XXX", "XXX", "XXX")
-                .aisle("XXX", "XAX", "XXX").setRepeatable(3)
+                    .aisleRepeatable(3,3,"XXX", "XAX", "XXX")
                 .aisle("XXX", "XSX", "XXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(30)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
+                .where('S', selfPredicate(MetaTileEntityLargePackager.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
                 .where('A', air())
-                .build();
-    }
+                    .buildTemplate()
+    );
 
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {
@@ -57,6 +59,12 @@ public class MetaTileEntityLargePackager extends GCYMAdvanceRecipeMapMultiblockC
     protected @NotNull OrientedOverlayRenderer getFrontOverlay() {
         return GCYMTextures.LARGE_PACKAGER_OVERLAY;
     }
+
+    @Override
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
+    }
+
 
     @Override
     public boolean canBeDistinct() {

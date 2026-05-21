@@ -7,9 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
-import gregtech.api.recipes.RecipeMap;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -22,6 +25,23 @@ import org.jetbrains.annotations.NotNull;
 import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeCentrifuge extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_centrifuge", () ->
+            DeclarativePatternBuilder.start(RIGHT, FRONT, UP)
+                    .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
+                    .aisle("XXSXX", "XACAX", "XCCCX", "XACAX", "XXXXX")
+                    .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
+                    .where('S', selfPredicate(MetaTileEntityLargeCentrifuge.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeCentrifuge(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.CENTRIFUGE_RECIPES);
@@ -42,20 +62,8 @@ public class MetaTileEntityLargeCentrifuge extends GCYMAdvanceRecipeMapMultibloc
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start(RIGHT, FRONT, UP)
-                .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
-                .aisle("XXSXX", "XACAX", "XCCCX", "XACAX", "XXXXX")
-                .aisle("#XXX#", "XXXXX", "XXXXX", "XXXXX", "#XXX#")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('C', states(getCasingState2()))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

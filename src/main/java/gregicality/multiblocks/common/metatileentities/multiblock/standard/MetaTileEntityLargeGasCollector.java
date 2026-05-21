@@ -7,8 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.unification.material.Materials;
 import gregtech.client.renderer.ICubeRenderer;
@@ -23,6 +27,24 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeGasCollector extends GCYMRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_gas_collector", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("F   F", "F   F", "CCCCC", "CCCCC", "CCCCC")
+                    .aisle("     ", "     ", "CCCCC", "GACAG", "CCCCC")
+                    .aisle("F   F", "F   F", "CCCCC", "CCSCC", "CCCCC")
+                    .where('S', selfPredicate(MetaTileEntityLargeGasCollector.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('A', states(getBoilerCasingState()))
+                    .where('G', states(getGlassState()))
+                    .where('F', states(getFrameState()))
+                    .where(' ', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeGasCollector(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.GAS_COLLECTOR_RECIPES);
@@ -49,23 +71,11 @@ public class MetaTileEntityLargeGasCollector extends GCYMRecipeMapMultiblockCont
         return new MetaTileEntityLargeGasCollector(metaTileEntityId);
     }
 
-    @NotNull
     @Override
-    protected BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("F   F", "F   F", "CCCCC", "CCCCC", "CCCCC")
-                .aisle("     ", "     ", "CCCCC", "GACAG", "CCCCC")
-                .aisle("F   F", "F   F", "CCCCC", "CCSCC", "CCCCC")
-                .where('S', this.selfPredicate())
-                .where('C', states(getCasingState())
-                        .setMinGlobalLimited(35)
-                        .or(autoAbilities()))
-                .where('A', states(getBoilerCasingState()))
-                .where('G', states(getGlassState()))
-                .where('F', states(getFrameState()))
-                .where(' ', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
+
 
     @SideOnly(Side.CLIENT)
     @Override

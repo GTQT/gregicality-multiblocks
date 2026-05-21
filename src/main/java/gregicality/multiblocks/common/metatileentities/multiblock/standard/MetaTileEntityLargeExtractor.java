@@ -7,8 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -22,6 +26,21 @@ import org.jetbrains.annotations.NotNull;
 import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeExtractor extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_extractor", () ->
+            DeclarativePatternBuilder.start(RIGHT, FRONT, UP)
+                    .aisle("XXXXX", "XXXXX", "XXXXX")
+                    .aisle("XXSXX", "XCCCX", "XXXXX")
+                    .aisle("XXXXX", "XXXXX", "XXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargeExtractor.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('C', states(getCasingState2()))
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeExtractor(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{RecipeMaps.EXTRACTOR_RECIPES, RecipeMaps.CANNER_RECIPES});
@@ -41,19 +60,10 @@ public class MetaTileEntityLargeExtractor extends GCYMAdvanceRecipeMapMultiblock
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start(RIGHT, FRONT, UP)
-                .aisle("XXXXX", "XXXXX", "XXXXX")
-                .aisle("XXSXX", "XCCCX", "XXXXX")
-                .aisle("XXXXX", "XXXXX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(25)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('C', states(getCasingState2()))
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
+
 
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {

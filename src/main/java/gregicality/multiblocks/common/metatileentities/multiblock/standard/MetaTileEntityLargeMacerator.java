@@ -8,8 +8,12 @@ import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -19,6 +23,24 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeMacerator extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_macerator", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("XXXXX", "XXXXX", "XXXXX", "XXXXX")
+                    .aisle("XXXXX", "XCCCX", "XCCCX", "X###X")
+                    .aisle("XXXXX", "XCCCX", "XCCCX", "X###X")
+                    .aisle("XXXXX", "XCCCX", "XCCCX", "X###X")
+                    .aisle("XXXXX", "XXSXX", "XXXXX", "XXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargeMacerator.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('#', air())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeMacerator(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
@@ -41,21 +63,8 @@ public class MetaTileEntityLargeMacerator extends GCYMAdvanceRecipeMapMultiblock
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXXXX", "XXXXX", "XXXXX", "XXXXX")
-                .aisle("XXXXX", "XCCCX", "XCCCX", "X###X")
-                .aisle("XXXXX", "XCCCX", "XCCCX", "X###X")
-                .aisle("XXXXX", "XCCCX", "XCCCX", "X###X")
-                .aisle("XXXXX", "XXSXX", "XXXXX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(55)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('C', states(getCasingState2()))
-                .where('#', air())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

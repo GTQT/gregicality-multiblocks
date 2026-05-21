@@ -14,10 +14,8 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
-import gregtech.api.pattern.PatternMatchContext;
-import gregtech.api.pattern.TraceabilityPredicate;
+import gregtech.api.pattern.*;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
@@ -27,7 +25,6 @@ import gregtech.api.util.RelativeDirection;
 import gregtech.api.util.TextComponentUtil;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
-import gregtech.common.ConfigHolder;
 import gregtech.common.blocks.BlockBoilerCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.core.sound.GTSoundEvents;
@@ -51,6 +48,33 @@ import static gregtech.api.util.RelativeDirection.*;
  */
 public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockController implements IDistillationTower {
 
+    static TraceabilityPredicate casingPredicate = states(getCasingState()).setMinGlobalLimited(40);
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_distillery", () ->
+            DeclarativePatternBuilder.start(RIGHT, FRONT, DOWN)
+                    .aisle("#####", "#ZZZ#", "#ZCZ#", "#ZZZ#", "#####")
+                    .aisleRepeatable(1, 12, "##X##", "#XAX#", "XAPAX", "#XAX#", "##X##")
+                    .aisle("#YSY#", "YAAAY", "YAAAY", "YAAAY", "#YYY#")
+                    .aisle("#YYY#", "YYYYY", "YYYYY", "YYYYY", "#YYY#")
+                    .where('S', selfPredicate(MetaTileEntityLargeDistillery.class))
+                    .where('Y', casingPredicate
+                            .or(abilities(MultiblockAbility.IMPORT_ITEMS))
+                            .or(abilities(MultiblockAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2))
+                            .or(abilities(MultiblockAbility.IMPORT_FLUIDS).setMinGlobalLimited(1))
+                            .or(abilities(MultiblockAbility.EXPORT_ITEMS))
+                            .or(tieredCasing())
+                            .or(abilities(GCYMMultiblockAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
+                            .or(abilities(MultiblockAbility.MAINTENANCE_HATCH)))
+                    .where('X', casingPredicate
+                            .or(abilities(MultiblockAbility.EXPORT_FLUIDS)
+                                    .setMinLayerLimited(1)
+                                    .setMaxLayerLimited(1, 1)))
+                    .where('Z', casingPredicate)
+                    .where('P', states(getCasingState2()))
+                    .where('C', abilities(MultiblockAbility.MUFFLER_HATCH))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
     protected final DistillationTowerLogicHandler handler;
 
     public MetaTileEntityLargeDistillery(ResourceLocation metaTileEntityId) {
@@ -114,8 +138,8 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
     @Override
     protected void formStructure(PatternMatchContext context) {
         super.formStructure(context);
-        if (!usesAdvHatchLogic() || this.structurePattern == null) return;
-        handler.determineLayerCount(this.structurePattern);
+        if (this.handler == null || this.multiblockState == null) return;
+        handler.determineLayerCount(this.multiblockState);
         handler.determineOrderedFluidOutputs();
     }
 
@@ -131,36 +155,8 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        // Different characters use common constraints
-        TraceabilityPredicate casingPredicate = states(getCasingState()).setMinGlobalLimited(40);
-        TraceabilityPredicate maintenancePredicate = this.hasMaintenanceMechanics() &&
-                ConfigHolder.machines.enableMaintenance ?
-                abilities(MultiblockAbility.MAINTENANCE_HATCH).setMinGlobalLimited(1).setMaxGlobalLimited(1) :
-                casingPredicate;
-        return FactoryBlockPattern.start(RIGHT, FRONT, DOWN)
-                .aisle("#####", "#ZZZ#", "#ZCZ#", "#ZZZ#", "#####")
-                .aisle("##X##", "#XAX#", "XAPAX", "#XAX#", "##X##").setRepeatable(1, 12)
-                .aisle("#YSY#", "YAAAY", "YAAAY", "YAAAY", "#YYY#")
-                .aisle("#YYY#", "YYYYY", "YYYYY", "YYYYY", "#YYY#")
-                .where('S', selfPredicate())
-                .where('Y', casingPredicate.or(abilities(MultiblockAbility.IMPORT_ITEMS))
-                        .or(abilities(MultiblockAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2))
-                        .or(abilities(MultiblockAbility.IMPORT_FLUIDS).setMinGlobalLimited(1))
-                        .or(abilities(MultiblockAbility.EXPORT_ITEMS))
-                        .or(tieredCasing())
-                        .or(abilities(GCYMMultiblockAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
-                        .or(maintenancePredicate))
-                .where('X', casingPredicate
-                        .or(abilities(MultiblockAbility.EXPORT_FLUIDS)
-                                .setMinLayerLimited(1)
-                                .setMaxLayerLimited(1, 1)))
-                .where('Z', casingPredicate)
-                .where('P', states(getCasingState2()))
-                .where('C', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

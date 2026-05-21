@@ -7,8 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -21,6 +25,26 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeEngraver extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_engraver", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("XXXXX", "XXGXX", "XXGXX", "XXXXX")
+                    .aisle("XXXXX", "XAAAX", "XAAAX", "XCCCX")
+                    .aisle("XXXXX", "GAAAG", "GAPAG", "XCXCX")
+                    .aisle("XXXXX", "XAAAX", "XAAAX", "XCCCX")
+                    .aisle("XXSXX", "XXGXX", "XXGXX", "XXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargeEngraver.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .maintenance()
+                    .where('P', states(getCasingState2()))
+                    .where('G', states(getCasingState3()))
+                    .where('C', states(getCasingState4()))
+                    .where('A', air())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeEngraver(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.LASER_ENGRAVER_RECIPES);
@@ -48,22 +72,8 @@ public class MetaTileEntityLargeEngraver extends GCYMAdvanceRecipeMapMultiblockC
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXXXX", "XXGXX", "XXGXX", "XXXXX")
-                .aisle("XXXXX", "XAAAX", "XAAAX", "XCCCX")
-                .aisle("XXXXX", "GAAAG", "GAPAG", "XCXCX")
-                .aisle("XXXXX", "XAAAX", "XAAAX", "XCCCX")
-                .aisle("XXSXX", "XXGXX", "XXGXX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(50)
-                        .or(tieredCasing())
-                        .or(autoAbilities(true, true, true, true, true, true, false)))
-                .where('P', states(getCasingState2()))
-                .where('G', states(getCasingState3()))
-                .where('C', states(getCasingState4()))
-                .where('A', air())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override
@@ -74,6 +84,11 @@ public class MetaTileEntityLargeEngraver extends GCYMAdvanceRecipeMapMultiblockC
     @Override
     protected @NotNull OrientedOverlayRenderer getFrontOverlay() {
         return GCYMTextures.LARGE_ENGRAVER_OVERLAY;
+    }
+
+    @Override
+    public boolean hasMufflerMechanics() {
+        return false;
     }
 
     @Override

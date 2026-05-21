@@ -8,8 +8,12 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
@@ -21,6 +25,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeRockBreaker extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_rock_breaker", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("CCC", "CCC", "CCC", "CCC")
+                    .aisle("CCC", "C#C", "C#C", "CMC")
+                    .aisle("CSC", "CCC", "CCC", "CCC")
+                    .where('S', selfPredicate(MetaTileEntityLargeRockBreaker.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .maintenance()
+                    .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
+                    .where('#', air())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeRockBreaker(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.ROCK_BREAKER_RECIPES);
@@ -35,22 +55,6 @@ public class MetaTileEntityLargeRockBreaker extends GCYMAdvanceRecipeMapMultiblo
         return new MetaTileEntityLargeRockBreaker(metaTileEntityId);
     }
 
-    @NotNull
-    @Override
-    protected BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("CCC", "CCC", "CCC", "CCC")
-                .aisle("CCC", "C#C", "C#C", "CMC")
-                .aisle("CSC", "CCC", "CCC", "CCC")
-                .where('S', this.selfPredicate())
-                .where('C', states(getCasingState())
-                        .setMinGlobalLimited(16)
-                        .or(autoAbilities()))
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('#', air())
-                .build();
-    }
-
     @SideOnly(Side.CLIENT)
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {
@@ -62,6 +66,11 @@ public class MetaTileEntityLargeRockBreaker extends GCYMAdvanceRecipeMapMultiblo
     @Override
     protected OrientedOverlayRenderer getFrontOverlay() {
         return Textures.ROCK_BREAKER_OVERLAY;
+    }
+
+    @Override
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

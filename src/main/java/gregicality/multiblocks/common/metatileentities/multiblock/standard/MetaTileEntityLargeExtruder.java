@@ -7,8 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -20,6 +24,25 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeExtruder extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_extruder", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("##XXX", "##XXX", "##XXX")
+                    .aisleRepeatable(2, 2, "##XXX", "##XPX", "##XGX")
+                    .aisle("XXXXX", "XXXPX", "XXXGX")
+                    .aisle("XXXXX", "XXXPX", "XXXGX")
+                    .aisle("XXXXX", "XSXXX", "XXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargeExtruder.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('P', states(getCasingState2()))
+                    .where('G', states(getCasingState3()))
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeExtruder(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.EXTRUDER_RECIPES);
@@ -44,23 +67,10 @@ public class MetaTileEntityLargeExtruder extends GCYMAdvanceRecipeMapMultiblockC
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("##XXX", "##XXX", "##XXX")
-                .aisle("##XXX", "##XPX", "##XGX").setRepeatable(2)
-                .aisle("XXXXX", "XXXPX", "XXXGX")
-                .aisle("XXXXX", "XXXPX", "XXXGX")
-                .aisle("XXXXX", "XSXXX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('P', states(getCasingState2()))
-                .where('G', states(getCasingState3()))
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
+
 
     @Override
     public ICubeRenderer getBaseTexture(IMultiblockPart iMultiblockPart) {

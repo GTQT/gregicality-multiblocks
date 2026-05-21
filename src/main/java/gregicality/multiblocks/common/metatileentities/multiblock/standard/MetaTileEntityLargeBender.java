@@ -7,8 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -21,6 +25,22 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeBender extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_bender", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("XXXXXXX", "XXXXXXX", "XXXXXXX")
+                    .aisle("XXXXXXX", "XXXGGGX", "XXXXXXX")
+                    .aisle("XXXXXXX", "XSXCCCX", "XXXXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargeBender.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('G', states(getCasingState2()))
+                    .where('C', states(getCasingState3()))
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeBender(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
@@ -50,19 +70,8 @@ public class MetaTileEntityLargeBender extends GCYMAdvanceRecipeMapMultiblockCon
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXXXXXX", "XXXXXXX", "XXXXXXX")
-                .aisle("XXXXXXX", "XXXGGGX", "XXXXXXX")
-                .aisle("XXXXXXX", "XSXCCCX", "XXXXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(40)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('G', states(getCasingState2()))
-                .where('C', states(getCasingState3()))
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

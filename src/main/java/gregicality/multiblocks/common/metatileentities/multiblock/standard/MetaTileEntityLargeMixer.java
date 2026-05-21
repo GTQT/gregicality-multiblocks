@@ -8,8 +8,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -23,6 +27,27 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeMixer extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_mixer", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
+                    .aisle("XXXXX", "XACAX", "XAAAX", "XACAX", "XAAAX", "##F##")
+                    .aisle("XXXXX", "XCPCX", "XAPAX", "XCPCX", "XAPAX", "FFFFF")
+                    .aisle("XXXXX", "XACAX", "XAAAX", "XACAX", "XAAAX", "##F##")
+                    .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
+                    .where('S', selfPredicate(MetaTileEntityLargeMixer.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('P', states(getCasingState2()))
+                    .where('C', states(getCasingState3()))
+                    .where('F', frames(GCYMMaterials.HastelloyX))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeMixer(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{RecipeMaps.MIXER_RECIPES, RecipeMaps.LARGE_MIXER_RECIPES});
@@ -40,34 +65,14 @@ public class MetaTileEntityLargeMixer extends GCYMAdvanceRecipeMapMultiblockCont
         return MetaBlocks.METAL_CASING.getState(BlockMetalCasing.MetalCasingType.PTFE_INERT_CASING);
     }
 
-    private static IBlockState getCasingState4() {
-        return MetaBlocks.TURBINE_CASING.getState(BlockTurbineCasing.TurbineCasingType.STAINLESS_STEEL_GEARBOX);
-    }
-
     @Override
     public MetaTileEntity createMetaTileEntity(IGregTechTileEntity metaTileEntityHolder) {
         return new MetaTileEntityLargeMixer(this.metaTileEntityId);
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
-                .aisle("XXXXX", "XACAX", "XAAAX", "XACAX", "XAAAX", "##F##")
-                .aisle("XXXXX", "XCPCX", "XAPAX", "XCPCX", "XAPAX", "FFFFF")
-                .aisle("XXXXX", "XACAX", "XAAAX", "XACAX", "XAAAX", "##F##")
-                .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#", "#XXX#", "##F##")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(50)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('P', states(getCasingState2()))
-                .where('C', states(getCasingState3()))
-                .where('F', frames(GCYMMaterials.HastelloyX))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

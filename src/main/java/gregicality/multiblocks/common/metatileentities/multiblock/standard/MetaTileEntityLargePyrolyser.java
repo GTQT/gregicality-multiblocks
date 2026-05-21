@@ -12,9 +12,13 @@ import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.ui.MultiblockUIBuilder;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
 import gregtech.api.pattern.PatternMatchContext;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.logic.OCResult;
@@ -40,6 +44,25 @@ import java.util.List;
 //此系列设备不给多线程
 public class MetaTileEntityLargePyrolyser extends GCYMRecipeMapMultiblockController {
 
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_pyrolyser", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("XXXXX", "XXXXX", "XXMXX", "XXXXX", "XXXXX")
+                    .aisle("CCCCC", "CPCPC", "CCCCC", "CPCPC", "CCCCC")
+                    .aisle("CCCCC", "CCCCC", "CCCCC", "CCCCC", "CCCCC")
+                    .aisle("CCCCC", "CPCPC", "CCCCC", "CPCPC", "CCCCC")
+                    .aisle("XXXXX", "XXXXX", "XXSXX", "XXXXX", "XXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargePyrolyser.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .maintenance()
+                    .where('C', heatingCoils())
+                    .where('P', states(getCasingState3()))
+                    .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
+                    .where('A', air())
+                    .buildTemplate()
+    );
     private int coilTier;
 
     public MetaTileEntityLargePyrolyser(ResourceLocation metaTileEntityId) {
@@ -61,23 +84,8 @@ public class MetaTileEntityLargePyrolyser extends GCYMRecipeMapMultiblockControl
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXXXX", "XXXXX", "XXMXX", "XXXXX", "XXXXX")
-                .aisle("CCCCC", "CPCPC", "CCCCC", "CPCPC", "CCCCC")
-                .aisle("CCCCC", "CCCCC", "CCCCC", "CCCCC", "CCCCC")
-                .aisle("CCCCC", "CPCPC", "CCCCC", "CPCPC", "CCCCC")
-                .aisle("XXXXX", "XXXXX", "XXSXX", "XXXXX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X',
-                        states(getCasingState()).setMinGlobalLimited(35)
-                                .or(tieredCasing())
-                                .or(autoAbilities(true, true, true, true, true, true, false)))
-                .where('C', heatingCoils())
-                .where('P', states(getCasingState3()))
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('A', air())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

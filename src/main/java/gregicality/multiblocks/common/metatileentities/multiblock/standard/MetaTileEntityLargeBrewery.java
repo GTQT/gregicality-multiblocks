@@ -9,8 +9,12 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -22,6 +26,27 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeBrewery extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_brewer", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#####")
+                    .aisle("XXXXX", "XCCCX", "XAAAX", "XXAXX", "##X##")
+                    .aisle("XXXXX", "XCPCX", "XAPAX", "XAPAX", "#XMX#")
+                    .aisle("XXXXX", "XCCCX", "XAAAX", "XXAXX", "##X##")
+                    .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#", "#####")
+                    .where('S', selfPredicate(MetaTileEntityLargeBrewery.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .maintenance()
+                    .preset(HatchPresets.STANDARD_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('P', states(getCasingState3()))
+                    .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeBrewery(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{RecipeMaps.BREWING_RECIPES, RecipeMaps.FERMENTING_RECIPES,
@@ -47,24 +72,8 @@ public class MetaTileEntityLargeBrewery extends GCYMAdvanceRecipeMapMultiblockCo
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("#XXX#", "#XXX#", "#XXX#", "#XXX#", "#####")
-                .aisle("XXXXX", "XCCCX", "XAAAX", "XXAXX", "##X##")
-                .aisle("XXXXX", "XCPCX", "XAPAX", "XAPAX", "#XMX#")
-                .aisle("XXXXX", "XCCCX", "XAAAX", "XXAXX", "##X##")
-                .aisle("#XXX#", "#XSX#", "#XXX#", "#XXX#", "#####")
-                .where('S', selfPredicate())
-                .where('X',
-                        states(getCasingState()).setMinGlobalLimited(50)
-                                .or(tieredCasing())
-                                .or(autoAbilities(true, true, true, true, true, true, false)))
-                .where('C', states(getCasingState2()))
-                .where('P', states(getCasingState3()))
-                .where('M', abilities(MultiblockAbility.MUFFLER_HATCH))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

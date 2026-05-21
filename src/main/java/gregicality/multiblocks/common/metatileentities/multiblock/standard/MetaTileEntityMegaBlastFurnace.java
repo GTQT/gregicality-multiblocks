@@ -49,6 +49,9 @@ import java.util.List;
 //此系列设备不给多线程
 public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockController implements IHeatingCoil {
 
+    /**
+     * 目前写法
+     */
     private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:mega_blast_furnace", () ->
             DeclarativePatternBuilder.start()
                     .aisle("##XXXXXXXXX##", "##XXXXXXXXX##", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
@@ -64,13 +67,13 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
                     .aisle("XXXXXXXXXXXXX", "XXXXVVVVVXXXX", "##F#######F##", "##F#######F##", "##FFFHHHFFF##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##F#######F##", "##FFFHHHFFF##", "#############", "#############", "#############", "#############", "#############", "###TTTTTTT###")
                     .aisle("#XXXXXXXXXXX#", "#XXXXXXXXXXX#", "###F#####F###", "###F#####F###", "###FFFFFFF###", "#############", "#############", "#############", "#############", "#############", "####FFFFF####", "#############", "#############", "#############", "#############", "#############", "#############")
                     .aisle("##XXXXXXXXX##", "##XXXXSXXXX##", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############", "#############")
-                    .where('S', selfPredicateByClass(MetaTileEntityMegaBlastFurnace.class))
+                    .where('S', selfPredicate(MetaTileEntityMegaBlastFurnace.class))
                     .casing('X', CasingDefinition.simple(getCasingState()))
-                    .withOptionalHatches(MultiblockAbility.INPUT_ENERGY, 8)
-                    .withOptionalHatches(MultiblockAbility.INPUT_LASER, 1)
-                    .withCustomHatches(tieredCasing(), 1)
-                    .withHatches(MultiblockAbility.MAINTENANCE_HATCH, 1, 1)
-                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .optionalEnergyInput(8)
+                    .optionalLaserInput(1)
+                    .custom(tieredCasing(), 1)
+                    .maintenance()
+                    .preset(HatchPresets.STANDARD_IO)
                     .where('F', frames(Materials.NaquadahAlloy))
                     .where('H', states(getCasingState()))
                     .where('P', states(getPipeState()))

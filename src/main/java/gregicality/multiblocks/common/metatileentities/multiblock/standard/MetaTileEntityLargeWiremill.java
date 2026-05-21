@@ -7,8 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
@@ -22,6 +26,24 @@ import org.jetbrains.annotations.NotNull;
 import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeWiremill extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_wiremill", () ->
+            DeclarativePatternBuilder.start(FRONT, UP, RIGHT)
+                    .aisle("XXX", "XXX", "XXX")
+                    .aisle("XXX", "SCX", "XXX")
+                    .aisle("XXX", "XCX", "XX#")
+                    .aisle("XXX", "XCX", "#X#")
+                    .aisle("XXX", "XXX", "#X#")
+                    .where('S', selfPredicate(MetaTileEntityLargeWiremill.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeWiremill(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, new RecipeMap[]{
@@ -46,21 +68,8 @@ public class MetaTileEntityLargeWiremill extends GCYMAdvanceRecipeMapMultiblockC
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start(FRONT, UP, RIGHT)
-                .aisle("XXX", "XXX", "XXX")
-                .aisle("XXX", "SCX", "XXX")
-                .aisle("XXX", "XCX", "XX#")
-                .aisle("XXX", "XCX", "#X#")
-                .aisle("XXX", "XXX", "#X#")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(25)
-                        .or(autoAbilities())
-                        .or(tieredCasing())
-                )
-                .where('C', states(getCasingState2()))
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

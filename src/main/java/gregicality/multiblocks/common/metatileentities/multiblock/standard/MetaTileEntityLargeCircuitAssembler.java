@@ -7,9 +7,12 @@ import gregicality.multiblocks.common.block.blocks.BlockLargeMultiblockCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.util.tooltips.TooltipBuilder;
 import gregtech.client.renderer.ICubeRenderer;
@@ -31,6 +34,26 @@ import java.util.List;
 import static gregtech.api.util.RelativeDirection.*;
 
 public class MetaTileEntityLargeCircuitAssembler extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_circuit_assembler", () ->
+            DeclarativePatternBuilder.start(FRONT, UP, RIGHT)
+                    .aisle("#XXXX", "#XXXX", "#XXXX")
+                    .aisleRepeatable(4, 4, "#XXXX", "#CAPX", "#XGGX")
+                    .aisle("XXXXX", "SPPPX", "XXGGX")
+                    .aisle("XXXXX", "XXXXX", "XXXXX")
+                    .where('S', selfPredicate(MetaTileEntityLargeCircuitAssembler.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('C', states(getCasingState2()))
+                    .where('P', states(getCasingState3()))
+                    .where('G', states(getCasingState4()))
+                    .where('A', air())
+                    .where('#', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeCircuitAssembler(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.CIRCUIT_ASSEMBLER_RECIPES);
@@ -58,23 +81,8 @@ public class MetaTileEntityLargeCircuitAssembler extends GCYMAdvanceRecipeMapMul
     }
 
     @Override
-    protected @NotNull BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start(FRONT, UP, RIGHT)
-                .aisle("#XXXX", "#XXXX", "#XXXX")
-                .aisle("#XXXX", "#CAPX", "#XGGX").setRepeatable(4)
-                .aisle("XXXXX", "SPPPX", "XXGGX")
-                .aisle("XXXXX", "XXXXX", "XXXXX")
-                .where('S', selfPredicate())
-                .where('X', states(getCasingState()).setMinGlobalLimited(55)
-                        .or(autoAbilities(false, true, true, true, true, true, true))
-                        .or(tieredCasing())
-                        .or(abilities(MultiblockAbility.INPUT_ENERGY).setExactLimit(1)))
-                .where('C', states(getCasingState2()))
-                .where('P', states(getCasingState3()))
-                .where('G', states(getCasingState4()))
-                .where('A', air())
-                .where('#', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @Override

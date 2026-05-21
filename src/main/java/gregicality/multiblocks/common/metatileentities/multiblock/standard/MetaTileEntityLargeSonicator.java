@@ -8,8 +8,12 @@ import gregicality.multiblocks.common.block.blocks.BlockUniqueCasing;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
-import gregtech.api.pattern.BlockPattern;
-import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.pattern.BlockPatternTemplate;
+import gregtech.api.pattern.SoftTemplate;
+import gregtech.api.pattern.TemplatePool;
+import gregtech.api.pattern.casing.CasingDefinition;
+import gregtech.api.pattern.casing.DeclarativePatternBuilder;
+import gregtech.api.pattern.casing.HatchPresets;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.common.blocks.BlockBoilerCasing;
@@ -22,6 +26,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 public class MetaTileEntityLargeSonicator extends GCYMAdvanceRecipeMapMultiblockController {
+
+    private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:large_sonicator", () ->
+            DeclarativePatternBuilder.start()
+                    .aisle("XXXXX", "XXXXX", "XXXXX", "     ")
+                    .aisle("XXXXX", "XCCCX", "XGGGX", "     ")
+                    .aisle("XXXXX", "XCPCX", "XGPGX", "  P  ")
+                    .aisle("XXXXX", "XCCCX", "XGGGX", "  P  ")
+                    .aisle("XXXXX", "XXXXX", "XXXXX", "  P  ")
+                    .aisle(" XXX ", " XPX ", " XPX ", "  P  ")
+                    .aisle(" XXX ", " XSX ", " XXX ", "     ")
+                    .where('S', selfPredicate(MetaTileEntityLargeSonicator.class))
+                    .casing('X', CasingDefinition.simple(getCasingState()))
+                    .energyInput(1, 2)
+                    .custom(tieredCasing(), 1)
+                    .preset(HatchPresets.STANDARD_IO)
+                    .preset(HatchPresets.MUFFLER_IO)
+                    .where('P', states(getBoilerCasingState()))
+                    .where('C', states(getUniqueCasingState()))
+                    .where('G', states(getGlassState()))
+                    .where(' ', any())
+                    .buildTemplate()
+    );
 
     public MetaTileEntityLargeSonicator(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, RecipeMaps.SONICATION_RECIPES);
@@ -48,26 +74,9 @@ public class MetaTileEntityLargeSonicator extends GCYMAdvanceRecipeMapMultiblock
         return new MetaTileEntityLargeSonicator(metaTileEntityId);
     }
 
-    @NotNull
     @Override
-    protected BlockPattern createStructurePattern() {
-        return FactoryBlockPattern.start()
-                .aisle("XXXXX", "XXXXX", "XXXXX", "     ")
-                .aisle("XXXXX", "XCCCX", "XGGGX", "     ")
-                .aisle("XXXXX", "XCPCX", "XGPGX", "  P  ")
-                .aisle("XXXXX", "XCCCX", "XGGGX", "  P  ")
-                .aisle("XXXXX", "XXXXX", "XXXXX", "  P  ")
-                .aisle(" XXX ", " XPX ", " XPX ", "  P  ")
-                .aisle(" XXX ", " XSX ", " XXX ", "     ")
-                .where('S', this.selfPredicate())
-                .where('X', states(getCasingState())
-                        .setMinGlobalLimited(46)
-                        .or(autoAbilities()))
-                .where('P', states(getBoilerCasingState()))
-                .where('C', states(getUniqueCasingState()))
-                .where('G', states(getGlassState()))
-                .where(' ', any())
-                .build();
+    protected @NotNull BlockPatternTemplate createStructureTemplate() {
+        return TEMPLATE.get();
     }
 
     @SideOnly(Side.CLIENT)

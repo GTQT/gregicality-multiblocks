@@ -123,6 +123,8 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
         return false;
     }
 
+
+
     private static final SoftTemplate TEMPLATE = TemplatePool.getInstance().register("gcym:alloy_blast_smelter", () ->
             DeclarativePatternBuilder.start()
                     .aisle("#XXX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
@@ -130,12 +132,12 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
                     .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXMXX")
                     .aisle("XXXXX", "CAAAC", "GAAAG", "CAAAC", "XXXXX")
                     .aisle("#XSX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
-                    .where('S',  selfPredicateByClass(MetaTileEntityAlloyBlastSmelter.class))
+                    .where('S',  selfPredicate(MetaTileEntityAlloyBlastSmelter.class))
                     .casing('X', CasingDefinition.simple(getCasingState()))
-                    .withOptionalHatches(MultiblockAbility.INPUT_ENERGY, 8)
-                    .withOptionalHatches(MultiblockAbility.INPUT_LASER, 1)
-                    .withHatches(MultiblockAbility.MAINTENANCE_HATCH, 1,1)
-                    .applyPreset(HatchPresets.STANDARD_IO)
+                    .optionalEnergyInput(8)
+                    .optionalLaserInput(1)
+                    .maintenance()
+                    .preset(HatchPresets.STANDARD_IO)
                     .tieredCasing('C', GTCasingGroups.heatingCoils())
                     .withChannel(GTStructureChannels.HEATING_COIL)
                     .where('G', states(getCasingState2()))
